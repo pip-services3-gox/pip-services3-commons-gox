@@ -8,7 +8,7 @@ import (
 // Converts arbitrary values into interface
 // Parameters: "value" - the reflect.Value to convert.
 // Returns: the interface of specific type.
-func valueToInterface(value reflect.Value) interface{} {
+func valueToInterface(value reflect.Value) any {
 	switch value.Kind() {
 	case reflect.Invalid:
 		return nil
@@ -41,12 +41,11 @@ func valueToInterface(value reflect.Value) interface{} {
 // Converts array values into array interface
 // Parameters: "value" - the array of reflect.Value to convert.
 // Returns: the interface array of specific type.
-func arrayToArray(value reflect.Value) []interface{} {
-	r := []interface{}{}
+func arrayToArray(value reflect.Value) []any {
+	r := make([]any, value.Len(), value.Len())
 
 	for i := 0; i < value.Len(); i++ {
-		v := value.Index(i)
-		r = append(r, valueToInterface(v))
+		r[i] = valueToInterface(value.Index(i))
 	}
 
 	return r
@@ -55,8 +54,8 @@ func arrayToArray(value reflect.Value) []interface{} {
 // Converts array values into map interface
 // Parameters: "value" - the array of reflect.Value to convert.
 // Returns: the map with values of specific types.
-func arrayToMap(value reflect.Value) map[string]interface{} {
-	r := map[string]interface{}{}
+func arrayToMap(value reflect.Value) map[string]any {
+	r := make(map[string]any, value.Len())
 
 	for i := 0; i < value.Len(); i++ {
 		k := strconv.FormatInt(int64(i), 10)
@@ -70,8 +69,8 @@ func arrayToMap(value reflect.Value) map[string]interface{} {
 // Converts map values into array interface
 // Parameters: "value" - the map to convert.
 // Returns: the interface array of specific type.
-func mapToArray(value reflect.Value) []interface{} {
-	r := []interface{}{}
+func mapToArray(value reflect.Value) []any {
+	r := make([]any, 0, value.Len())
 
 	for _, key := range value.MapKeys() {
 		v := valueToInterface(value.MapIndex(key))
@@ -84,8 +83,8 @@ func mapToArray(value reflect.Value) []interface{} {
 // Converts map values into map interface
 // Parameters: "value" - the map to convert.
 // Returns: the map with values of specific types.
-func mapToMap(value reflect.Value) map[string]interface{} {
-	r := map[string]interface{}{}
+func mapToMap(value reflect.Value) map[string]any {
+	r := make(map[string]any, value.Len())
 
 	for _, key := range value.MapKeys() {
 		k := ToString(valueToInterface(key))
@@ -99,9 +98,9 @@ func mapToMap(value reflect.Value) map[string]interface{} {
 // Converts struct values into map interface
 // Parameters: "value" - the struct to convert.
 // Returns: the map with values of specific types.
-func structToMap(value reflect.Value) map[string]interface{} {
+func structToMap(value reflect.Value) map[string]any {
 	t := value.Type()
-	r := map[string]interface{}{}
+	r := make(map[string]any, value.NumField())
 
 	for i := 0; i < value.NumField(); i++ {
 		k := t.Field(i).Name

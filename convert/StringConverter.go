@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// Converts arbitrary values into strings using extended conversion rules:
+// StringConverter converts arbitrary values into strings using extended conversion rules:
 // - Numbers: are converted with '.' as decimal point
 // - DateTime: using ISO format
 // - Boolean: "true" for true and "false" for false
@@ -24,37 +24,37 @@ import (
 //  fmt.Println(value2) // true
 //  fmt.Println(value3) // 2019-08-20T23:54:47+03:00
 //  fmt.Println(value4) // 1,2,3
-type TStringConverter struct{}
+var StringConverter = &_TStringConverter{}
 
-var StringConverter *TStringConverter = &TStringConverter{}
+type _TStringConverter struct{}
 
-// Converts value into string or returns null when value is null.
+// ToNullableString converts value into string or returns null when value is null.
 // Parameters: "value" - the value to convert
 // Returns: string value or null when value is null.
-func (c *TStringConverter) ToNullableString(value interface{}) *string {
+func (c *_TStringConverter) ToNullableString(value any) *string {
 	return ToNullableString(value)
 }
 
-// Converts value into string or returns "" when value is null.
+// ToString converts value into string or returns "" when value is null.
 // Parameters: "value" - the value to convert
 // Returns: string value or "" when value is null.
-func (c *TStringConverter) ToString(value interface{}) string {
+func (c *_TStringConverter) ToString(value any) string {
 	return ToString(value)
 }
 
-// Converts value into string or returns default when value is null.
+// ToStringWithDefault converts value into string or returns default when value is null.
 // Parameters:
 //  "value" - the value to convert.
 //  "defaultValue" - the default value.
 // Returns: string value or default when value is null.
-func (c *TStringConverter) ToStringWithDefault(value interface{}, defaultValue string) string {
+func (c *_TStringConverter) ToStringWithDefault(value any, defaultValue string) string {
 	return ToStringWithDefault(value, defaultValue)
 }
 
-// Converts value into string or returns null when value is null.
+// ToNullableString converts value into string or returns null when value is null.
 // Parameters: "value" - the value to convert
 // Returns: string value or null when value is null.
-func ToNullableString(value interface{}) *string {
+func ToNullableString(value any) *string {
 	if value == nil {
 		return nil
 	}
@@ -105,19 +105,19 @@ func ToNullableString(value interface{}) *string {
 	}
 }
 
-// Converts value into string or returns "" when value is null.
+// ToString converts value into string or returns "" when value is null.
 // Parameters: "value" - the value to convert
 // Returns: string value or "" when value is null.
-func ToString(value interface{}) string {
+func ToString(value any) string {
 	return ToStringWithDefault(value, "")
 }
 
-// Converts value into string or returns default when value is null.
+// ToStringWithDefault converts value into string or returns default when value is null.
 // Parameters:
 //  "value" - the value to convert.
 //  "defaultValue" - the default value.
 // Returns: string value or default when value is null.
-func ToStringWithDefault(value interface{}, defaultValue string) string {
+func ToStringWithDefault(value any, defaultValue string) string {
 	r := ToNullableString(value)
 	if r == nil {
 		return defaultValue

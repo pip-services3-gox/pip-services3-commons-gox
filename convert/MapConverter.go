@@ -2,7 +2,7 @@ package convert
 
 import "reflect"
 
-// Converts arbitrary values into map objects using extended conversion rules:
+// MapConverter converts arbitrary values into map objects using extended conversion rules:
 // - Objects: property names as keys, property values as values
 // - Arrays: element indexes as keys, elements as values
 //
@@ -14,37 +14,37 @@ import "reflect"
 //  fmt.Println(value1)  // <nil>
 //  fmt.Println(*value2) // map[key:123]
 //  fmt.Println(*value3) // map[0:1 1:2 2:3]
-type TMapConverter struct{}
+var MapConverter = &_TMapConverter{}
 
-var MapConverter *TMapConverter = &TMapConverter{}
+type _TMapConverter struct{}
 
-// Converts value into map object or returns null when conversion is not possible.
+// ToNullableMap converts value into map object or returns null when conversion is not possible.
 // Parameters: "value" - the value to convert
 // Returns: map object or null when conversion is not supported.
-func (c *TMapConverter) ToNullableMap(value interface{}) *map[string]interface{} {
+func (c *_TMapConverter) ToNullableMap(value any) *map[string]any {
 	return ToNullableMap(value)
 }
 
-// Converts value into map object or returns empty map when conversion is not possible.
+// ToMap converts value into map object or returns empty map when conversion is not possible.
 // Parameters: "value" - the value to convert
 // Returns: map object or empty map when conversion is not supported.
-func (c *TMapConverter) ToMap(value interface{}) map[string]interface{} {
+func (c *_TMapConverter) ToMap(value any) map[string]any {
 	return ToMap(value)
 }
 
-// Converts value into map object or returns default map when conversion is not possible.
+// ToMapWithDefault converts value into map object or returns default map when conversion is not possible.
 // Parameters:
 //  "value" - the value to convert
 //  "defaultValue" - the default value.
 // Returns: map object or default map when conversion is not supported.
-func (c *TMapConverter) ToMapWithDefault(value interface{}, defaultValue map[string]interface{}) map[string]interface{} {
+func (c *_TMapConverter) ToMapWithDefault(value any, defaultValue map[string]any) map[string]any {
 	return ToMapWithDefault(value, defaultValue)
 }
 
-// Converts value into map object or returns null when conversion is not possible.
+// ToNullableMap converts value into map object or returns null when conversion is not possible.
 // Parameters: "value" - the value to convert
 // Returns: map object or null when conversion is not supported.
-func ToNullableMap(value interface{}) *map[string]interface{} {
+func ToNullableMap(value any) *map[string]any {
 	if value == nil {
 		return nil
 	}
@@ -76,21 +76,21 @@ func ToNullableMap(value interface{}) *map[string]interface{} {
 	return nil
 }
 
-// Converts value into map object or returns empty map when conversion is not possible.
+// ToMap converts value into map object or returns empty map when conversion is not possible.
 // Parameters: "value" - the value to convert
 // Returns: map object or empty map when conversion is not supported.
-func ToMap(value interface{}) map[string]interface{} {
-	return ToMapWithDefault(value, map[string]interface{}{})
+func ToMap(value any) map[string]any {
+	return ToMapWithDefault(value, map[string]any{})
 }
 
-// Converts value into map object or returns default map when conversion is not possible.
+// ToMapWithDefault converts value into map object or returns default map when conversion is not possible.
 // Parameters:
 //  "value" - the value to convert
 //  "defaultValue" - the default value.
 // Returns: map object or default map when conversion is not supported.
-func ToMapWithDefault(value interface{}, defaultValue map[string]interface{}) map[string]interface{} {
+func ToMapWithDefault(value any, defaultValue map[string]any) map[string]any {
 	if m := ToNullableMap(value); m != nil {
 		return *m
 	}
-	return map[string]interface{}{}
+	return defaultValue
 }

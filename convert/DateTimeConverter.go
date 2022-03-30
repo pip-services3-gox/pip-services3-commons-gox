@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// Converts arbitrary values into Date values using extended conversion rules:
+// DateTimeConverter converts arbitrary values into Date values using extended conversion rules:
 // - Strings: converted using ISO time format
 // - Numbers: converted using milliseconds since unix epoch
 //
@@ -16,37 +16,37 @@ import (
 //  fmt.Println(value1) // <nil>
 //  fmt.Println(value2) // 2019-01-01 11:30:00 +0000 UTC
 //  fmt.Println(value3) // 1970-01-01 02:02:03 +0200 EET
-type TDateTimeConverter struct{}
+var DateTimeConverter = &_TDateTimeConverter{}
 
-var DateTimeConverter *TDateTimeConverter = &TDateTimeConverter{}
+type _TDateTimeConverter struct{}
 
-// Converts value into Date or returns null when conversion is not possible.
+// ToNullableDateTime converts value into Date or returns null when conversion is not possible.
 // Parameters: "value" - the value to convert.
 // Returns: Date value or null when conversion is not supported.
-func (c *TDateTimeConverter) ToNullableDateTime(value interface{}) *time.Time {
+func (c *_TDateTimeConverter) ToNullableDateTime(value any) *time.Time {
 	return ToNullableDateTime(value)
 }
 
-// Converts value into Date or returns current when conversion is not possible.
+// ToDateTime converts value into Date or returns current when conversion is not possible.
 // Parameters: "value" - the value to convert.
 // Returns: Date value or current when conversion is not supported.
-func (c *TDateTimeConverter) ToDateTime(value interface{}) time.Time {
+func (c *_TDateTimeConverter) ToDateTime(value any) time.Time {
 	return ToDateTime(value)
 }
 
-// Converts value into Date or returns default when conversion is not possible.
+// ToDateTimeWithDefault converts value into Date or returns default when conversion is not possible.
 // Parameters:
 // "value" - the value to convert.
 // "defaultValue" - the default value.
 // Returns: Date value or default when conversion is not supported.
-func (c *TDateTimeConverter) ToDateTimeWithDefault(value interface{}, defaultValue time.Time) time.Time {
+func (c *_TDateTimeConverter) ToDateTimeWithDefault(value any, defaultValue time.Time) time.Time {
 	return ToDateTimeWithDefault(value, defaultValue)
 }
 
-// Converts value into Date or returns null when conversion is not possible.
+// ToNullableDateTime converts value into Date or returns null when conversion is not possible.
 // Parameters: "value" - the value to convert.
 // Returns: Date value or null when conversion is not supported.
-func ToNullableDateTime(value interface{}) *time.Time {
+func ToNullableDateTime(value any) *time.Time {
 	if value == nil {
 		return nil
 	}
@@ -98,19 +98,19 @@ func ToNullableDateTime(value interface{}) *time.Time {
 	return &r
 }
 
-// Converts value into Date or returns current when conversion is not possible.
+// ToDateTime converts value into Date or returns current when conversion is not possible.
 // Parameters: "value" - the value to convert.
 // Returns: Date value or current when conversion is not supported.
-func ToDateTime(value interface{}) time.Time {
+func ToDateTime(value any) time.Time {
 	return ToDateTimeWithDefault(value, time.Time{})
 }
 
-// Converts value into Date or returns default when conversion is not possible.
+// ToDateTimeWithDefault converts value into Date or returns default when conversion is not possible.
 // Parameters:
 //  "value" - the value to convert.
 //  "defaultValue" - the default value.
 // Returns: Date value or default when conversion is not supported.
-func ToDateTimeWithDefault(value interface{}, defaultValue time.Time) time.Time {
+func ToDateTimeWithDefault(value any, defaultValue time.Time) time.Time {
 	r := ToNullableDateTime(value)
 	if r == nil {
 		return defaultValue

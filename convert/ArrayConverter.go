@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// Converts arbitrary values into array objects.
+// ArrayConverter converts arbitrary values into array objects.
 //
 // Example:
 //
@@ -15,49 +15,49 @@ import (
 //  fmt.Println(value1) // [1 2]
 //  fmt.Println(value2) // [1]
 //  fmt.Println(value3) // [1 2 3]
-type TArrayConverter struct{}
+var ArrayConverter = &_TArrayConverter{}
 
-var ArrayConverter *TArrayConverter = &TArrayConverter{}
+type _TArrayConverter struct{}
 
-// Converts value into array object. Single values are converted into arrays with a single element.
-// Parameters: "value" - the value to convert.
-// Returns: array object or null when value is null.
-func (c *TArrayConverter) ToNullableArray(value interface{}) *[]interface{} {
+// ToNullableArray converts value into array object. Single values are converted into arrays with a single element.
+// 	Parameters: "value" - the value to convert.
+// 	Returns: array object or null when value is null.
+func (c *_TArrayConverter) ToNullableArray(value any) *[]any {
 	return ToNullableArray(value)
 }
 
-// Converts value into array object with empty array as default. Single values
+// ToArray converts value into array object with empty array as default. Single values
 // are converted into arrays with single element.
-// Parameters: "value" - the value to convert.
-// Returns: array object or empty array when value is null.
-func (c *TArrayConverter) ToArray(value interface{}) []interface{} {
+// 	Parameters: "value" - the value to convert.
+// 	Returns: array object or empty array when value is null.
+func (c *_TArrayConverter) ToArray(value any) []any {
 	return ToArray(value)
 }
 
-// Converts value into array object with empty array as default. Single values
+// ToArrayWithDefault converts value into array object with empty array as default. Single values
 // are converted into arrays with single element.
-// Parameters:
-//  "value" - the value to convert.
-//  "defaultValue" - default array object.
-// Returns: array object or empty array when value is null.
-func (c *TArrayConverter) ToArrayWithDefault(value interface{}, defaultValue []interface{}) []interface{} {
+// 	Parameters:
+//  	"value" - the value to convert.
+//  	"defaultValue" - default array object.
+// 	Returns: array object or empty array when value is null.
+func (c *_TArrayConverter) ToArrayWithDefault(value any, defaultValue []any) []any {
 	return ToArrayWithDefault(value, defaultValue)
 }
 
-// Converts value into array object with empty array as default.
+// ListToArray converts value into array object with empty array as default.
 // Strings with comma-delimited values are split into array of strings.
-// Parameters:
-//  "value" - the list to convert.
-// Returns: array object or empty array when value is null
-func (c *TArrayConverter) ListToArray(value interface{}) []interface{} {
+// 	Parameters:
+//  	"value" - the list to convert.
+// 	Returns: array object or empty array when value is null
+func (c *_TArrayConverter) ListToArray(value any) []any {
 	return ListToArray(value)
 }
 
-// Converts value into array object. Single values are converted into arrays with a single element.
-// Parameters:
-//  "value" - the value to convert.
-// Returns: array object or null when value is null.
-func ToNullableArray(value interface{}) *[]interface{} {
+// ToNullableArray converts value into array object. Single values are converted into arrays with a single element.
+// 	Parameters:
+//  	"value" - the value to convert.
+// 	Returns: array object or null when value is null.
+func ToNullableArray(value any) *[]any {
 	if value == nil {
 		return nil
 	}
@@ -76,41 +76,41 @@ func ToNullableArray(value interface{}) *[]interface{} {
 
 	default:
 		value = valueToInterface(v)
-		r := []interface{}{value}
+		r := []any{value}
 		return &r
 	}
 }
 
-// Converts value into array object with empty array as default. Single values
+// ToArray converts value into array object with empty array as default. Single values
 // are converted into arrays with single element.
-// Parameters:
-//  "value" - the value to convert.
-// Returns: array object or empty array when value is null.
-func ToArray(value interface{}) []interface{} {
-	return ToArrayWithDefault(value, []interface{}{})
+// 	Parameters:
+//  	"value" - the value to convert.
+// 	Returns: array object or empty array when value is null.
+func ToArray(value any) []any {
+	return ToArrayWithDefault(value, []any{})
 }
 
-// Converts value into array object with empty array as default. Single values
+// ToArrayWithDefault converts value into array object with empty array as default. Single values
 // are converted into arrays with single element.
-// Parameters:
-//  "value" - the value to convert.
-//  "defaultValue" - default array object.
-// Returns: array object or empty array when value is null.
-func ToArrayWithDefault(value interface{}, defaultValue []interface{}) []interface{} {
+// 	Parameters:
+//  	"value" - the value to convert.
+//  	"defaultValue" - default array object.
+// 	Returns: array object or empty array when value is null.
+func ToArrayWithDefault(value any, defaultValue []any) []any {
 	if m := ToNullableArray(value); m != nil {
 		return *m
 	}
-	return []interface{}{}
+	return defaultValue
 }
 
-// Converts value into array object with empty array as default.
+// ListToArray converts value into array object with empty array as default.
 // Strings with comma-delimited values are split into array of strings.
-// Parameters:
-//  "value" - the list to convert.
-// Returns: array object or empty array when value is null
-func ListToArray(value interface{}) []interface{} {
+// 	Parameters:
+//  	"value" - the list to convert.
+// 	Returns: array object or empty array when value is null
+func ListToArray(value any) []any {
 	if value == nil {
-		return []interface{}{}
+		return []any{}
 	}
 
 	v := reflect.ValueOf(value)

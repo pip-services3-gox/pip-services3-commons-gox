@@ -6,10 +6,10 @@ import (
 	"time"
 )
 
-// Converts arbitrary values to boolean values using extended conversion rules:
-// - Numbers: above 0, less more 0 are true; equal to 0 are false
-// - Strings: "true", "yes", "T", "Y", "1" are true, "false", "no", "F", "N" are false
-// - DateTime: above 0, less more 0 total milliseconds are true, equal to 0 are false
+// BooleanConverter converts arbitrary values to boolean values using extended conversion rules:
+// 	- Numbers: above 0, less much 0 are true; equal to 0 are false
+// 	- Strings: "true", "yes", "T", "Y", "1" are true, "false", "no", "F", "N" are false
+// 	- DateTime: above 0, less much 0 total milliseconds are true, equal to 0 are false
 //
 // Example:
 //
@@ -21,36 +21,36 @@ import (
 //  fmt.Println(*value2) // true
 //  fmt.Println(*value3) // true
 //  fmt.Println(value4)  // <nil>
-type TBooleanConverter struct{}
+var BooleanConverter = &_TBooleanConverter{}
 
-var BooleanConverter *TBooleanConverter = &TBooleanConverter{}
+type _TBooleanConverter struct{}
 
-// Converts value into boolean or returns null when conversion is not possible.
+// ToNullableBoolean converts value into boolean or returns null when conversion is not possible.
 // Parameters: "value" - the value to convert.
 // Returns: boolean value or null when conversion is not supported.
-func (c *TBooleanConverter) ToNullableBoolean(value interface{}) *bool {
+func (c *_TBooleanConverter) ToNullableBoolean(value any) *bool {
 	return ToNullableBoolean(value)
 }
 
-// Converts value into boolean or returns false when conversion is not possible.
+// ToBoolean converts value into boolean or returns false when conversion is not possible.
 // Parameters: "value" - the value to convert.
 // Returns: boolean value or false when conversion is not supported.
-func (c *TBooleanConverter) ToBoolean(value interface{}) bool {
+func (c *_TBooleanConverter) ToBoolean(value any) bool {
 	return ToBoolean(value)
 }
 
-// Converts value into boolean or returns default value when conversion is not possible
+// ToBooleanWithDefault converts value into boolean or returns default value when conversion is not possible
 // Parameters:"value" - the value to convert.
 //  "defaultValue" - the default value
 // Returns: boolean value or default when conversion is not supported.
-func (c *TBooleanConverter) ToBooleanWithDefault(value interface{}, defaultValue bool) bool {
+func (c *_TBooleanConverter) ToBooleanWithDefault(value any, defaultValue bool) bool {
 	return ToBooleanWithDefault(value, defaultValue)
 }
 
-// Converts value into boolean or returns null when conversion is not possible.
+// ToNullableBoolean converts value into boolean or returns null when conversion is not possible.
 // Parameters: "value" - the value to convert.
 // Returns: boolean value or null when conversion is not supported.
-func ToNullableBoolean(value interface{}) *bool {
+func ToNullableBoolean(value any) *bool {
 	if value == nil {
 		return nil
 	}
@@ -87,19 +87,19 @@ func ToNullableBoolean(value interface{}) *bool {
 	return nil
 }
 
-// Converts value into boolean or returns false when conversion is not possible.
+// ToBoolean converts value into boolean or returns false when conversion is not possible.
 // Parameters: "value" - the value to convert.
 // Returns: boolean value or false when conversion is not supported.
-func ToBoolean(value interface{}) bool {
+func ToBoolean(value any) bool {
 	return ToBooleanWithDefault(value, false)
 }
 
-// Converts value into boolean or returns default value when conversion is not possible
+// ToBooleanWithDefault converts value into boolean or returns default value when conversion is not possible
 // Parameters:
 //  "value" - the value to convert.
 //  "defaultValue" - the default value.
 // Returns: boolean value or default when conversion is not supported.
-func ToBooleanWithDefault(value interface{}, defaultValue bool) bool {
+func ToBooleanWithDefault(value any, defaultValue bool) bool {
 	r := ToNullableBoolean(value)
 	if r == nil {
 		return defaultValue

@@ -4,37 +4,7 @@ import (
 	"encoding/json"
 )
 
-// Converts value from JSON string
-// Parameters: "value" - the JSON string to convert.
-// Returns: converted object value or null when value is null.
-func FromJson(value string) (interface{}, error) {
-	if value == "" {
-		return nil, nil
-	}
-
-	var m interface{}
-	if err := json.Unmarshal([]byte(value), &m); err != nil {
-		return nil, err
-	}
-	return m, nil
-}
-
-// Converts value into JSON string.
-// Parameters: "value" - the value to convert.
-// Returns: JSON string or null when value is null.
-func ToJson(value interface{}) (string, error) {
-	if value == nil {
-		return "", nil
-	}
-
-	b, err := json.Marshal(value)
-	if err != nil {
-		return "", err
-	}
-	return string(b[:]), nil
-}
-
-// Converts arbitrary values from and to JSON (JavaScript Object Notation) strings.
+// JsonConverter converts arbitrary values from and to JSON (JavaScript Object Notation) strings.
 //
 // Example:
 //
@@ -44,37 +14,37 @@ func ToJson(value interface{}) (string, error) {
 //  fmt.Println(value1) // map[key:123]
 //  fmt.Println(value2) // map[key:123]
 //  fmt.Println(value3) // {"key":123}
-type TJsonConverter struct{}
+var JsonConverter = &_TJsonConverter{}
 
-var JsonConverter *TJsonConverter = &TJsonConverter{}
+type _TJsonConverter struct{}
 
-// Converts JSON string into map object or returns null when conversion is not possible.
+// ToNullableMap converts JSON string into map object or returns null when conversion is not possible.
 // Parameters: "value" - the JSON string to convert.
 // Returns: Map object value or null when conversion is not supported.
-func (c *TJsonConverter) ToNullableMap(value string) *map[string]interface{} {
+func (c *_TJsonConverter) ToNullableMap(value string) *map[string]any {
 	return JsonToNullableMap(value)
 }
 
-// Converts JSON string into map object or returns empty map when conversion is not possible.
+// ToMap converts JSON string into map object or returns empty map when conversion is not possible.
 // Parameters: "value" - the JSON string to convert.
 // Returns: Map object value or empty map when conversion is not supported.
-func (c *TJsonConverter) ToMap(value string) map[string]interface{} {
+func (c *_TJsonConverter) ToMap(value string) map[string]any {
 	return JsonToMap(value)
 }
 
-// Converts JSON string into map object or returns default map when conversion is not possible.
+// ToMapWithDefault converts JSON string into map object or returns default map when conversion is not possible.
 // Parameters:
 //  "value" - the JSON string to convert.
 //  "defaultValue" - the default value.
 // Returns: Map object value or default map when conversion is not supported.
-func (c *TJsonConverter) ToMapWithDefault(value string, defaultValue map[string]interface{}) map[string]interface{} {
+func (c *_TJsonConverter) ToMapWithDefault(value string, defaultValue map[string]any) map[string]any {
 	return JsonToMapWithDefault(value, defaultValue)
 }
 
-// Converts JSON string into map object or returns null when conversion is not possible.
+// JsonToNullableMap converts JSON string into map object or returns null when conversion is not possible.
 // Parameters: "value" - the JSON string to convert.
 // Returns: Map object value or null when conversion is not supported.
-func JsonToNullableMap(value string) *map[string]interface{} {
+func JsonToNullableMap(value string) *map[string]any {
 	v, _ := FromJson(value)
 	if v == nil {
 		return nil
@@ -82,21 +52,51 @@ func JsonToNullableMap(value string) *map[string]interface{} {
 	return ToNullableMap(v)
 }
 
-// Converts JSON string into map object or returns empty map when conversion is not possible.
+// JsonToMap converts JSON string into map object or returns empty map when conversion is not possible.
 // Parameters: "value" - the JSON string to convert.
 // Returns: Map object value or empty map when conversion is not supported.
-func JsonToMap(value string) map[string]interface{} {
-	return JsonToMapWithDefault(value, map[string]interface{}{})
+func JsonToMap(value string) map[string]any {
+	return JsonToMapWithDefault(value, map[string]any{})
 }
 
-// Converts JSON string into map object or returns default map when conversion is not possible.
+// JsonToMapWithDefault converts JSON string into map object or returns default map when conversion is not possible.
 // Parameters:
 //  "value" - the JSON string to convert.
 //  "defaultValue" - the default value.
 // Returns: Map object value or default map when conversion is not supported.
-func JsonToMapWithDefault(value string, defaultValue map[string]interface{}) map[string]interface{} {
+func JsonToMapWithDefault(value string, defaultValue map[string]any) map[string]any {
 	if m := JsonToNullableMap(value); m != nil {
 		return *m
 	}
-	return map[string]interface{}{}
+	return defaultValue
+}
+
+// FromJson converts value from JSON string
+// Parameters: "value" - the JSON string to convert.
+// Returns: converted object value or null when value is null.
+func FromJson(value string) (any, error) {
+	if value == "" {
+		return nil, nil
+	}
+
+	var m any
+	if err := json.Unmarshal([]byte(value), &m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// ToJson converts value into JSON string.
+// Parameters: "value" - the value to convert.
+// Returns: JSON string or null when value is null.
+func ToJson(value any) (string, error) {
+	if value == nil {
+		return "", nil
+	}
+
+	b, err := json.Marshal(value)
+	if err != nil {
+		return "", err
+	}
+	return string(b[:]), nil
 }

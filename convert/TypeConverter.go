@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-// Converts arbitrary values into objects specific by TypeCodes.
+// TypeConverter converts arbitrary values into objects specific by TypeCodes.
 // For each TypeCode this class calls corresponding converter
 // which applies extended conversion rules to convert the values.
 //
@@ -17,40 +17,40 @@ import (
 //  fmt.Println(value1) // 123
 //  fmt.Println(value2) // 1970-01-01 02:02:03 +0200 EET
 //  fmt.Println(value3) // false
-type TTypeConverter struct{}
+var TypeConverter = &_TTypeConverter{}
 
-var TypeConverter *TTypeConverter = &TTypeConverter{}
+type _TTypeConverter struct{}
 
-// Gets TypeCode for specific value.
+// ToTypeCode gets TypeCode for specific value.
 // Parameters: "value" - value whose TypeCode is to be resolved.
 // Returns: the TypeCode that corresponds to the passed object's type.
-func (c *TTypeConverter) ToTypeCode(value interface{}) TypeCode {
+func (c *_TTypeConverter) ToTypeCode(value any) TypeCode {
 	return ToTypeCode(value)
 }
 
-// Converts value into an object type specified by Type Code or returns null
+// ToNullableType converts value into an object type specified by Type Code or returns null
 // when conversion is not possible.
 // Parameters:
 //  "typ" - the TypeCode for the data type.
 //  "value" - the value to convert.
 // Returns: object value of type corresponding to TypeCode, or null when
 // conversion is not supported.
-func (c *TTypeConverter) ToNullableType(typ TypeCode, value interface{}) interface{} {
+func (c *_TTypeConverter) ToNullableType(typ TypeCode, value any) any {
 	return ToNullableType(typ, value)
 }
 
-// Converts value into an object type specified by Type Code
+// ToType converts value into an object type specified by Type Code
 // or returns default value when conversion is not possible.
 // Parameters:
 //  "typ" - the TypeCode for the data type into which 'value' is to be converted.
 //  "value" - the value to convert.
 // Returns: object value of type corresponding to TypeCode, or default value when
 // conversion is not supported
-func (c *TTypeConverter) ToType(typ TypeCode, value interface{}) interface{} {
+func (c *_TTypeConverter) ToType(typ TypeCode, value any) any {
 	return ToType(typ, value)
 }
 
-// Converts value into an object type specified by Type Code
+// ToTypeWithDefault converts value into an object type specified by Type Code
 // or returns default value when conversion is not possible.
 // Parameters:
 //  "typ" - the TypeCode for the data type into which 'value' is to be converted.
@@ -59,21 +59,21 @@ func (c *TTypeConverter) ToType(typ TypeCode, value interface{}) interface{} {
 //  (returns null).
 // Returns: object value of type corresponding to TypeCode, or default value when
 // conversion is not supported
-func (c *TTypeConverter) ToTypeWithDefault(typ TypeCode, value interface{}, defaultValue interface{}) interface{} {
+func (c *_TTypeConverter) ToTypeWithDefault(typ TypeCode, value any, defaultValue any) any {
 	return ToTypeWithDefault(typ, value, defaultValue)
 }
 
-// Converts a TypeCode into its string name.
+// ToString converts a TypeCode into its string name.
 // Parameters: "typ" - the TypeCode to convert into a string.
 // Returns: the name of the TypeCode passed as a string value.
-func (c *TTypeConverter) ToString(typ TypeCode) string {
+func (c *_TTypeConverter) ToString(typ TypeCode) string {
 	return TypeCodeToString(typ)
 }
 
-// Gets TypeCode for specific value.
+// ToTypeCode gets TypeCode for specific value.
 // Parameters: "value" - value whose TypeCode is to be resolved.
 // Returns: the TypeCode that corresponds to the passed object's type.
-func ToTypeCode(value interface{}) TypeCode {
+func ToTypeCode(value any) TypeCode {
 	if value == nil {
 		return Unknown
 	}
@@ -154,83 +154,84 @@ func ToTypeCode(value interface{}) TypeCode {
 	}
 }
 
-// Converts value into an object type specified by Type Code or returns null
+// ToNullableType converts value into an object type specified by Type Code or returns null
 // when conversion is not possible.
 // Parameters:
 //  "typ" - the TypeCode for the data type.
 //  "value" - the value to convert.
 // Returns: object value of type corresponding to TypeCode, or null when
 // conversion is not supported.
-func ToNullableType(typ TypeCode, value interface{}) interface{} {
+func ToNullableType(typ TypeCode, value any) any {
 	if value == nil {
 		return nil
 	}
-
 	// Convert to known types
-	if typ == String {
+	switch typ {
+	case String:
 		return StringConverter.ToNullableString(value)
-	} else if typ == Boolean {
+	case Boolean:
 		return BooleanConverter.ToNullableBoolean(value)
-	} else if typ == Integer {
+	case Integer:
 		return IntegerConverter.ToNullableInteger(value)
-	} else if typ == Long {
+	case Long:
 		return LongConverter.ToNullableLong(value)
-	} else if typ == Float {
+	case Float:
 		return FloatConverter.ToNullableFloat(value)
-	} else if typ == Double {
+	case Double:
 		return DoubleConverter.ToNullableDouble(value)
-	} else if typ == DateTime {
+	case DateTime:
 		return DateTimeConverter.ToNullableDateTime(value)
-	} else if typ == Duration {
+	case Duration:
 		return DurationConverter.ToNullableDuration(value)
-	} else if typ == Array {
+	case Array:
 		return ArrayConverter.ToNullableArray(value)
-	} else if typ == Map {
+	case Map:
 		return MapConverter.ToNullableMap(value)
-	} else {
+	default:
 		return nil
 	}
 }
 
-// Converts value into an object type specified by Type Code
+// ToType converts value into an object type specified by Type Code
 // or returns default value when conversion is not possible.
 // Parameters:
 //  "typ" - the TypeCode for the data type into which 'value' is to be converted.
 //  "value" - the value to convert.
 // Returns: object value of type corresponding to TypeCode, or default value when
 // conversion is not supported
-func ToType(typ TypeCode, value interface{}) interface{} {
+func ToType(typ TypeCode, value any) any {
 	if value == nil {
 		return nil
 	}
 
 	// Convert to known types
-	if typ == String {
+	switch typ {
+	case String:
 		return StringConverter.ToString(value)
-	} else if typ == Boolean {
+	case Boolean:
 		return BooleanConverter.ToBoolean(value)
-	} else if typ == Integer {
+	case Integer:
 		return IntegerConverter.ToInteger(value)
-	} else if typ == Long {
+	case Long:
 		return LongConverter.ToLong(value)
-	} else if typ == Float {
+	case Float:
 		return FloatConverter.ToFloat(value)
-	} else if typ == Double {
+	case Double:
 		return DoubleConverter.ToDouble(value)
-	} else if typ == DateTime {
+	case DateTime:
 		return DateTimeConverter.ToDateTime(value)
-	} else if typ == Duration {
+	case Duration:
 		return DurationConverter.ToDuration(value)
-	} else if typ == Array {
+	case Array:
 		return ArrayConverter.ToArray(value)
-	} else if typ == Map {
+	case Map:
 		return MapConverter.ToMap(value)
-	} else {
+	default:
 		return value
 	}
 }
 
-// Converts value into an object type specified by Type Code
+// ToTypeWithDefault converts value into an object type specified by Type Code
 // or returns default value when conversion is not possible.
 // Parameters:
 //  "typ" - the TypeCode for the data type into which 'value' is to be converted.
@@ -239,38 +240,39 @@ func ToType(typ TypeCode, value interface{}) interface{} {
 //  (returns null).
 // Returns: object value of type corresponding to TypeCode, or default value when
 // conversion is not supported
-func ToTypeWithDefault(typ TypeCode, value interface{}, defaultValue interface{}) interface{} {
+func ToTypeWithDefault(typ TypeCode, value any, defaultValue any) any {
 	if value == nil {
 		return defaultValue
 	}
 
 	// Convert to known types
-	if typ == String {
+	switch typ {
+	case String:
 		return ToStringWithDefault(value, defaultValue.(string))
-	} else if typ == Boolean {
+	case Boolean:
 		return BooleanConverter.ToBooleanWithDefault(value, defaultValue.(bool))
-	} else if typ == Integer {
+	case Integer:
 		return IntegerConverter.ToIntegerWithDefault(value, defaultValue.(int))
-	} else if typ == Long {
+	case Long:
 		return LongConverter.ToLongWithDefault(value, defaultValue.(int64))
-	} else if typ == Float {
+	case Float:
 		return FloatConverter.ToFloatWithDefault(value, defaultValue.(float32))
-	} else if typ == Double {
+	case Double:
 		return DoubleConverter.ToDoubleWithDefault(value, defaultValue.(float64))
-	} else if typ == DateTime {
+	case DateTime:
 		return DateTimeConverter.ToDateTimeWithDefault(value, defaultValue.(time.Time))
-	} else if typ == Duration {
+	case Duration:
 		return DurationConverter.ToDurationWithDefault(value, defaultValue.(time.Duration))
-	} else if typ == Array {
-		return ArrayConverter.ToArrayWithDefault(value, defaultValue.([]interface{}))
-	} else if typ == Map {
-		return MapConverter.ToMapWithDefault(value, defaultValue.(map[string]interface{}))
-	} else {
+	case Array:
+		return ArrayConverter.ToArrayWithDefault(value, defaultValue.([]any))
+	case Map:
+		return MapConverter.ToMapWithDefault(value, defaultValue.(map[string]any))
+	default:
 		return defaultValue
 	}
 }
 
-// Converts a TypeCode into its string name.
+// TypeCodeToString converts a TypeCode into its string name.
 // Parameters: "typ" - the TypeCode to convert into a string.
 // Returns: the name of the TypeCode passed as a string value.
 func TypeCodeToString(typ TypeCode) string {
