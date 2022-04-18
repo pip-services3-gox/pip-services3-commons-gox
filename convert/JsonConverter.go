@@ -14,22 +14,59 @@ import (
 //  fmt.Println(value1) // map[key:123]
 //  fmt.Println(value2) // map[key:123]
 //  fmt.Println(value3) // {"key":123}
-var JsonConverter = &_TJsonConverter{}
+var JsonConverter = &_TJsonConverter{
+	_jsonEngine: &defaultJsonEngine{},
+}
 
-type _TJsonConverter struct{}
+type _TJsonConverter struct {
+	_jsonEngine IJSONEngine
+}
+
+// IJSONEngine interface which helps to marshal and unmarshal json
+type IJSONEngine interface {
+	FromJson(value string) (any, error)
+	ToJson(value any) (string, error)
+}
+
+// SetUpJSONEngine allows overriding JSON engine
+func (j *_TJsonConverter) SetUpJSONEngine(jsonEngine IJSONEngine) bool {
+	if jsonEngine == nil {
+		return false
+	}
+	j._jsonEngine = jsonEngine
+	return true
+}
+
+// FromJson converts value from JSON string
+// Parameters: "value" - the JSON string to convert.
+// Returns: converted object value or null when value is null.
+func (j *_TJsonConverter) FromJson(value string) (any, error) {
+	return j._jsonEngine.FromJson(value)
+}
+
+// ToJson converts value into JSON string.
+// Parameters: "value" - the value to convert.
+// Returns: JSON string or null when value is null.
+func (j *_TJsonConverter) ToJson(value any) (string, error) {
+	return j._jsonEngine.ToJson(value)
+}
 
 // ToNullableMap converts JSON string into map object or returns null when conversion is not possible.
 // Parameters: "value" - the JSON string to convert.
-// Returns: Map object value or null when conversion is not supported.
-func (c *_TJsonConverter) ToNullableMap(value string) *map[string]any {
-	return JsonToNullableMap(value)
+// Returns: Map object value and true or null and false when conversion is not supported.
+func (j *_TJsonConverter) ToNullableMap(value string) (map[string]any, bool) {
+	v, _ := j.FromJson(value)
+	if v == nil {
+		return nil, false
+	}
+	return toNullableMap(v)
 }
 
 // ToMap converts JSON string into map object or returns empty map when conversion is not possible.
 // Parameters: "value" - the JSON string to convert.
 // Returns: Map object value or empty map when conversion is not supported.
-func (c *_TJsonConverter) ToMap(value string) map[string]any {
-	return JsonToMap(value)
+func (j *_TJsonConverter) ToMap(value string) map[string]any {
+	return j.ToMapWithDefault(value, map[string]any{})
 }
 
 // ToMapWithDefault converts JSON string into map object or returns default map when conversion is not possible.
@@ -37,44 +74,20 @@ func (c *_TJsonConverter) ToMap(value string) map[string]any {
 //  "value" - the JSON string to convert.
 //  "defaultValue" - the default value.
 // Returns: Map object value or default map when conversion is not supported.
-func (c *_TJsonConverter) ToMapWithDefault(value string, defaultValue map[string]any) map[string]any {
-	return JsonToMapWithDefault(value, defaultValue)
-}
-
-// JsonToNullableMap converts JSON string into map object or returns null when conversion is not possible.
-// Parameters: "value" - the JSON string to convert.
-// Returns: Map object value or null when conversion is not supported.
-func JsonToNullableMap(value string) *map[string]any {
-	v, _ := FromJson(value)
-	if v == nil {
-		return nil
-	}
-	return ToNullableMap(v)
-}
-
-// JsonToMap converts JSON string into map object or returns empty map when conversion is not possible.
-// Parameters: "value" - the JSON string to convert.
-// Returns: Map object value or empty map when conversion is not supported.
-func JsonToMap(value string) map[string]any {
-	return JsonToMapWithDefault(value, map[string]any{})
-}
-
-// JsonToMapWithDefault converts JSON string into map object or returns default map when conversion is not possible.
-// Parameters:
-//  "value" - the JSON string to convert.
-//  "defaultValue" - the default value.
-// Returns: Map object value or default map when conversion is not supported.
-func JsonToMapWithDefault(value string, defaultValue map[string]any) map[string]any {
-	if m := JsonToNullableMap(value); m != nil {
-		return *m
+func (j *_TJsonConverter) ToMapWithDefault(value string, defaultValue map[string]any) map[string]any {
+	if m, ok := j.ToNullableMap(value); ok {
+		return m
 	}
 	return defaultValue
 }
 
+// jsonEngine is a default json converter engine
+type defaultJsonEngine struct{}
+
 // FromJson converts value from JSON string
 // Parameters: "value" - the JSON string to convert.
 // Returns: converted object value or null when value is null.
-func FromJson(value string) (any, error) {
+func (je defaultJsonEngine) FromJson(value string) (any, error) {
 	if value == "" {
 		return nil, nil
 	}
@@ -89,7 +102,7 @@ func FromJson(value string) (any, error) {
 // ToJson converts value into JSON string.
 // Parameters: "value" - the value to convert.
 // Returns: JSON string or null when value is null.
-func ToJson(value any) (string, error) {
+func (je defaultJsonEngine) ToJson(value any) (string, error) {
 	if value == nil {
 		return "", nil
 	}

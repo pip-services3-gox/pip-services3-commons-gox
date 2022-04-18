@@ -9,15 +9,17 @@ import (
 )
 
 func TestToDateTime(t *testing.T) {
-	assert.Nil(t, convert.ToNullableDateTime(nil))
+	val, ok := convert.DateTimeConverter.ToNullableDateTime(nil)
+	assert.False(t, ok)
+	assert.True(t, val.IsZero())
 
 	date1 := time.Date(1975, time.April, 8, 0, 0, 0, 0, time.UTC)
-	assert.Equal(t, date1, convert.ToDateTimeWithDefault(nil, date1))
-	assert.Equal(t, date1, convert.ToDateTime(date1))
-	assert.Equal(t, date1, convert.ToDateTime("1975-04-08T00:00:00Z"))
-	assert.Equal(t, date1, convert.ToDateTime("1975-04-08T00:00:00.00Z"))
+	assert.Equal(t, date1, convert.DateTimeConverter.ToDateTimeWithDefault(nil, date1))
+	assert.Equal(t, date1, convert.DateTimeConverter.ToDateTime(date1))
+	assert.Equal(t, date1, convert.DateTimeConverter.ToDateTime("1975-04-08T00:00:00Z"))
+	assert.Equal(t, date1, convert.DateTimeConverter.ToDateTime("1975-04-08T00:00:00.00Z"))
 
 	date2 := time.Unix(123, 0)
-	assert.Equal(t, date2, convert.ToDateTime(123))
-	assert.Equal(t, date2, convert.ToDateTime(123.456))
+	assert.Equal(t, date2, convert.DateTimeConverter.ToDateTime(123))
+	assert.Equal(t, date2, convert.DateTimeConverter.ToDateTime(123.456))
 }

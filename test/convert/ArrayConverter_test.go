@@ -8,42 +8,47 @@ import (
 )
 
 func TestToNullableArray(t *testing.T) {
-	assert.Nil(t, convert.ToNullableArray(nil))
+	arr, ok := convert.ArrayConverter.ToNullableArray(nil)
+	assert.False(t, ok)
+	assert.Nil(t, arr)
 
-	a := *convert.ToNullableArray(2)
-	assert.Len(t, a, 1)
-	assert.Equal(t, int64(2), a[0])
+	arr, ok = convert.ArrayConverter.ToNullableArray(2)
+	assert.True(t, ok)
+	assert.Len(t, arr, 1)
+	assert.Equal(t, int64(2), arr[0])
 
 	array := []int{1, 2}
-	a = *convert.ToNullableArray(array)
-	assert.Len(t, a, 2)
-	assert.Equal(t, int64(1), a[0])
-	assert.Equal(t, int64(2), a[1])
+	arr, ok = convert.ArrayConverter.ToNullableArray(array)
+	assert.True(t, ok)
+	assert.Len(t, arr, 2)
+	assert.Equal(t, int64(1), arr[0])
+	assert.Equal(t, int64(2), arr[1])
 
 	stringArray := []string{"ab", "cd"}
-	a = *convert.ToNullableArray(stringArray)
-	assert.Len(t, a, 2)
-	assert.Equal(t, "ab", a[0])
-	assert.Equal(t, "cd", a[1])
+	arr, ok = convert.ArrayConverter.ToNullableArray(stringArray)
+	assert.True(t, ok)
+	assert.Len(t, arr, 2)
+	assert.Equal(t, "ab", arr[0])
+	assert.Equal(t, "cd", arr[1])
 }
 
 func TestToArray(t *testing.T) {
-	a := convert.ToArray(nil)
-	assert.Len(t, a, 0)
+	arr := convert.ArrayConverter.ToArray(nil)
+	assert.Len(t, arr, 0)
 
-	a = convert.ToArray(2)
-	assert.Len(t, a, 1)
-	assert.Equal(t, int64(2), a[0])
+	arr = convert.ArrayConverter.ToArray(2)
+	assert.Len(t, arr, 1)
+	assert.Equal(t, int64(2), arr[0])
 
 	array := []int{1, 2}
-	a = convert.ToArray(array)
-	assert.Len(t, a, 2)
-	assert.Equal(t, int64(1), a[0])
-	assert.Equal(t, int64(2), a[1])
+	arr = convert.ArrayConverter.ToArray(array)
+	assert.Len(t, arr, 2)
+	assert.Equal(t, int64(1), arr[0])
+	assert.Equal(t, int64(2), arr[1])
 
 	stringArray := []string{"ab", "cd"}
-	a = convert.ToArray(stringArray)
-	assert.Len(t, a, 2)
-	assert.Equal(t, "ab", a[0])
-	assert.Equal(t, "cd", a[1])
+	arr = convert.ArrayConverter.ToArray(stringArray)
+	assert.Len(t, arr, 2)
+	assert.Equal(t, "ab", arr[0])
+	assert.Equal(t, "cd", arr[1])
 }

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	refl "reflect"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -16,30 +17,30 @@ import (
 //
 // Example:
 //
-//  var value1 = convert.StringConverter.ToString(123.456)
-//  var value2 = convert.StringConverter.ToString(true)
-//  var value3 = convert.StringConverter.ToString(time.Now())
-//  var value4 = convert.StringConverter.ToString([...]int{1, 2, 3})
-//  fmt.Println(value1) // 123.456
-//  fmt.Println(value2) // true
-//  fmt.Println(value3) // 2019-08-20T23:54:47+03:00
-//  fmt.Println(value4) // 1,2,3
+//  value1, ok1 = convert.StringConverter.ToString(123.456)
+//  value2, ok2 = convert.StringConverter.ToString(true)
+//  value3, ok3 = convert.StringConverter.ToString(time.Now())
+//  value4, ok4 = convert.StringConverter.ToString([...]int{1, 2, 3})
+//  fmt.Println(value1, ok1) // 123.456, true
+//  fmt.Println(value2, ok2) // true, true
+//  fmt.Println(value3, ok3) // 2019-08-20T23:54:47+03:00, true
+//  fmt.Println(value4, ok4) // 1,2,3, true
 var StringConverter = &_TStringConverter{}
 
 type _TStringConverter struct{}
 
 // ToNullableString converts value into string or returns null when value is null.
 // Parameters: "value" - the value to convert
-// Returns: string value or null when value is null.
-func (c *_TStringConverter) ToNullableString(value any) *string {
-	return ToNullableString(value)
+// Returns: string value and true or "" and false when value is null.
+func (c *_TStringConverter) ToNullableString(value any) (string, bool) {
+	return toNullableString(value)
 }
 
 // ToString converts value into string or returns "" when value is null.
 // Parameters: "value" - the value to convert
 // Returns: string value or "" when value is null.
 func (c *_TStringConverter) ToString(value any) string {
-	return ToString(value)
+	return toString(value)
 }
 
 // ToStringWithDefault converts value into string or returns default when value is null.
@@ -48,68 +49,76 @@ func (c *_TStringConverter) ToString(value any) string {
 //  "defaultValue" - the default value.
 // Returns: string value or default when value is null.
 func (c *_TStringConverter) ToStringWithDefault(value any, defaultValue string) string {
-	return ToStringWithDefault(value, defaultValue)
+	return toStringWithDefault(value, defaultValue)
 }
 
 // ToNullableString converts value into string or returns null when value is null.
 // Parameters: "value" - the value to convert
-// Returns: string value or null when value is null.
-func ToNullableString(value any) *string {
+// Returns: string value and true or "" and false when value is null.
+func toNullableString(value any) (string, bool) {
 	if value == nil {
-		return nil
+		return "", false
 	}
 
 	switch value.(type) {
 	case string:
-		r := value.(string)
-		return &r
+		r, ok := value.(string)
+		return r, ok
 
 	case byte, uint, uint32, uint64, int, int32, int64:
-		r := strconv.FormatInt(ToLong(value), 10)
-		return &r
+		r := strconv.FormatInt(LongConverter.ToLong(value), 10)
+		return r, true
 
 	case float32, float64:
-		r := strconv.FormatFloat(ToDouble(value), 'f', -1, 64)
-		return &r
+		r := strconv.FormatFloat(DoubleConverter.ToDouble(value), 'f', -1, 64)
+		return r, true
 
 	case bool:
-		r := "false"
-		if value.(bool) {
-			r = "true"
+		if b, ok := value.(bool); ok {
+			if b {
+				return "true", true
+			}
+			return "false", true
 		}
-		return &r
+		break
 
 	case time.Time:
-		r := value.(time.Time).Format(time.RFC3339)
-		return &r
+		if r, ok := value.(time.Time); ok {
+			return r.Format(time.RFC3339), true
+		}
+		break
 
 	case time.Duration:
-		r := strconv.FormatInt(value.(time.Duration).Nanoseconds()/1000000, 10)
-		return &r
+		if r, ok := value.(time.Duration); ok {
+			return strconv.FormatInt(r.Nanoseconds()/1000000, 10), true
+		}
+		break
 
 	default:
 		val := refl.ValueOf(value)
 		if val.Kind() == refl.Slice || val.Kind() == refl.Array {
-			r := ""
+			builder := strings.Builder{}
 			for index := 0; index < val.Len(); index++ {
-				if len(r) > 0 {
-					r += ","
+				if builder.Len() > 0 {
+					builder.WriteString(",")
 				}
-				r += fmt.Sprint(val.Index(index).Interface())
+				builder.WriteString(fmt.Sprint(val.Index(index).Interface()))
 			}
-			return &r
+			return builder.String(), true
 		}
 
 		r := fmt.Sprint(value)
-		return &r
+		return r, true
 	}
+
+	return "", false
 }
 
 // ToString converts value into string or returns "" when value is null.
 // Parameters: "value" - the value to convert
 // Returns: string value or "" when value is null.
-func ToString(value any) string {
-	return ToStringWithDefault(value, "")
+func toString(value any) string {
+	return toStringWithDefault(value, "")
 }
 
 // ToStringWithDefault converts value into string or returns default when value is null.
@@ -117,10 +126,9 @@ func ToString(value any) string {
 //  "value" - the value to convert.
 //  "defaultValue" - the default value.
 // Returns: string value or default when value is null.
-func ToStringWithDefault(value any, defaultValue string) string {
-	r := ToNullableString(value)
-	if r == nil {
-		return defaultValue
+func toStringWithDefault(value any, defaultValue string) string {
+	if r, ok := toNullableString(value); ok {
+		return r
 	}
-	return *r
+	return defaultValue
 }

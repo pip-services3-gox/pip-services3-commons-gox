@@ -8,14 +8,16 @@ import (
 )
 
 func TestToFloat(t *testing.T) {
-	assert.Nil(t, convert.ToNullableFloat(nil))
+	val, ok := convert.FloatConverter.ToNullableFloat(nil)
+	assert.False(t, ok)
+	assert.Equal(t, float32(0), val)
 
-	assert.Equal(t, float32(123.), convert.ToFloat(123))
-	assert.Equal(t, float32(123.456), convert.ToFloat(123.456))
-	assert.Equal(t, float32(123.), convert.ToFloat("123"))
-	assert.Equal(t, float32(123.456), convert.ToFloat("123.456"))
+	assert.Equal(t, float32(123.), convert.FloatConverter.ToFloat(123))
+	assert.Equal(t, float32(123.456), convert.FloatConverter.ToFloat(123.456))
+	assert.Equal(t, float32(123.), convert.FloatConverter.ToFloat("123"))
+	assert.Equal(t, float32(123.456), convert.FloatConverter.ToFloat("123.456"))
 
-	assert.Equal(t, float32(123.), convert.ToFloatWithDefault(nil, 123))
-	assert.Equal(t, float32(0.), convert.ToFloatWithDefault(false, 123))
-	assert.Equal(t, float32(123.), convert.ToFloatWithDefault("ABC", 123))
+	assert.Equal(t, float32(123.), convert.FloatConverter.ToFloatWithDefault(nil, 123))
+	assert.Equal(t, float32(0.), convert.FloatConverter.ToFloatWithDefault(false, 123))
+	assert.Equal(t, float32(123.), convert.FloatConverter.ToFloatWithDefault("ABC", 123))
 }

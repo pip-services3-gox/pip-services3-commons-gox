@@ -13,30 +13,30 @@ import (
 //
 // Example:
 //
-//  value1 := convert.BooleanConverter.ToNullableBoolean(true)
-//  value2 := convert.BooleanConverter.ToNullableBoolean("yes")
-//  value3 := convert.BooleanConverter.ToNullableBoolean(1)
-//  value4 := convert.BooleanConverter.ToNullableBoolean(struct{}{})
-//  fmt.Println(*value1) // true
-//  fmt.Println(*value2) // true
-//  fmt.Println(*value3) // true
-//  fmt.Println(value4)  // <nil>
+//  value1, ok1 := convert.BooleanConverter.ToNullableBoolean(true)
+//  value2, ok2 := convert.BooleanConverter.ToNullableBoolean("yes")
+//  value3, ok3 := convert.BooleanConverter.ToNullableBoolean(1)
+//  value4, ok4 := convert.BooleanConverter.ToNullableBoolean(struct{}{})
+//  fmt.Println(value1, ok1) // true, true
+//  fmt.Println(value2, ok2) // true, true
+//  fmt.Println(value3, ok3) // true, true
+//  fmt.Println(value4, ok4)  // false, false
 var BooleanConverter = &_TBooleanConverter{}
 
 type _TBooleanConverter struct{}
 
 // ToNullableBoolean converts value into boolean or returns null when conversion is not possible.
 // Parameters: "value" - the value to convert.
-// Returns: boolean value or null when conversion is not supported.
-func (c *_TBooleanConverter) ToNullableBoolean(value any) *bool {
-	return ToNullableBoolean(value)
+// Returns: boolean value and true or false and false when conversion is not supported.
+func (c *_TBooleanConverter) ToNullableBoolean(value any) (bool, bool) {
+	return toNullableBoolean(value)
 }
 
 // ToBoolean converts value into boolean or returns false when conversion is not possible.
 // Parameters: "value" - the value to convert.
 // Returns: boolean value or false when conversion is not supported.
 func (c *_TBooleanConverter) ToBoolean(value any) bool {
-	return ToBoolean(value)
+	return toBoolean(value)
 }
 
 // ToBooleanWithDefault converts value into boolean or returns default value when conversion is not possible
@@ -44,54 +44,53 @@ func (c *_TBooleanConverter) ToBoolean(value any) bool {
 //  "defaultValue" - the default value
 // Returns: boolean value or default when conversion is not supported.
 func (c *_TBooleanConverter) ToBooleanWithDefault(value any, defaultValue bool) bool {
-	return ToBooleanWithDefault(value, defaultValue)
+	return toBooleanWithDefault(value, defaultValue)
 }
 
 // ToNullableBoolean converts value into boolean or returns null when conversion is not possible.
 // Parameters: "value" - the value to convert.
-// Returns: boolean value or null when conversion is not supported.
-func ToNullableBoolean(value any) *bool {
+// Returns: boolean value and true or false and false when conversion is not supported.
+func toNullableBoolean(value any) (bool, bool) {
 	if value == nil {
-		return nil
+		return false, false
 	}
 
 	var v string
 
 	switch value.(type) {
 	case bool:
-		r := value.(bool)
-		return &r
-
+		r, ok := value.(bool)
+		return r, ok
 	case string:
-		v = strings.ToLower(value.(string))
-
+		if _v, ok := value.(string); ok {
+			v = strings.ToLower(_v)
+		}
+		break
 	case time.Duration:
-		d := value.(time.Duration)
-		r := d.Nanoseconds() > 0
-		return &r
-
+		if d, ok := value.(time.Duration); ok {
+			return d.Nanoseconds() > 0, true
+		}
+		break
 	default:
 		v = strings.ToLower(fmt.Sprint(value))
 	}
 
 	if v == "1" || v == "true" || v == "t" || v == "yes" || v == "y" {
-		r := true
-		return &r
+		return true, true
 	}
 
 	if v == "0" || v == "false" || v == "f" || v == "no" || v == "n" {
-		r := false
-		return &r
+		return false, true
 	}
 
-	return nil
+	return false, false
 }
 
 // ToBoolean converts value into boolean or returns false when conversion is not possible.
 // Parameters: "value" - the value to convert.
 // Returns: boolean value or false when conversion is not supported.
-func ToBoolean(value any) bool {
-	return ToBooleanWithDefault(value, false)
+func toBoolean(value any) bool {
+	return toBooleanWithDefault(value, false)
 }
 
 // ToBooleanWithDefault converts value into boolean or returns default value when conversion is not possible
@@ -99,10 +98,9 @@ func ToBoolean(value any) bool {
 //  "value" - the value to convert.
 //  "defaultValue" - the default value.
 // Returns: boolean value or default when conversion is not supported.
-func ToBooleanWithDefault(value any, defaultValue bool) bool {
-	r := ToNullableBoolean(value)
-	if r == nil {
-		return defaultValue
+func toBooleanWithDefault(value any, defaultValue bool) bool {
+	if r, ok := toNullableBoolean(value); ok {
+		return r
 	}
-	return *r
+	return defaultValue
 }

@@ -8,14 +8,16 @@ import (
 )
 
 func TestToInteger(t *testing.T) {
-	assert.Nil(t, convert.ToNullableInteger(nil))
+	val, ok := convert.IntegerConverter.ToNullableInteger(nil)
+	assert.False(t, ok)
+	assert.Equal(t, 0, val)
 
-	assert.Equal(t, int(123), convert.ToInteger(123))
-	assert.Equal(t, int(123), convert.ToInteger(123.456))
-	assert.Equal(t, int(123), convert.ToInteger("123"))
-	assert.Equal(t, int(123), convert.ToInteger("123.456"))
+	assert.Equal(t, int(123), convert.IntegerConverter.ToInteger(123))
+	assert.Equal(t, int(123), convert.IntegerConverter.ToInteger(123.456))
+	assert.Equal(t, int(123), convert.IntegerConverter.ToInteger("123"))
+	assert.Equal(t, int(123), convert.IntegerConverter.ToInteger("123.456"))
 
-	assert.Equal(t, int(123), convert.ToIntegerWithDefault(nil, 123))
-	assert.Equal(t, int(0), convert.ToIntegerWithDefault(false, 123))
-	assert.Equal(t, int(123), convert.ToIntegerWithDefault("ABC", 123))
+	assert.Equal(t, int(123), convert.IntegerConverter.ToIntegerWithDefault(nil, 123))
+	assert.Equal(t, int(0), convert.IntegerConverter.ToIntegerWithDefault(false, 123))
+	assert.Equal(t, int(123), convert.IntegerConverter.ToIntegerWithDefault("ABC", 123))
 }

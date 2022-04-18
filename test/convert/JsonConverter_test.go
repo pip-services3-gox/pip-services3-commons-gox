@@ -10,7 +10,7 @@ import (
 func TestJsonToMap(t *testing.T) {
 	// Handling simple objects
 	v := `{ "value1":123, "value2":234 }`
-	m := convert.JsonToMap(v)
+	m := convert.JsonConverter.ToMap(v)
 	assert.NotNil(t, m)
 	assert.Len(t, m, 2)
 	assert.Equal(t, 123., m["value1"])
@@ -18,7 +18,7 @@ func TestJsonToMap(t *testing.T) {
 
 	// Recursive conversion
 	v = `{ "value1":123, "value2": { "value21": 111, "value22": 222} }`
-	m = convert.JsonToMap(v)
+	m = convert.JsonConverter.ToMap(v)
 	assert.NotNil(t, m)
 	assert.Len(t, m, 2)
 	assert.Equal(t, 123., m["value1"])
@@ -30,7 +30,7 @@ func TestJsonToMap(t *testing.T) {
 
 	// Handling arrays
 	v = `{ "value1":123, "value2": [{ "value21": 111, "value22": 222}] }`
-	m = convert.JsonToMap(v)
+	m = convert.JsonConverter.ToMap(v)
 	assert.NotNil(t, m)
 	assert.Len(t, m, 2)
 	assert.Equal(t, 123., m["value1"])

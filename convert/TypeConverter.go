@@ -25,7 +25,7 @@ type _TTypeConverter struct{}
 // Parameters: "value" - value whose TypeCode is to be resolved.
 // Returns: the TypeCode that corresponds to the passed object's type.
 func (c *_TTypeConverter) ToTypeCode(value any) TypeCode {
-	return ToTypeCode(value)
+	return toTypeCode(value)
 }
 
 // ToNullableType converts value into an object type specified by Type Code or returns null
@@ -35,8 +35,8 @@ func (c *_TTypeConverter) ToTypeCode(value any) TypeCode {
 //  "value" - the value to convert.
 // Returns: object value of type corresponding to TypeCode, or null when
 // conversion is not supported.
-func (c *_TTypeConverter) ToNullableType(typ TypeCode, value any) any {
-	return ToNullableType(typ, value)
+func (c *_TTypeConverter) ToNullableType(typ TypeCode, value any) (any, bool) {
+	return toNullableType(typ, value)
 }
 
 // ToType converts value into an object type specified by Type Code
@@ -47,7 +47,7 @@ func (c *_TTypeConverter) ToNullableType(typ TypeCode, value any) any {
 // Returns: object value of type corresponding to TypeCode, or default value when
 // conversion is not supported
 func (c *_TTypeConverter) ToType(typ TypeCode, value any) any {
-	return ToType(typ, value)
+	return toType(typ, value)
 }
 
 // ToTypeWithDefault converts value into an object type specified by Type Code
@@ -60,20 +60,20 @@ func (c *_TTypeConverter) ToType(typ TypeCode, value any) any {
 // Returns: object value of type corresponding to TypeCode, or default value when
 // conversion is not supported
 func (c *_TTypeConverter) ToTypeWithDefault(typ TypeCode, value any, defaultValue any) any {
-	return ToTypeWithDefault(typ, value, defaultValue)
+	return toTypeWithDefault(typ, value, defaultValue)
 }
 
 // ToString converts a TypeCode into its string name.
 // Parameters: "typ" - the TypeCode to convert into a string.
 // Returns: the name of the TypeCode passed as a string value.
 func (c *_TTypeConverter) ToString(typ TypeCode) string {
-	return TypeCodeToString(typ)
+	return typeCodeToString(typ)
 }
 
 // ToTypeCode gets TypeCode for specific value.
 // Parameters: "value" - value whose TypeCode is to be resolved.
 // Returns: the TypeCode that corresponds to the passed object's type.
-func ToTypeCode(value any) TypeCode {
+func toTypeCode(value any) TypeCode {
 	if value == nil {
 		return Unknown
 	}
@@ -159,11 +159,11 @@ func ToTypeCode(value any) TypeCode {
 // Parameters:
 //  "typ" - the TypeCode for the data type.
 //  "value" - the value to convert.
-// Returns: object value of type corresponding to TypeCode, or null when
+// Returns: object value of type corresponding to TypeCode and true, or null and false when
 // conversion is not supported.
-func ToNullableType(typ TypeCode, value any) any {
+func toNullableType(typ TypeCode, value any) (any, bool) {
 	if value == nil {
-		return nil
+		return nil, false
 	}
 	// Convert to known types
 	switch typ {
@@ -188,7 +188,7 @@ func ToNullableType(typ TypeCode, value any) any {
 	case Map:
 		return MapConverter.ToNullableMap(value)
 	default:
-		return nil
+		return nil, false
 	}
 }
 
@@ -199,7 +199,7 @@ func ToNullableType(typ TypeCode, value any) any {
 //  "value" - the value to convert.
 // Returns: object value of type corresponding to TypeCode, or default value when
 // conversion is not supported
-func ToType(typ TypeCode, value any) any {
+func toType(typ TypeCode, value any) any {
 	if value == nil {
 		return nil
 	}
@@ -240,7 +240,7 @@ func ToType(typ TypeCode, value any) any {
 //  (returns null).
 // Returns: object value of type corresponding to TypeCode, or default value when
 // conversion is not supported
-func ToTypeWithDefault(typ TypeCode, value any, defaultValue any) any {
+func toTypeWithDefault(typ TypeCode, value any, defaultValue any) any {
 	if value == nil {
 		return defaultValue
 	}
@@ -248,7 +248,7 @@ func ToTypeWithDefault(typ TypeCode, value any, defaultValue any) any {
 	// Convert to known types
 	switch typ {
 	case String:
-		return ToStringWithDefault(value, defaultValue.(string))
+		return StringConverter.ToStringWithDefault(value, defaultValue.(string))
 	case Boolean:
 		return BooleanConverter.ToBooleanWithDefault(value, defaultValue.(bool))
 	case Integer:
@@ -275,7 +275,7 @@ func ToTypeWithDefault(typ TypeCode, value any, defaultValue any) any {
 // TypeCodeToString converts a TypeCode into its string name.
 // Parameters: "typ" - the TypeCode to convert into a string.
 // Returns: the name of the TypeCode passed as a string value.
-func TypeCodeToString(typ TypeCode) string {
+func typeCodeToString(typ TypeCode) string {
 	switch typ {
 	case Unknown:
 		return "unknown"

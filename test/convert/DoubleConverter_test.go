@@ -8,14 +8,16 @@ import (
 )
 
 func TestToDouble(t *testing.T) {
-	assert.Nil(t, convert.ToNullableDouble(nil))
+	val, ok := convert.DoubleConverter.ToNullableDouble(nil)
+	assert.False(t, ok)
+	assert.Equal(t, float64(0), val)
 
-	assert.Equal(t, 123., convert.ToDouble(123))
-	assert.Equal(t, 123.456, convert.ToDouble(123.456))
-	assert.Equal(t, 123., convert.ToDouble("123"))
-	assert.Equal(t, 123.456, convert.ToDouble("123.456"))
+	assert.Equal(t, 123., convert.DoubleConverter.ToDouble(123))
+	assert.Equal(t, 123.456, convert.DoubleConverter.ToDouble(123.456))
+	assert.Equal(t, 123., convert.DoubleConverter.ToDouble("123"))
+	assert.Equal(t, 123.456, convert.DoubleConverter.ToDouble("123.456"))
 
-	assert.Equal(t, 123., convert.ToDoubleWithDefault(nil, 123))
-	assert.Equal(t, 0., convert.ToDoubleWithDefault(false, 123))
-	assert.Equal(t, 123., convert.ToDoubleWithDefault("ABC", 123))
+	assert.Equal(t, 123., convert.DoubleConverter.ToDoubleWithDefault(nil, 123))
+	assert.Equal(t, 0., convert.DoubleConverter.ToDoubleWithDefault(false, 123))
+	assert.Equal(t, 123., convert.DoubleConverter.ToDoubleWithDefault("ABC", 123))
 }

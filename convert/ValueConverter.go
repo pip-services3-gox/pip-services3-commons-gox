@@ -87,7 +87,7 @@ func mapToMap(value reflect.Value) map[string]any {
 	r := make(map[string]any, value.Len())
 
 	for _, key := range value.MapKeys() {
-		k := ToString(valueToInterface(key))
+		k := toString(valueToInterface(key))
 		v := valueToInterface(value.MapIndex(key))
 		r[k] = v
 	}

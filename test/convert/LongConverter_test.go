@@ -8,14 +8,16 @@ import (
 )
 
 func TestToLong(t *testing.T) {
-	assert.Nil(t, convert.ToNullableLong(nil))
+	val, ok := convert.LongConverter.ToNullableLong(nil)
+	assert.False(t, ok)
+	assert.Equal(t, int64(0), val)
 
-	assert.Equal(t, int64(123), convert.ToLong(123))
-	assert.Equal(t, int64(123), convert.ToLong(123.456))
-	assert.Equal(t, int64(123), convert.ToLong("123"))
-	assert.Equal(t, int64(123), convert.ToLong("123.456"))
+	assert.Equal(t, int64(123), convert.LongConverter.ToLong(123))
+	assert.Equal(t, int64(123), convert.LongConverter.ToLong(123.456))
+	assert.Equal(t, int64(123), convert.LongConverter.ToLong("123"))
+	assert.Equal(t, int64(123), convert.LongConverter.ToLong("123.456"))
 
-	assert.Equal(t, int64(123), convert.ToLongWithDefault(nil, 123))
-	assert.Equal(t, int64(0), convert.ToLongWithDefault(false, 123))
-	assert.Equal(t, int64(123), convert.ToLongWithDefault("ABC", 123))
+	assert.Equal(t, int64(123), convert.LongConverter.ToLongWithDefault(nil, 123))
+	assert.Equal(t, int64(0), convert.LongConverter.ToLongWithDefault(false, 123))
+	assert.Equal(t, int64(123), convert.LongConverter.ToLongWithDefault("ABC", 123))
 }
