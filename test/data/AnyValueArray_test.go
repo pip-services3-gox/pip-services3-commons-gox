@@ -24,5 +24,7 @@ func TestAnyValueArrayCreate(t *testing.T) {
 
 	array = data.NewAnyValueArrayFromValue([]interface{}{1, 2, 3})
 	assert.Equal(t, 3, array.Len())
-	assert.Equal(t, int64(1), array.Get(0))
+	val, ok := array.Get(0)
+	assert.True(t, ok)
+	assert.Equal(t, int64(1), val)
 }

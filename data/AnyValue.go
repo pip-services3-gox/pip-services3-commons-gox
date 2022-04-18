@@ -6,320 +6,319 @@ import (
 	"github.com/pip-services3-gox/pip-services3-commons-gox/convert"
 )
 
-// Cross-language implementation of dynamic object what can hold value of any type.
+// AnyValue Cross-language implementation of dynamic object what can hold value of any type.
 // The stored value can be converted to different types using variety of accessor methods.
 //
-// Example:
+// 	Example:
+// 		value := data.NewAnyValue("123.456")
 //
-// 	value := data.NewAnyValue("123.456")
-//
-// 	value.GetAsInteger() // Result: 123
-// 	value.GetAsString()  // Result: "123.456"
-// 	value.GetAsFloat()   // Result: 123.456
+// 		value.GetAsInteger() // Result: 123
+// 		value.GetAsString()  // Result: "123.456"
+// 		value.GetAsFloat()   // Result: 123.456
 type AnyValue struct {
-	value interface{}
+	_value any
 }
 
-// Creates a new empty instance of the object
-// Returns: new empty object
+// NewEmptyAnyValue creates a new empty instance of the object
+// 	Returns: new empty object
 func NewEmptyAnyValue() *AnyValue {
-	return &AnyValue{value: nil}
+	return &AnyValue{_value: nil}
 }
 
-// Creates a new instance of the object and assigns its value.
-// Parameters: "value" - value to initialize this object.
-// Returns: new object.
-func NewAnyValue(value interface{}) *AnyValue {
+// NewAnyValue creates a new instance of the object and assigns its value.
+// 	Parameters: "value" - value to initialize this object.
+// 	Returns: new object.
+func NewAnyValue(value any) *AnyValue {
 	v, ok := value.(*AnyValue)
 	if ok {
 		return v
 	} else {
-		return &AnyValue{value: value}
+		return &AnyValue{_value: value}
 	}
 }
 
-// Gets the value stored in this object without any conversions.
-// Returns: the object value.
-func (c *AnyValue) InnerValue() interface{} {
-	return c.value
+// InnerValue gets the value stored in this object without any conversions.
+// 	Returns: the object value.
+func (c *AnyValue) InnerValue() any {
+	return c._value
 }
 
-// Gets the value stored in this object without any conversions.
-// Returns: the object value.
-func (c *AnyValue) Value() interface{} {
-	return c.value
+// Value gets the value stored in this object without any conversions.
+// 	Returns: the object value.
+func (c *AnyValue) Value() any {
+	return c._value
 }
 
-// Gets type code for the value stored in this object.
-// Returns: type code of the object value.
+// TypeCode gets type code for the value stored in this object.
+// 	Returns: type code of the object value.
 func (c *AnyValue) TypeCode() convert.TypeCode {
-	return convert.TypeConverter.ToTypeCode(c.value)
+	return convert.TypeConverter.ToTypeCode(c._value)
 }
 
-// Gets the value stored in this object without any conversions.
-// Returns: the object value.
-func (c *AnyValue) GetAsObject() interface{} {
-	return c.value
+// GetAsObject gets the value stored in this object without any conversions.
+// 	Returns: the object value.
+func (c *AnyValue) GetAsObject() any {
+	return c._value
 }
 
-// Sets a new value for this object.
-// Parameters: "value" - the new object value.
-func (c *AnyValue) SetAsObject(value interface{}) {
-	c.value = value
+// SetAsObject sets a new value for this object.
+// 	Parameters: "value" - the new object value.
+func (c *AnyValue) SetAsObject(value any) {
+	c._value = value
 }
 
-// Converts object value into a string or returns null if conversion is not possible.
-// Returns: string value or null if conversion is not supported.
-func (c *AnyValue) GetAsNullableString() *string {
-	return convert.StringConverter.ToNullableString(c.value)
+// GetAsNullableString converts object value into a string or returns null if conversion is not possible.
+// 	Returns: string and true value or "" and false if conversion is not supported.
+func (c *AnyValue) GetAsNullableString() (string, bool) {
+	return convert.StringConverter.ToNullableString(c._value)
 }
 
-// Converts object value into a string or returns "" if conversion is not possible.
+// GetAsString converts object value into a string or returns "" if conversion is not possible.
 // Returns: string value or "" if conversion is not supported.
 func (c *AnyValue) GetAsString() string {
 	return c.GetAsStringWithDefault("")
 }
 
-// Converts object value into a string or returns default value if conversion is not possible.
-// Parameters: "defaultValue" - the default value.
-// Returns: string value or default if conversion is not supported.
+// GetAsStringWithDefault converts object value into a string or returns default value if conversion is not possible.
+// 	Parameters: "defaultValue" - the default value.
+// 	Returns: string value or default if conversion is not supported.
 func (c *AnyValue) GetAsStringWithDefault(defaultValue string) string {
-	return convert.StringConverter.ToStringWithDefault(c.value, defaultValue)
+	return convert.StringConverter.ToStringWithDefault(c._value, defaultValue)
 }
 
-// Converts object value into a boolean or returns null if conversion is not possible.
-// Returns: boolean value or null if conversion is not supported.
-func (c *AnyValue) GetAsNullableBoolean() *bool {
-	return convert.BooleanConverter.ToNullableBoolean(c.value)
+// GetAsNullableBoolean converts object value into a boolean or returns null if conversion is not possible.
+// 	Returns: boolean value and true or false and false if conversion is not supported.
+func (c *AnyValue) GetAsNullableBoolean() (bool, bool) {
+	return convert.BooleanConverter.ToNullableBoolean(c._value)
 }
 
-// Converts object value into a boolean or returns false if conversion is not possible.
-// Returns: string value or false if conversion is not supported.
+// GetAsBoolean converts object value into a boolean or returns false if conversion is not possible.
+// 	Returns: string value or false if conversion is not supported.
 func (c *AnyValue) GetAsBoolean() bool {
 	return c.GetAsBooleanWithDefault(false)
 }
 
-// Converts object value into a boolean or returns default value if conversion is not possible.
-// Parameters: "defaultValue" - the default value.
-// Returns: boolean value or default if conversion is not supported.
+// GetAsBooleanWithDefault converts object value into a boolean or returns default value if conversion is not possible.
+// 	Parameters: "defaultValue" - the default value.
+// 	Returns: boolean value or default if conversion is not supported.
 func (c *AnyValue) GetAsBooleanWithDefault(defaultValue bool) bool {
-	return convert.BooleanConverter.ToBooleanWithDefault(c.value, defaultValue)
+	return convert.BooleanConverter.ToBooleanWithDefault(c._value, defaultValue)
 }
 
-// Converts object value into an integer or returns null if conversion is not possible.
-// Returns: integer value or null if conversion is not supported.
-func (c *AnyValue) GetAsNullableInteger() *int {
-	return convert.IntegerConverter.ToNullableInteger(c.value)
+// GetAsNullableInteger converts object value into an integer or returns null if conversion is not possible.
+// 	Returns: integer value and true or 0 and false if conversion is not supported.
+func (c *AnyValue) GetAsNullableInteger() (int, bool) {
+	return convert.IntegerConverter.ToNullableInteger(c._value)
 }
 
-// Converts object value into an integer or returns 0 if conversion is not possible.
-// Returns: integer value or 0 if conversion is not supported.
+// GetAsInteger converts object value into an integer or returns 0 if conversion is not possible.
+// 	Returns: integer value or 0 if conversion is not supported.
 func (c *AnyValue) GetAsInteger() int {
 	return c.GetAsIntegerWithDefault(0)
 }
 
-// Converts object value into a integer or returns default value if conversion is not possible.
-// Parameters: "defaultValue" - the default value
-// Returns: integer value or default if conversion is not supported.
+// GetAsIntegerWithDefault converts object value into a integer or returns default value if conversion is not possible.
+// 	Parameters: "defaultValue" - the default value
+// 	Returns: integer value or default if conversion is not supported.
 func (c *AnyValue) GetAsIntegerWithDefault(defaultValue int) int {
-	return convert.IntegerConverter.ToIntegerWithDefault(c.value, defaultValue)
+	return convert.IntegerConverter.ToIntegerWithDefault(c._value, defaultValue)
 }
 
-// Converts object value into a long or returns null if conversion is not possible.
-// Returns: long value or null if conversion is not supported.
-func (c *AnyValue) GetAsNullableLong() *int64 {
-	return convert.LongConverter.ToNullableLong(c.value)
+// GetAsNullableLong converts object value into a long or returns null if conversion is not possible.
+// 	Returns: long value and true or 0 and false if conversion is not supported.
+func (c *AnyValue) GetAsNullableLong() (int64, bool) {
+	return convert.LongConverter.ToNullableLong(c._value)
 }
 
-// Converts object value into a long or returns 0 if conversion is not possible.
-// Returns: string value or 0 if conversion is not supported.
+// GetAsLong converts object value into a long or returns 0 if conversion is not possible.
+// 	Returns: string value or 0 if conversion is not supported.
 func (c *AnyValue) GetAsLong() int64 {
 	return c.GetAsLongWithDefault(0)
 }
 
-// Converts object value into a long or returns default value if conversion is not possible.
-// Parameters: "defaultValue" - the default value
-// Returns: long value or default if conversion is not supported.
+// GetAsLongWithDefault converts object value into a long or returns default value if conversion is not possible.
+// 	Parameters: "defaultValue" - the default value
+// 	Returns: long value or default if conversion is not supported.
 func (c *AnyValue) GetAsLongWithDefault(defaultValue int64) int64 {
-	return convert.LongConverter.ToLongWithDefault(c.value, defaultValue)
+	return convert.LongConverter.ToLongWithDefault(c._value, defaultValue)
 }
 
-// Converts object value into a float or returns null if conversion is not possible.
-// Returns: float value or null if conversion is not supported.
-func (c *AnyValue) GetAsNullableFloat() *float32 {
-	return convert.FloatConverter.ToNullableFloat(c.value)
+// GetAsNullableFloat converts object value into a float or returns null if conversion is not possible.
+// 	Returns: float value and true or 0.0 and false if conversion is not supported.
+func (c *AnyValue) GetAsNullableFloat() (float32, bool) {
+	return convert.FloatConverter.ToNullableFloat(c._value)
 }
 
-// Converts object value into a float or returns 0 if conversion is not possible.
-// Returns: float value or 0 if conversion is not supported.
+// GetAsFloat converts object value into a float or returns 0 if conversion is not possible.
+// 	Returns: float value or 0 if conversion is not supported.
 func (c *AnyValue) GetAsFloat() float32 {
 	return c.GetAsFloatWithDefault(0)
 }
 
-// Converts object value into a float or returns default value if conversion is not possible.
-// Parameters: "defaultValue" - the default value
-// Returns: float value or default if conversion is not supported.
+// GetAsFloatWithDefault converts object value into a float or returns default value if conversion is not possible.
+// 	Parameters: "defaultValue" - the default value
+// 	Returns: float value or default if conversion is not supported.
 func (c *AnyValue) GetAsFloatWithDefault(defaultValue float32) float32 {
-	return convert.FloatConverter.ToFloatWithDefault(c.value, defaultValue)
+	return convert.FloatConverter.ToFloatWithDefault(c._value, defaultValue)
 }
 
-// Converts object value into a double or returns null if conversion is not possible.
-// Returns: double value or null if conversion is not supported.
-func (c *AnyValue) GetAsNullableDouble() *float64 {
-	return convert.DoubleConverter.ToNullableDouble(c.value)
+// GetAsNullableDouble converts object value into a double or returns null if conversion is not possible.
+// 	Returns: double value and true or 0.0 and false if conversion is not supported.
+func (c *AnyValue) GetAsNullableDouble() (float64, bool) {
+	return convert.DoubleConverter.ToNullableDouble(c._value)
 }
 
-// Converts object value into a double or returns 0 if conversion is not possible.
-// Returns: double value or 0 if conversion is not supported.
+// GetAsDouble converts object value into a double or returns 0 if conversion is not possible.
+// 	Returns: double value or 0 if conversion is not supported.
 func (c *AnyValue) GetAsDouble() float64 {
 	return c.GetAsDoubleWithDefault(0)
 }
 
-// Converts object value into a double or returns default value if conversion is not possible.
-// Parameters: "defaultValue" - the default value
-// Returns: double value or default if conversion is not supported.
+// GetAsDoubleWithDefault converts object value into a double or returns default value if conversion is not possible.
+// 	Parameters: "defaultValue" - the default value
+// 	Returns: double value or default if conversion is not supported.
 func (c *AnyValue) GetAsDoubleWithDefault(defaultValue float64) float64 {
-	return convert.DoubleConverter.ToDoubleWithDefault(c.value, defaultValue)
+	return convert.DoubleConverter.ToDoubleWithDefault(c._value, defaultValue)
 }
 
-// Converts object value into a Date or returns null if conversion is not possible.
-// Returns: DateTime value or null if conversion is not supported.
-func (c *AnyValue) GetAsNullableDateTime() *time.Time {
-	return convert.DateTimeConverter.ToNullableDateTime(c.value)
+// GetAsNullableDateTime converts object value into a Date or returns null if conversion is not possible.
+// 	Returns: DateTime value and true or zero time and false if conversion is not supported.
+func (c *AnyValue) GetAsNullableDateTime() (time.Time, bool) {
+	return convert.DateTimeConverter.ToNullableDateTime(c._value)
 }
 
-// Converts object value into a Date or returns current date if conversion is not possible.
-// Returns: DateTime value or current date if conversion is not supported.
+// GetAsDateTime converts object value into a Date or returns current date if conversion is not possible.
+// 	Returns: DateTime value or current date if conversion is not supported.
 func (c *AnyValue) GetAsDateTime() time.Time {
 	return c.GetAsDateTimeWithDefault(time.Time{})
 }
 
-// Converts object value into a Date or returns default value if conversion is not possible.
-// Parameters: "defaultValue" - the default value
-// Returns: DateTime value or default if conversion is not supported.
+// GetAsDateTimeWithDefault converts object value into a Date or returns default value if conversion is not possible.
+// 	Parameters: "defaultValue" - the default value
+// 	Returns: DateTime value or default if conversion is not supported.
 func (c *AnyValue) GetAsDateTimeWithDefault(defaultValue time.Time) time.Time {
-	return convert.DateTimeConverter.ToDateTimeWithDefault(c.value, defaultValue)
+	return convert.DateTimeConverter.ToDateTimeWithDefault(c._value, defaultValue)
 }
 
-// Converts object value into a Duration or returns null if conversion is not possible.
-// Returns: Duration value or null if conversion is not supported.
-func (c *AnyValue) GetAsNullableDuration() *time.Duration {
-	return convert.DurationConverter.ToNullableDuration(c.value)
+// GetAsNullableDuration converts object value into a Duration or returns null if conversion is not possible.
+// 	Returns: Duration value and true or 0 and false if conversion is not supported.
+func (c *AnyValue) GetAsNullableDuration() (time.Duration, bool) {
+	return convert.DurationConverter.ToNullableDuration(c._value)
 }
 
-// Converts object value into a Duration or returns current date if conversion is not possible.
-// Returns: Duration value or current date if conversion is not supported.
+// GetAsDuration converts object value into a Duration or returns current date if conversion is not possible.
+// 	Returns: Duration value or current date if conversion is not supported.
 func (c *AnyValue) GetAsDuration() time.Duration {
 	return c.GetAsDurationWithDefault(0 * time.Millisecond)
 }
 
-// Converts object value into a Duration or returns default value if conversion is not possible.
+// GetAsDurationWithDefault converts object value into a Duration or returns default value if conversion is not possible.
 // Parameters: "defaultValue" - the default value
 // Returns: Duration value or default if conversion is not supported.
 func (c *AnyValue) GetAsDurationWithDefault(defaultValue time.Duration) time.Duration {
-	return convert.DurationConverter.ToDurationWithDefault(c.value, defaultValue)
+	return convert.DurationConverter.ToDurationWithDefault(c._value, defaultValue)
 }
 
-// Converts object value into a value defined by specied typecode. If conversion is not possible it returns null.
-// Parameters: "typ" - the TypeCode that defined the type of the result.
-// Returns: value defined by the typecode or null if conversion is not supported.
-func (c *AnyValue) GetAsNullableType(typ convert.TypeCode) interface{} {
-	return convert.TypeConverter.ToNullableType(typ, c.value)
+// GetAsNullableType converts object value into a value defined by specied typecode. If conversion is not possible it returns null.
+// 	Parameters: "typ" - the TypeCode that defined the type of the result.
+// 	Returns: value defined by the typecode and true or null and false if conversion is not supported.
+func (c *AnyValue) GetAsNullableType(typ convert.TypeCode) (any, bool) {
+	return convert.TypeConverter.ToNullableType(typ, c._value)
 }
 
-// Converts object value into a value defined by specied typecode. If conversion
+// GetAsType converts object value into a value defined by specied typecode. If conversion
 // is not possible it returns default value for the specified type.
-// Parameters: "typ" - the TypeCode that defined the type of the result.
-// Returns: value defined by the typecode or type default value if conversion is not supported.
-func (c *AnyValue) GetAsType(typ convert.TypeCode) interface{} {
+// 	Parameters: "typ" - the TypeCode that defined the type of the result.
+// 	Returns: value defined by the typecode or type default value if conversion is not supported.
+func (c *AnyValue) GetAsType(typ convert.TypeCode) any {
 	return c.GetAsTypeWithDefault(typ, nil)
 }
 
-// Converts object value into a value defined by specied typecode. If conversion
+// GetAsTypeWithDefault converts object value into a value defined by specied typecode. If conversion
 // is not possible it returns default value.
-// Parameters:
-//  "typ" - the TypeCode that defined the type of the result;
-//  "defaultValue" - the default value.
-// Returns: value defined by the typecode or type default value if conversion is not supported.
-func (c *AnyValue) GetAsTypeWithDefault(typ convert.TypeCode, defaultValue interface{}) interface{} {
-	return convert.TypeConverter.ToTypeWithDefault(typ, c.value, defaultValue)
+// 	Parameters:
+//  	"typ" - the TypeCode that defined the type of the result;
+//  	"defaultValue" - the default value.
+// 	Returns: value defined by the typecode or type default value if conversion is not supported.
+func (c *AnyValue) GetAsTypeWithDefault(typ convert.TypeCode, defaultValue any) any {
+	return convert.TypeConverter.ToTypeWithDefault(typ, c._value, defaultValue)
 }
 
-// Converts object value into an AnyArray or returns empty AnyArray if conversion is not possible.
-// Returns: AnyArray value or empty AnyArray if conversion is not supported.
+// GetAsArray converts object value into an AnyArray or returns empty AnyArray if conversion is not possible.
+// 	Returns: AnyArray value or empty AnyArray if conversion is not supported.
 func (c *AnyValue) GetAsArray() *AnyValueArray {
-	return NewAnyValueArrayFromValue(c.value)
+	return NewAnyValueArrayFromValue(c._value)
 }
 
-// Converts object value into AnyMap or returns empty AnyMap if conversion is not possible.
-// Returns: AnyMap value or empty AnyMap if conversion is not supported.
+// GetAsMap converts object value into AnyMap or returns empty AnyMap if conversion is not possible.
+// 	Returns: AnyMap value or empty AnyMap if conversion is not supported.
 func (c *AnyValue) GetAsMap() *AnyValueMap {
-	return NewAnyValueMapFromValue(c.value)
+	return NewAnyValueMapFromValue(c._value)
 }
 
-// Compares this object value to specified specified value. When direct
+// Equals compares this object value to specified specified value. When direct
 // comparison gives negative results it tries to compare values as strings.
-// Parameters: "obj" - the value to be compared with.
-// Returns: true when objects are equal and false otherwise.
-func (c *AnyValue) Equals(obj interface{}) bool {
-	if obj == nil && c.value == nil {
+// 	Parameters: "obj" - the value to be compared with.
+// 	Returns: true when objects are equal and false otherwise.
+func (c *AnyValue) Equals(obj any) bool {
+	if obj == nil && c._value == nil {
 		return true
 	}
-	if obj == nil || c.value == nil {
+	if obj == nil || c._value == nil {
 		return false
 	}
 
 	v, ok := obj.(*AnyValue)
 	if ok {
-		obj = v.value
+		obj = v._value
 	}
 
-	strThisValue := convert.StringConverter.ToNullableString(c.value)
-	strValue := convert.StringConverter.ToNullableString(obj)
+	strThisValue, strThisValueOk := convert.StringConverter.ToNullableString(c._value)
+	strValue, strValueOk := convert.StringConverter.ToNullableString(obj)
 
-	if strThisValue == nil && strValue == nil {
+	if !strThisValueOk && !strValueOk {
 		return true
 	}
-	if strThisValue == nil || strValue == nil {
+	if !strThisValueOk || !strValueOk {
 		return false
 	}
-	return (*strThisValue) == (*strValue)
+	return strThisValue == strValue
 }
 
-// Compares this object value to specified specified value. When direct
+// EqualsAsType compares this object value to specified specified value. When direct
 // comparison gives negative results it converts values to type specified by
 // type code and compare them again.
-// Parameters:
-//  "typ" - the TypeCode that defined the type of the result.
-//  "obj" - the value to be compared with.
-// Returns: true when objects are equal and false otherwise.
-func (c *AnyValue) EqualsAsType(typ convert.TypeCode, obj interface{}) bool {
-	if obj == nil && c.value == nil {
+// 	Parameters:
+//  	"typ" - the TypeCode that defined the type of the result.
+//  	"obj" - the value to be compared with.
+// 	Returns: true when objects are equal and false otherwise.
+func (c *AnyValue) EqualsAsType(typ convert.TypeCode, obj any) bool {
+	if obj == nil && c._value == nil {
 		return true
 	}
-	if obj == nil || c.value == nil {
+	if obj == nil || c._value == nil {
 		return false
 	}
 
 	v, ok := obj.(*AnyValue)
 	if ok {
-		obj = v.value
+		obj = v._value
 	}
 
-	typedThisValue := convert.TypeConverter.ToType(typ, c.value)
+	typedThisValue := convert.TypeConverter.ToType(typ, c._value)
 	typedValue := convert.TypeConverter.ToType(typ, obj)
 
 	return typedThisValue == typedValue
 }
 
-// Creates a binary clone of this object.
-// Returns: a clone of this object.
-func (c *AnyValue) Clone() interface{} {
-	return NewAnyValue(c.value)
+// Clone creates a binary clone of this object.
+// 	Returns: a clone of this object.
+func (c *AnyValue) Clone() any {
+	return NewAnyValue(c._value)
 }
 
-// Gets a string representation of the object.
-// Returns: a string representation of the object.
+// String gets a string representation of the object.
+// 	Returns: a string representation of the object.
 func (c *AnyValue) String() string {
-	return convert.StringConverter.ToString(c.value)
+	return convert.StringConverter.ToString(c._value)
 }

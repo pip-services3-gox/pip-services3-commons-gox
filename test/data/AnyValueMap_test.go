@@ -8,45 +8,63 @@ import (
 )
 
 func TestAnyValueMapNew(t *testing.T) {
-	value := data.NewEmptyAnyValueMap()
-	assert.Empty(t, value.GetAsObject("key1"))
+	mp := data.NewEmptyAnyValueMap()
+	_, ok := mp.GetAsObject("key1")
+	assert.False(t, ok)
 
-	value = data.NewAnyValueMapFromValue(map[string]interface{}{
+	mp = data.NewAnyValueMapFromValue(map[string]interface{}{
 		"key1": 1,
 		"key2": "A",
 	})
-	assert.Equal(t, int64(1), value.Get("key1"))
-	assert.Equal(t, "A", value.Get("key2"))
+	val, ok := mp.Get("key1")
+	assert.True(t, ok)
+	assert.Equal(t, int64(1), val)
 
-	value = data.NewAnyValueMapFromMaps(map[string]interface{}{
+	val, ok = mp.Get("key2")
+	assert.True(t, ok)
+	assert.Equal(t, "A", val)
+
+	mp = data.NewAnyValueMapFromMaps(map[string]interface{}{
 		"key1": 1,
 		"key2": "A",
 	})
-	assert.Equal(t, 1, value.Get("key1"))
-	assert.Equal(t, "A", value.Get("key2"))
+	val, ok = mp.Get("key1")
+	assert.True(t, ok)
+	assert.Equal(t, 1, val)
 
-	value = data.NewAnyValueMapFromTuples(
+	val, ok = mp.Get("key2")
+	assert.True(t, ok)
+	assert.Equal(t, "A", val)
+
+	mp = data.NewAnyValueMapFromTuples(
 		"key1", 1,
 		"key2", "A",
 	)
-	assert.Equal(t, 1, value.Get("key1"))
-	assert.Equal(t, "A", value.Get("key2"))
+	val, ok = mp.Get("key1")
+	assert.True(t, ok)
+	assert.Equal(t, 1, val)
+
+	val, ok = mp.Get("key2")
+	assert.True(t, ok)
+	assert.Equal(t, "A", val)
 }
 
 func TestAnyValueMapGetAndSet(t *testing.T) {
-	value := data.NewEmptyAnyValueMap()
-	assert.Empty(t, value.GetAsObject("key1"))
+	mp := data.NewEmptyAnyValueMap()
+	_, ok := mp.GetAsObject("key1")
+	assert.False(t, ok)
 
-	value.SetAsObject("key1", 1)
-	assert.Equal(t, 1, value.GetAsInteger("key1"))
-	assert.True(t, 1.0-value.GetAsFloat("key1") < 0.001)
-	assert.Equal(t, "1", value.GetAsString("key1"))
+	mp.SetAsObject("key1", 1)
+	assert.Equal(t, 1, mp.GetAsInteger("key1"))
+	assert.True(t, 1.0-mp.GetAsFloat("key1") < 0.001)
+	assert.Equal(t, "1", mp.GetAsString("key1"))
 
-	value.Put("key2", "1")
-	assert.Equal(t, 1, value.GetAsInteger("key2"))
-	assert.True(t, 1.0-value.GetAsFloat("key2") < 0.001)
-	assert.Equal(t, "1", value.GetAsString("key2"))
+	mp.Put("key2", "1")
+	assert.Equal(t, 1, mp.GetAsInteger("key2"))
+	assert.True(t, 1.0-mp.GetAsFloat("key2") < 0.001)
+	assert.Equal(t, "1", mp.GetAsString("key2"))
 
-	value.Remove("key2")
-	assert.Empty(t, value.GetAsObject("key2"))
+	mp.Remove("key2")
+	_, ok = mp.GetAsObject("key2")
+	assert.False(t, ok)
 }
