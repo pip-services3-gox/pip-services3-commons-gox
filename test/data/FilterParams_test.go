@@ -23,8 +23,12 @@ func TestFilterParamsJsonSerialization(t *testing.T) {
 	var value *data.StringValueMap
 	err := json.Unmarshal(json1, &value)
 	assert.Empty(t, err)
-	assert.Equal(t, "1", value.Get("key1"))
-	assert.Equal(t, "A", value.Get("key2"))
+	val, ok := value.Get("key1")
+	assert.True(t, ok)
+	assert.Equal(t, "1", val)
+	val, ok = value.Get("key2")
+	assert.True(t, ok)
+	assert.Equal(t, "A", val)
 
 	json2, err2 := json.Marshal(value)
 	assert.Empty(t, err2)

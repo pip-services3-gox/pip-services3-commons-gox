@@ -1,5 +1,5 @@
 package data
 
 type IEquatable interface {
-	Equals(value interface{}) bool
+	Equals(value any) bool
 }

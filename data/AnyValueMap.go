@@ -48,7 +48,7 @@ func NewEmptyAnyValueMap() *AnyValueMap {
 //	Returns: *AnyValueMap
 func InheritAnyValueMap(base IMap) *AnyValueMap {
 	c := &AnyValueMap{
-		_value: map[string]any{},
+		_value: make(map[string]any),
 	}
 	c._base = base
 	return c
@@ -60,7 +60,7 @@ func InheritAnyValueMap(base IMap) *AnyValueMap {
 // Returns *AnyValueMap
 func NewAnyValueMap(value map[string]any) *AnyValueMap {
 	c := &AnyValueMap{
-		_value: map[string]any{},
+		_value: make(map[string]any),
 	}
 	c._base = c
 	c.Append(value)
