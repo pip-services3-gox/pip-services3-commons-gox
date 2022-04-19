@@ -8,62 +8,57 @@ import (
 	"github.com/pip-services3-gox/pip-services3-commons-gox/convert"
 )
 
-/*
-Helper class to perform property introspection and dynamic reading.
+// ObjectReader Helper class to perform property introspection and dynamic reading.
+//
+// In contrast to PropertyReflector which only introspects regular objects,
+// this ObjectReader is also able to handle maps and arrays.
+// For maps properties are key-pairs identified by string keys,
+// For arrays properties are elements identified by integer index.
+//
+// This class has symmetric implementation across all languages supported by
+// Pip.Services toolkit and used to support dynamic data processing.
+//
+// Because all languages have different casing and case sensitivity rules,
+// this ObjectReader treats all property names as case insensitive.
+//
+//	see PropertyReflector
+//
+//	Example:
+//		myObj := MyObject{}
+//
+//		properties := ObjectReader.GetPropertyNames()
+//		ObjectReader.HasProperty(myObj, "myProperty")
+//		value := PropertyReflector.GetProperty(myObj, "myProperty")
+//
+//		myMap := { key1: 123, key2: "ABC" }
+//		ObjectReader.HasProperty(myMap, "key1")
+//		value := ObjectReader.GetProperty(myMap, "key1")
+//
+//		myArray := [1, 2, 3]
+//		ObjectReader.HasProperty(myArrat, "0")
+//		value := ObjectReader.GetProperty(myArray, "0")
+var ObjectReader = &_TObjectReader{}
 
-In contrast to PropertyReflector which only introspects regular objects, this ObjectReader is also able to handle maps and arrays. For maps properties are key-pairs identified by string keys, For arrays properties are elements identified by integer index.
+type _TObjectReader struct{}
 
-This class has symmetric implementation across all languages supported by Pip.Services toolkit and used to support dynamic data processing.
-
-Because all languages have different casing and case sensitivity rules, this ObjectReader treats all property names as case insensitive.
-
-see
-PropertyReflector
-
-Example:
- myObj := MyObject{}
-
- properties := ObjectReader.GetPropertyNames()
- ObjectReader.HasProperty(myObj, "myProperty")
- value := PropertyReflector.GetProperty(myObj, "myProperty")
-
- myMap := { key1: 123, key2: "ABC" }
- ObjectReader.HasProperty(myMap, "key1")
- value := ObjectReader.GetProperty(myMap, "key1")
-
- myArray := [1, 2, 3]
- ObjectReader.HasProperty(myArrat, "0")
- value := ObjectReader.GetProperty(myArray, "0")
-*/
-type TObjectReader struct{}
-
-var ObjectReader = &TObjectReader{}
-
-// Gets a real object value. If object is a wrapper, it unwraps the value behind it. Otherwise it returns the same object value.
-// Parameters:
-//  - obj interface{}
-//  an object to unwrap..
-// Returns interface{}
-// an actual (unwrapped) object value.
-func (c *TObjectReader) GetValue(obj interface{}) interface{} {
-	wrap, ok := obj.(IValueWrapper)
-	if ok {
+// GetValue gets a real object value. If object is a wrapper, it unwraps the value behind it. Otherwise it returns the same object value.
+//	Parameters: obj any an object to unwrap
+//	Returns: any an actual (unwrapped) object value.
+func (c *_TObjectReader) GetValue(obj any) any {
+	if wrap, ok := obj.(IValueWrapper); ok {
 		obj = wrap.InnerValue()
 	}
-
 	return obj
 }
 
-// Checks if object has a property with specified name.
-// The object can be a user defined object, map or array. The property name correspondently must be object property, map key or array index.
-// Parameters:
-//  - obj interface{}
-//  an object to introspect.
-//  - name string
-//  a name of the property to check.
-// Returns bool
-// true if the object has the property and false if it doesn't.
-func (c *TObjectReader) HasProperty(obj interface{}, name string) bool {
+// HasProperty checks if object has a property with specified name.
+// The object can be a user defined object, map or array.
+// The property name correspondently must be object property, map key or array index.
+//	Parameters:
+//		- obj any an object to introspect.
+//		- name string a name of the property to check.
+//	Returns: bool true if the object has the property and false if it doesn't.
+func (c *_TObjectReader) HasProperty(obj any, name string) bool {
 	if obj == nil || name == "" {
 		return false
 	}
@@ -91,16 +86,14 @@ func (c *TObjectReader) HasProperty(obj interface{}, name string) bool {
 	return PropertyReflector.HasProperty(obj, name)
 }
 
-// Gets value of object property specified by its name.
-// The object can be a user defined object, map or array. The property name correspondently must be object property, map key or array index.
-// Parameters:
-//  - obj interface
-//  an object to read property from.
-//  - name string
-//  a name of the property to get.
-// Returns interface{}
-// the property value or null if property doesn't exist or introspection failed.
-func (c *TObjectReader) GetProperty(obj interface{}, name string) interface{} {
+// GetProperty gets value of object property specified by its name.
+// The object can be a user defined object, map or array.
+// The property name correspondently must be object property, map key or array index.
+//	Parameters:
+//		- obj interface an object to read property from.
+//		- name string a name of the property to get.
+//	Returns: any the property value or null if property doesn't exist or introspection failed.
+func (c *_TObjectReader) GetProperty(obj any, name string) any {
 	if obj == nil || name == "" {
 		return nil
 	}
@@ -131,21 +124,19 @@ func (c *TObjectReader) GetProperty(obj interface{}, name string) interface{} {
 	return PropertyReflector.GetProperty(obj, name)
 }
 
-// Gets names of all properties implemented in specified object.
-// The object can be a user defined object, map or array. Returned property name correspondently are object properties, map keys or array indexes.
-// Parameters:
-//  - obj interface{}
-//  an objec to introspect.
-// Returns []string
-// a list with property names.
-func (c *TObjectReader) GetPropertyNames(obj interface{}) []string {
+// GetPropertyNames gets names of all properties implemented in specified object.
+// The object can be a user defined object, map or array.
+// Returned property name correspondently are object properties, map keys or array indexes.
+//	Parameters: obj any an objec to introspect.
+//	Returns: []string a list with property names.
+func (c *_TObjectReader) GetPropertyNames(obj any) []string {
 	if obj == nil {
 		return nil
 	}
 
 	obj = c.GetValue(obj)
 	val := refl.ValueOf(obj)
-	properties := []string{}
+	properties := make([]string, 0)
 
 	if val.Kind() == refl.Map {
 		for _, v := range val.MapKeys() {
@@ -165,21 +156,19 @@ func (c *TObjectReader) GetPropertyNames(obj interface{}) []string {
 	return PropertyReflector.GetPropertyNames(obj)
 }
 
-// Get values of all properties in specified object and returns them as a map.
-// The object can be a user defined object, map or array. Returned properties correspondently are object properties, map key-pairs or array elements with their indexes.
-// Parameters:
-//  - obj interface{}
-//  an object to get properties from.
-// Returns map[string]interface{}
-// a map, containing the names of the object's properties and their values.
-func (c *TObjectReader) GetProperties(obj interface{}) map[string]interface{} {
+// GetProperties get values of all properties in specified object and returns them as a map.
+// The object can be a user defined object, map or array.
+// Returned properties correspondently are object properties, map key-pairs or array elements with their indexes.
+//	Parameters: obj any an object to get properties from.
+//	Returns: map[string]any a map, containing the names of the object's properties and their values.
+func (c *_TObjectReader) GetProperties(obj any) map[string]any {
 	if obj == nil {
 		return nil
 	}
 
 	obj = c.GetValue(obj)
 	val := refl.ValueOf(obj)
-	values := map[string]interface{}{}
+	values := make(map[string]any)
 
 	if val.Kind() == refl.Map {
 		for _, v := range val.MapKeys() {

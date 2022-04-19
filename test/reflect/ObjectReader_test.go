@@ -13,7 +13,7 @@ func TestReaderHasProperty(t *testing.T) {
 	assert.True(t, reflect.ObjectReader.HasProperty(obj, "PublicField"))
 	assert.False(t, reflect.ObjectReader.HasProperty(obj, "privateField"))
 
-	dict := map[string]interface{}{
+	dict := map[string]any{
 		"1": "AAA",
 		"A": 111,
 	}
@@ -21,7 +21,7 @@ func TestReaderHasProperty(t *testing.T) {
 	assert.True(t, reflect.ObjectReader.HasProperty(dict, "A"))
 	assert.False(t, reflect.ObjectReader.HasProperty(dict, "B"))
 
-	list := []interface{}{"BBB", 222}
+	list := []any{"BBB", 222}
 	assert.True(t, reflect.ObjectReader.HasProperty(list, "0"))
 	assert.True(t, reflect.ObjectReader.HasProperty(list, "1"))
 	assert.False(t, reflect.ObjectReader.HasProperty(list, "3"))
@@ -33,7 +33,7 @@ func TestReaderGetProperty(t *testing.T) {
 	assert.Equal(t, "BBB", reflect.ObjectReader.GetProperty(obj, "PublicField"))
 	assert.Nil(t, reflect.ObjectReader.GetProperty(obj, "privateField"))
 
-	dict := map[string]interface{}{
+	dict := map[string]any{
 		"1": "AAA",
 		"A": 111,
 	}
@@ -41,7 +41,7 @@ func TestReaderGetProperty(t *testing.T) {
 	assert.Equal(t, 111, reflect.ObjectReader.GetProperty(dict, "A"))
 	assert.Nil(t, reflect.ObjectReader.GetProperty(dict, "B"))
 
-	list := []interface{}{"BBB", 222}
+	list := []any{"BBB", 222}
 	assert.Equal(t, "BBB", reflect.ObjectReader.GetProperty(list, "0"))
 	assert.Equal(t, 222, reflect.ObjectReader.GetProperty(list, "1"))
 	assert.Nil(t, reflect.ObjectReader.GetProperty(list, "3"))
@@ -51,13 +51,13 @@ func TestReaderGetPropertyNames(t *testing.T) {
 	obj := NewTestClass()
 	assert.Equal(t, 5, len(reflect.ObjectReader.GetPropertyNames(obj)))
 
-	dict := map[string]interface{}{
+	dict := map[string]any{
 		"1": "AAA",
 		"A": 111,
 	}
 	assert.Equal(t, 2, len(reflect.ObjectReader.GetPropertyNames(dict)))
 
-	list := []interface{}{"BBB", 222}
+	list := []any{"BBB", 222}
 	assert.Equal(t, 2, len(reflect.ObjectReader.GetPropertyNames(list)))
 }
 
@@ -68,7 +68,7 @@ func TestReaderGetProperties(t *testing.T) {
 	assert.Equal(t, true, values["RootPublicProperty"])
 	assert.Equal(t, "BBB", values["PublicField"])
 
-	dict := map[string]interface{}{
+	dict := map[string]any{
 		"1": "AAA",
 		"A": 111,
 	}
@@ -77,7 +77,7 @@ func TestReaderGetProperties(t *testing.T) {
 	assert.Equal(t, "AAA", values["1"])
 	assert.Equal(t, 111, values["A"])
 
-	list := []interface{}{"BBB", 222}
+	list := []any{"BBB", 222}
 	values = reflect.ObjectReader.GetProperties(list)
 	assert.Equal(t, 2, len(values))
 	assert.Equal(t, "BBB", values["0"])

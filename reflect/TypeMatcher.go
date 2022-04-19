@@ -8,24 +8,19 @@ import (
 	"github.com/pip-services3-gox/pip-services3-commons-gox/convert"
 )
 
-/*
-Helper class matches value types for equality.
+// TypeMatcher Helper class matches value types for equality.
+// This class has symmetric implementation across all languages supported by Pip.Services toolkit
+// and used to support dynamic data processing.
+var TypeMatcher = &_TTypeMatcher{}
 
-This class has symmetric implementation across all languages supported by Pip.Services toolkit and used to support dynamic data processing.
-*/
-type TTypeMatcher struct{}
+type _TTypeMatcher struct{}
 
-var TypeMatcher = &TTypeMatcher{}
-
-// Matches expected type to a type of a value. The expected type can be specified by a type, type name or TypeCode.
-// Parameters:
-//  - expectedType interface{}
-//  an expected type to match.
-//  - actualValue interface{}
-//  a value to match its type to the expected one.
-// Returns bool
-// true if types are matching and false if they don't.
-func (c *TTypeMatcher) MatchValue(expectedType interface{}, actualValue interface{}) bool {
+// MatchValue matches expected type to a type of a value. The expected type can be specified by a type, type name or TypeCode.
+//	Parameters:
+//		- expectedType any an expected type to match.
+//		- actualValue any a value to match its type to the expected one.
+//	Returns: bool true if types are matching and false if they don't.
+func (c *_TTypeMatcher) MatchValue(expectedType any, actualValue any) bool {
 	if expectedType == nil {
 		return true
 	}
@@ -37,15 +32,12 @@ func (c *TTypeMatcher) MatchValue(expectedType interface{}, actualValue interfac
 	return c.MatchType(expectedType, refl.TypeOf(actualValue))
 }
 
-// Matches expected type to a type of a value.
-// Parameters:
-// 			- expectedType string
-// 			an expected type name to match.
-// 			- actualValue interface{}
-// 			a value to match its type to the expected one.
-// Returns bool
-// true if types are matching and false if they don't.
-func (c *TTypeMatcher) MatchValueByName(expectedType string, actualValue interface{}) bool {
+// MatchValueByName matches expected type to a type of a value.
+//	Parameters:
+//		- expectedType string an expected type name to match.
+//		- actualValue any a value to match its type to the expected one.
+//	Returns: bool true if types are matching and false if they don't.
+func (c *_TTypeMatcher) MatchValueByName(expectedType string, actualValue any) bool {
 	if expectedType == "" {
 		return true
 	}
@@ -57,15 +49,12 @@ func (c *TTypeMatcher) MatchValueByName(expectedType string, actualValue interfa
 	return c.MatchTypeByName(expectedType, refl.TypeOf(actualValue))
 }
 
-// Matches expected type to an actual type. The types can be specified as types, type names or TypeCode.
-// Parameters:
-// 			- expectedType interface{}
-// 			an expected type to match.
-// 			- actualType refl.Type
-// 			n actual type to match.
-// Returns bool
-// true if types are matching and false if they don't.
-func (c *TTypeMatcher) MatchType(expectedType interface{}, actualType refl.Type) bool {
+// MatchType matches expected type to an actual type. The types can be specified as types, type names or TypeCode.
+//	Parameters:
+//		- expectedType any an expected type to match.
+//		- actualType refl.Type n actual type to match.
+//	Returns: bool true if types are matching and false if they don't.
+func (c *_TTypeMatcher) MatchType(expectedType any, actualType refl.Type) bool {
 	if expectedType == nil {
 		return true
 	}
@@ -79,14 +68,12 @@ func (c *TTypeMatcher) MatchType(expectedType interface{}, actualType refl.Type)
 	}
 
 	// Extract inner value because Go implementations of Maps and Arrays are wrappers
-	innerType, ok := expectedType.(IValueWrapper)
-	if ok {
+	if innerType, ok := expectedType.(IValueWrapper); ok {
 		expectedType = innerType.InnerValue()
 	}
 
 	// If expected value is type
-	typ, ok1 := expectedType.(refl.Type)
-	if ok1 {
+	if typ, ok := expectedType.(refl.Type); ok {
 		type2 := typ
 		// Check pointer type as well
 		if type2.Kind() == refl.Ptr {
@@ -96,14 +83,12 @@ func (c *TTypeMatcher) MatchType(expectedType interface{}, actualType refl.Type)
 	}
 
 	// For strings compare string types
-	str, ok2 := expectedType.(string)
-	if ok2 {
+	if str, ok := expectedType.(string); ok {
 		return c.MatchTypeByName(str, actualType)
 	}
 
 	// For typecodes compare them
-	typeCode, ok3 := expectedType.(convert.TypeCode)
-	if ok3 {
+	if typeCode, ok := expectedType.(convert.TypeCode); ok {
 		//return convert.TypeConverter.ToTypeCode(actualType) == typeCode
 		actualTypeCode := convert.TypeConverter.ToTypeCode(actualType)
 		if typeCode == actualTypeCode {
@@ -134,15 +119,12 @@ func (c *TTypeMatcher) MatchType(expectedType interface{}, actualType refl.Type)
 	return false
 }
 
-// Matches expected type to an actual type.
-// Parameters:
-// 			- expectedType string
-// 			an expected type name to match.
-// 			- actualType refl.Type
-// 			an actual type to match defined by type code.
-// Returns bool
-// true if types are matching and false if they don't.
-func (c *TTypeMatcher) MatchTypeByName(expectedType string, actualType refl.Type) bool {
+// MatchTypeByName matches expected type to an actual type.
+//	Parameters:
+//		- expectedType string an expected type name to match.
+//		- actualType refl.Type an actual type to match defined by type code.
+//	Returns: bool true if types are matching and false if they don't.
+func (c *_TTypeMatcher) MatchTypeByName(expectedType string, actualType refl.Type) bool {
 	if expectedType == "" {
 		return true
 	}

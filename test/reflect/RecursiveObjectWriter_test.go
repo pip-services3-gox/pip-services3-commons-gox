@@ -35,7 +35,7 @@ func TestRecursiveSetProperty(t *testing.T) {
 func TestRecursiveSetProperties(t *testing.T) {
 	obj := convert.JsonConverter.ToMap("{ \"value1\": 123, \"value2\": { \"value21\": 111, \"value22\": 222 }, \"value3\": [ 444, { \"value311\": 555 } ] }")
 
-	values := map[string]interface{}{
+	values := map[string]any{
 		"value1":            "AAA",
 		"value2":            "BBB",
 		"value3.1.value312": "CCC",

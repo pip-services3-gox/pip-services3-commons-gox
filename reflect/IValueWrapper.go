@@ -1,5 +1,5 @@
 package reflect
 
 type IValueWrapper interface {
-	InnerValue() interface{}
+	InnerValue() any
 }

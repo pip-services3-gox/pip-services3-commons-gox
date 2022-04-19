@@ -16,7 +16,7 @@ func TestWriterSetProperty(t *testing.T) {
 	reflect.ObjectWriter.SetProperty(obj, "PublicField", "XYZ")
 	assert.Equal(t, "XYZ", reflect.ObjectReader.GetProperty(obj, "PublicField"))
 
-	dict := map[string]interface{}{
+	dict := map[string]any{
 		"1": "AAA",
 		"A": 111,
 	}
@@ -27,7 +27,7 @@ func TestWriterSetProperty(t *testing.T) {
 	reflect.ObjectWriter.SetProperty(dict, "A", 777)
 	assert.Equal(t, 777, reflect.ObjectReader.GetProperty(dict, "A"))
 
-	list := []interface{}{"BBB", 222}
+	list := []any{"BBB", 222}
 	assert.Equal(t, "BBB", reflect.ObjectReader.GetProperty(list, "0"))
 	reflect.ObjectWriter.SetProperty(list, "0", "XYZ")
 	assert.Equal(t, "XYZ", reflect.ObjectReader.GetProperty(list, "0"))
@@ -41,7 +41,7 @@ func TestWriterSetProperties(t *testing.T) {
 	assert.Equal(t, true, reflect.ObjectReader.GetProperty(obj, "RootPublicProperty"))
 	assert.Equal(t, "BBB", reflect.ObjectReader.GetProperty(obj, "PublicField"))
 
-	values := map[string]interface{}{
+	values := map[string]any{
 		"RootPublicProperty": false,
 		"PublicField":        "XYZ",
 	}
@@ -50,14 +50,14 @@ func TestWriterSetProperties(t *testing.T) {
 	assert.Equal(t, false, reflect.ObjectReader.GetProperty(obj, "RootPublicProperty"))
 	assert.Equal(t, "XYZ", reflect.ObjectReader.GetProperty(obj, "PublicField"))
 
-	dict := map[string]interface{}{
+	dict := map[string]any{
 		"1": "AAA",
 		"A": 111,
 	}
 	assert.Equal(t, "AAA", reflect.ObjectReader.GetProperty(dict, "1"))
 	assert.Equal(t, 111, reflect.ObjectReader.GetProperty(dict, "A"))
 
-	values = map[string]interface{}{
+	values = map[string]any{
 		"1": "XYZ",
 		"A": 777,
 	}
@@ -66,11 +66,11 @@ func TestWriterSetProperties(t *testing.T) {
 	assert.Equal(t, "XYZ", reflect.ObjectReader.GetProperty(dict, "1"))
 	assert.Equal(t, 777, reflect.ObjectReader.GetProperty(dict, "A"))
 
-	list := []interface{}{"BBB", 222}
+	list := []any{"BBB", 222}
 	assert.Equal(t, "BBB", reflect.ObjectReader.GetProperty(list, "0"))
 	assert.Equal(t, 222, reflect.ObjectReader.GetProperty(list, "1"))
 
-	values = map[string]interface{}{
+	values = map[string]any{
 		"0": "XYZ",
 		"1": 777,
 	}

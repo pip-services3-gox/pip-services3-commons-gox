@@ -7,29 +7,28 @@ import (
 	"unicode/utf8"
 )
 
-/*
-Helper class to perform property introspection and dynamic reading and writing.
+// PropertyReflector Helper class to perform property introspection and dynamic reading and writing.
+//
+// This class has symmetric implementation across all languages supported by Pip.Services toolkit
+// and used to support dynamic data processing.
+//
+// Because all languages have different casing and case sensitivity rules,
+// this PropertyReflector treats all property names as case insensitive.
+//
+// Example:
+//		myObj := MyObject{}
+//
+//		properties := PropertyReflector.GetPropertyNames()
+//		PropertyReflector.HasProperty(myObj, "myProperty")
+//		value := PropertyReflector.GetProperty(myObj, "myProperty")
+//		PropertyReflector.SetProperty(myObj, "myProperty", 123)
+var PropertyReflector = &_TPropertyReflector{}
 
-This class has symmetric implementation across all languages supported by Pip.Services toolkit and used to support dynamic data processing.
+type _TPropertyReflector struct{}
 
-Because all languages have different casing and case sensitivity rules, this PropertyReflector treats all property names as case insensitive.
-
-Example:
- myObj := MyObject{}
-
- properties := PropertyReflector.GetPropertyNames()
- PropertyReflector.HasProperty(myObj, "myProperty")
- value := PropertyReflector.GetProperty(myObj, "myProperty")
- PropertyReflector.SetProperty(myObj, "myProperty", 123)
-*/
-type TPropertyReflector struct{}
-
-var PropertyReflector = &TPropertyReflector{}
-
-func (c *TPropertyReflector) toFieldType(obj interface{}) refl.Type {
+func (c *_TPropertyReflector) toFieldType(obj any) refl.Type {
 	// Unwrap value
-	wrap, ok := obj.(IValueWrapper)
-	if ok {
+	if wrap, ok := obj.(IValueWrapper); ok {
 		obj = wrap.InnerValue()
 	}
 
@@ -42,18 +41,18 @@ func (c *TPropertyReflector) toFieldType(obj interface{}) refl.Type {
 	return typ
 }
 
-func (c *TPropertyReflector) toPropertyType(obj interface{}) refl.Type {
+func (c *_TPropertyReflector) toPropertyType(obj any) refl.Type {
 	return refl.TypeOf(obj)
 }
 
-func (c *TPropertyReflector) matchField(field refl.StructField, name string) bool {
+func (c *_TPropertyReflector) matchField(field refl.StructField, name string) bool {
 	// Field must be public and match to name as case insensitive
 	r, _ := utf8.DecodeRuneInString(field.Name)
 	return unicode.IsUpper(r) &&
 		strings.ToLower(field.Name) == strings.ToLower(name)
 }
 
-func (c *TPropertyReflector) matchPropertyGetter(property refl.Method, name string) bool {
+func (c *_TPropertyReflector) matchPropertyGetter(property refl.Method, name string) bool {
 	if property.Type.NumIn() != 1 || property.Type.NumOut() != 1 {
 		return false
 	}
@@ -64,7 +63,7 @@ func (c *TPropertyReflector) matchPropertyGetter(property refl.Method, name stri
 		strings.ToLower(property.Name) == strings.ToLower(name)
 }
 
-func (c *TPropertyReflector) matchPropertySetter(property refl.Method, name string) bool {
+func (c *_TPropertyReflector) matchPropertySetter(property refl.Method, name string) bool {
 	if property.Type.NumIn() != 2 || property.Type.NumOut() != 0 {
 		return false
 	}
@@ -76,15 +75,12 @@ func (c *TPropertyReflector) matchPropertySetter(property refl.Method, name stri
 		strings.ToLower(property.Name) == strings.ToLower(name)
 }
 
-// Checks if object has a property with specified name..
-// Parameters:
-// 			- obj interface{}
-// 			an object to introspect.
-// 			- name string
-//    		a name of the property to check.
-// Returns bool
-// true if the object has the property and false if it doesn't.
-func (c *TPropertyReflector) HasProperty(obj interface{}, name string) bool {
+// HasProperty checks if object has a property with specified name..
+//	Parameters:
+//		- obj any an object to introspect.
+//		- name string a name of the property to check.
+//	Returns: bool true if the object has the property and false if it doesn't.
+func (c *_TPropertyReflector) HasProperty(obj any, name string) bool {
 	if obj == nil {
 		panic("Object cannot be nil")
 	}
@@ -113,15 +109,12 @@ func (c *TPropertyReflector) HasProperty(obj interface{}, name string) bool {
 	return false
 }
 
-//Gets value of object property specified by its name.
-// Parameters:
-// 			- obj interface{}
-// 			an object to read property from.
-// 			- name string
-// 			a name of the property to get.
-// Returns interface{}
-// the property value or null if property doesn't exist or introspection failed.
-func (c *TPropertyReflector) GetProperty(obj interface{}, name string) interface{} {
+// GetProperty gets value of object property specified by its name.
+//	Parameters:
+//		- obj any an object to read property from.
+//		- name string a name of the property to get.
+//	Returns: any the property value or null if property doesn't exist or introspection failed.
+func (c *_TPropertyReflector) GetProperty(obj any, name string) any {
 	if obj == nil {
 		panic("Object cannot be nil")
 	}
@@ -162,16 +155,16 @@ func (c *TPropertyReflector) GetProperty(obj interface{}, name string) interface
 
 // Gets names of all properties implemented in specified object.
 // Parameters:
-// 			- obj interface{}
+// 			- obj any
 // 			an object to introspect.
 // Returns []string
 // a list with property names.
-func (c *TPropertyReflector) GetPropertyNames(obj interface{}) []string {
+func (c *_TPropertyReflector) GetPropertyNames(obj any) []string {
 	if obj == nil {
 		panic("Object cannot be nil")
 	}
 
-	properties := []string{}
+	properties := make([]string, 0)
 
 	fieldType := c.toFieldType(obj)
 	if fieldType.Kind() == refl.Struct {
@@ -194,13 +187,10 @@ func (c *TPropertyReflector) GetPropertyNames(obj interface{}) []string {
 	return properties
 }
 
-// Get values of all properties in specified object and returns them as a map.
-// Parameters:
-// 			- obj interface{}
-// 			an object to get properties from.
-// Returns map[string]interface{}
-// a map, containing the names of the object's properties and their values.
-func (c *TPropertyReflector) GetProperties(obj interface{}) map[string]interface{} {
+// GetProperties get values of all properties in specified object and returns them as a map.
+//	Parameters: bj any an object to get properties from.
+//	Returns: map[string]any a map, containing the names of the object's properties and their values.
+func (c *_TPropertyReflector) GetProperties(obj any) map[string]any {
 	if obj == nil {
 		panic("Object cannot be nil")
 	}
@@ -210,7 +200,7 @@ func (c *TPropertyReflector) GetProperties(obj interface{}) map[string]interface
 		recover()
 	}()
 
-	properties := map[string]interface{}{}
+	properties := map[string]any{}
 
 	fieldType := c.toFieldType(obj)
 	if fieldType.Kind() == refl.Struct {
@@ -238,16 +228,13 @@ func (c *TPropertyReflector) GetProperties(obj interface{}) map[string]interface
 	return properties
 }
 
-// Sets value of object property specified by its name.
+// SetProperty sets value of object property specified by its name.
 // If the property does not exist or introspection fails this method doesn't do anything and doesn't any throw errors.
-// Parameters:
-// 			- obj interface{}
-// 			an object to write property to.
-// 			name string
-// 			a name of the property to set.
-// 			- value interface{}
-// 			a new value for the property to set.
-func (c *TPropertyReflector) SetProperty(obj interface{}, name string, value interface{}) {
+//	Parameters:
+//		- obj any an object to write property to.
+// 		- name string a name of the property to set.
+//		- value any a new value for the property to set.
+func (c *_TPropertyReflector) SetProperty(obj any, name string, value any) {
 	if obj == nil {
 		panic("Object cannot be nil")
 	}
@@ -285,16 +272,13 @@ func (c *TPropertyReflector) SetProperty(obj interface{}, name string, value int
 	}
 }
 
-// Sets values of some (all) object properties.
+// SetProperties sets values of some (all) object properties.
 // If some properties do not exist or introspection fails they are just silently skipped and no errors thrown.
-// see
-// SetProperty
-// Parameters:
-// 				- obj interface{}
-// 				an object to write properties to.
-// 				- values map[string]interface{}
-// 				a map, containing property names and their values.
-func (c *TPropertyReflector) SetProperties(obj interface{}, values map[string]interface{}) {
+//	see SetProperty
+//	Parameters:
+//		- obj any an object to write properties to.
+//		- values map[string]any a map, containing property names and their values.
+func (c *_TPropertyReflector) SetProperties(obj any, values map[string]any) {
 	if values == nil || len(values) == 0 {
 		return
 	}

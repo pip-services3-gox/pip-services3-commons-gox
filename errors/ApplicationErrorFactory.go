@@ -1,34 +1,24 @@
 package errors
 
-/*
-Factory to recreate exceptions from ErrorDescription values passed through the wire.
-see
-ErrorDescription
-see
-ApplicationError
-*/
-type TApplicationErrorFactory struct{}
+// ApplicationErrorFactory is a factory to recreate exceptions from ErrorDescription values passed through the wire.
+//	see ErrorDescription
+//	see ApplicationError
+var ApplicationErrorFactory *_TApplicationErrorFactory = &_TApplicationErrorFactory{}
 
-var ApplicationErrorFactory *TApplicationErrorFactory = &TApplicationErrorFactory{}
+type _TApplicationErrorFactory struct{}
 
-// Recreates ApplicationError object from serialized ErrorDescription.
+// Create recreates ApplicationError object from serialized ErrorDescription.
 // It tries to restore original exception type using type or error category fields.
-// Parameters:
-//  - description: ErrorDescription
-//  a serialized error description received as a result of remote call
-
-// Returns *ApplicationError
-func (c *TApplicationErrorFactory) Create(description *ErrorDescription) *ApplicationError {
+//	Parameters: description: ErrorDescription a serialized error description received as a result of remote call
+//	Returns: *ApplicationError
+func (c *_TApplicationErrorFactory) Create(description *ErrorDescription) *ApplicationError {
 	return NewErrorFromDescription(description)
 }
 
-// Recreates ApplicationError object from description.
+// NewErrorFromDescription Recreates ApplicationError object from description.
 // It tries to restore original exception type using type or error category fields.
-// Parameters:
-//  - description: ErrorDescription
-//  a serialized error description received as a result of remote call
-
-// Returns *ApplicationError
+//	Parameters: description: ErrorDescription a serialized error description received as a result of remote call
+//	Returns: *ApplicationError
 func NewErrorFromDescription(description *ErrorDescription) *ApplicationError {
 	if description == nil {
 		return nil
@@ -41,31 +31,44 @@ func NewErrorFromDescription(description *ErrorDescription) *ApplicationError {
 	correlationId := description.CorrelationId
 
 	// Create well-known exception type based on error category
-	if Unknown == category {
+	switch category {
+	case Unknown:
 		err = NewUnknownError(correlationId, code, message)
-	} else if Internal == category {
+		break
+	case Internal:
 		err = NewInternalError(correlationId, code, message)
-	} else if Misconfiguration == category {
+		break
+	case Misconfiguration:
 		err = NewConfigError(correlationId, code, message)
-	} else if NoResponse == category {
+		break
+	case NoResponse:
 		err = NewConnectionError(correlationId, code, message)
-	} else if FailedInvocation == category {
+		break
+	case FailedInvocation:
 		err = NewInvocationError(correlationId, code, message)
-	} else if FileError == category {
+		break
+	case FileError:
 		err = NewFileError(correlationId, code, message)
-	} else if BadRequest == category {
+		break
+	case BadRequest:
 		err = NewBadRequestError(correlationId, code, message)
-	} else if Unauthorized == category {
+		break
+	case Unauthorized:
 		err = NewUnauthorizedError(correlationId, code, message)
-	} else if Conflict == category {
+		break
+	case Conflict:
 		err = NewConflictError(correlationId, code, message)
-	} else if NotFound == category {
+		break
+	case NotFound:
 		err = NewNotFoundError(correlationId, code, message)
-	} else if InvalidState == category {
+		break
+	case InvalidState:
 		err = NewInvalidStateError(correlationId, code, message)
-	} else if Unsupported == category {
+		break
+	case Unsupported:
 		err = NewUnsupportedError(correlationId, code, message)
-	} else {
+		break
+	default:
 		err = NewUnknownError(correlationId, code, message)
 		err.Category = category
 		err.Status = description.Status

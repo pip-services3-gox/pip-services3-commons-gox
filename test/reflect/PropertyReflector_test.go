@@ -67,7 +67,7 @@ func TestReflectorSetProperties(t *testing.T) {
 	assert.Equal(t, "BBB", reflect.PropertyReflector.GetProperty(obj, "PublicField"))
 	assert.Equal(t, true, reflect.PropertyReflector.GetProperty(obj, "PublicProperty"))
 
-	values := map[string]interface{}{
+	values := map[string]any{
 		"PublicField":    "XYZ",
 		"PublicProperty": false,
 	}

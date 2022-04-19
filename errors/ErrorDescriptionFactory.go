@@ -4,35 +4,29 @@ import (
 	"fmt"
 )
 
-/*
-Factory to create serializeable ErrorDescription from ApplicationException or from arbitrary errors.
-The ErrorDescriptions are used to pass errors through the wire between microservices implemented in different languages. They allow to restore exceptions on the receiving side close to the original type and preserve additional information.
-see
-ErrorDescription
-see
-ApplicationError
-*/
-type TErrorDescriptionFactory struct{}
+// ErrorDescriptionFactory is a factory to create serializeable ErrorDescription
+// from ApplicationException or from arbitrary errors.
+// The ErrorDescriptions are used to pass errors through the wire
+// between microservices implemented in different languages.
+// They allow to restore exceptions on the receiving side close to
+// the original type and preserve additional information.
+//	see ErrorDescription
+//	see ApplicationError
+var ErrorDescriptionFactory = &_TErrorDescriptionFactory{}
 
-var ErrorDescriptionFactory = &TErrorDescriptionFactory{}
+type _TErrorDescriptionFactory struct{}
 
-// Creates a serializable ErrorDescription from error object.
-// Parameters:
-//  - err error
-//  an error object
-// Returns *ErrorDescription
-// a serializeable ErrorDescription object that describes the error.
-func (c *TErrorDescriptionFactory) Create(err interface{}) *ErrorDescription {
+// Create creates a serializable ErrorDescription from error object.
+//	Parameters: err error an error object
+//	Returns: *ErrorDescription a serializeable ErrorDescription object that describes the error.
+func (c *_TErrorDescriptionFactory) Create(err any) *ErrorDescription {
 	return NewErrorDescription(err)
 }
 
-// Creates a serializable ErrorDescription from error object.
-// Parameters:
-//  - err interface{}
-//  an error object
-// Returns *ErrorDescription
-// a serializeable ErrorDescription object that describes the error.
-func NewErrorDescription(err interface{}) *ErrorDescription {
+// NewErrorDescription creates a serializable ErrorDescription from error object.
+//	Parameters: err any an error object
+//	Returns: *ErrorDescription a serializeable ErrorDescription object that describes the error.
+func NewErrorDescription(err any) *ErrorDescription {
 	description := &ErrorDescription{
 		Category: Unknown,
 		Code:     "UNKNOWN",
@@ -40,8 +34,7 @@ func NewErrorDescription(err interface{}) *ErrorDescription {
 		Message:  "Unknown error",
 	}
 
-	ex, ok := err.(*ApplicationError)
-	if ok {
+	if ex, ok := err.(*ApplicationError); ok {
 		description.Category = ex.Category
 		description.Status = ex.Status
 		description.Code = ex.Code
@@ -51,9 +44,7 @@ func NewErrorDescription(err interface{}) *ErrorDescription {
 		description.Cause = ex.Cause
 		description.StackTrace = ex.StackTrace
 	} else if err != nil {
-		//description.Type = err.Name
 		description.Message = fmt.Sprintf("%v", err)
-		//description.StackTrace = err.Stack
 	}
 
 	return description

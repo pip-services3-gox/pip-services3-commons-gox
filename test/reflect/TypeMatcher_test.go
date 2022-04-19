@@ -66,19 +66,19 @@ func TestMatchDuration(t *testing.T) {
 }
 
 func TestMatchMap(t *testing.T) {
-	dict := map[string]interface{}{}
+	dict := map[string]any{}
 	assert.True(t, reflect.TypeMatcher.MatchValueByName("map", dict))
 	assert.True(t, reflect.TypeMatcher.MatchValueByName("dict", dict))
 	assert.True(t, reflect.TypeMatcher.MatchValueByName("Dictionary", dict))
-	assert.True(t, reflect.TypeMatcher.MatchValue(refl.TypeOf(map[string]interface{}{}), dict))
+	assert.True(t, reflect.TypeMatcher.MatchValue(refl.TypeOf(map[string]any{}), dict))
 }
 
 func TestMatchArray(t *testing.T) {
-	list := []interface{}{}
+	list := []any{}
 	assert.True(t, reflect.TypeMatcher.MatchValueByName("list", list))
 	assert.True(t, reflect.TypeMatcher.MatchValueByName("array", list))
 	assert.True(t, reflect.TypeMatcher.MatchValueByName("object[]", list))
-	assert.True(t, reflect.TypeMatcher.MatchValue(refl.TypeOf([]interface{}{}), list))
+	assert.True(t, reflect.TypeMatcher.MatchValue(refl.TypeOf([]any{}), list))
 
 	array := [...]int{}
 	assert.True(t, reflect.TypeMatcher.MatchValueByName("list", array))
