@@ -5,16 +5,14 @@ import (
 	"strings"
 )
 
-//Random generator for various text values like names, addresses or phone numbers.
-//
-//Example:
-//
-//  value1 := RandomText.FullName();     	// Possible result: "Segio"
-//  value2 := RandomText.Verb();      	// Possible result: "Run"
-//  value3 := RandomText.Text(50);    	// Possible result: "Run jorge. Red high scream?"
-type TRandomText struct{}
+// Text random generator for various text values like names, addresses or phone numbers.
+//	Example:
+//		value1 := RandomText.FullName();    // Possible result: "Segio"
+//		value2 := RandomText.Verb();      	// Possible result: "Run"
+//		value3 := RandomText.Text(50);    	// Possible result: "Run jorge. Red high scream?"
+var Text = &_TRandomText{}
 
-var RandomText *TRandomText = &TRandomText{}
+type _TRandomText struct{}
 
 var namePrefixes = []string{"Dr.", "Mr.", "Mrs"}
 var nameSuffixes = []string{"Jr.", "Sr.", "II", "III"}
@@ -78,105 +76,95 @@ var verbs = []string{
 
 var allWords = append(append(append(append(lastNames, colors...), stuffs...), adjectives...), verbs...)
 
-//Return string with random color
-//
-func (c *TRandomText) Color() string {
-	return RandomString.Pick(colors)
+// Color return string with random color
+func (c *_TRandomText) Color() string {
+	return String.Pick(colors)
 }
 
-//Return string with random stuff
-//
-func (c *TRandomText) Stuff() string {
-	return RandomString.Pick(stuffs)
+// Stuff return string with random stuff
+func (c *_TRandomText) Stuff() string {
+	return String.Pick(stuffs)
 }
 
-//Return string with random adjective
-//
-func (c *TRandomText) Adjective() string {
-	return RandomString.Pick(adjectives)
+// Adjective return string with random adjective
+func (c *_TRandomText) Adjective() string {
+	return String.Pick(adjectives)
 }
 
-//Return string with random verb
-//
-func (c *TRandomText) Verb() string {
-	return RandomString.Pick(verbs)
+// Verb return string with random verb
+func (c *_TRandomText) Verb() string {
+	return String.Pick(verbs)
 }
 
-//Return string with random phrase
-//
-func (c *TRandomText) Phrase(min int, max int) string {
-	size := RandomInteger.NextInteger(min, max)
+// Phrase return string with random phrase
+func (c *_TRandomText) Phrase(min int, max int) string {
+	size := Integer.Next(min, max)
 	if size <= 0 {
 		return ""
 	}
 
 	builder := strings.Builder{}
-	builder.WriteString(RandomString.Pick(allWords))
+	builder.WriteString(String.Pick(allWords))
 	for builder.Len() < size {
 		builder.WriteString(" ")
-		builder.WriteString(strings.ToLower(RandomString.Pick(allWords)))
+		builder.WriteString(strings.ToLower(String.Pick(allWords)))
 	}
 
 	return builder.String()
 }
 
-//Return string with random full name
-//
-func (c *TRandomText) FullName() string {
+// FullName return string with random full name
+func (c *_TRandomText) FullName() string {
 	builder := strings.Builder{}
 
-	if RandomBoolean.Chance(3, 5) {
-		builder.WriteString(RandomString.Pick(namePrefixes))
+	if Boolean.Chance(3, 5) {
+		builder.WriteString(String.Pick(namePrefixes))
 		builder.WriteString(" ")
 	}
 
-	builder.WriteString(RandomString.Pick(firstNames))
+	builder.WriteString(String.Pick(firstNames))
 	builder.WriteString(" ")
-	builder.WriteString(RandomString.Pick(lastNames))
+	builder.WriteString(String.Pick(lastNames))
 
-	if RandomBoolean.Chance(5, 10) {
+	if Boolean.Chance(5, 10) {
 		builder.WriteString(" ")
-		builder.WriteString(RandomString.Pick(nameSuffixes))
+		builder.WriteString(String.Pick(nameSuffixes))
 	}
 
 	return builder.String()
 }
 
-//Return string with random word
-//
-func (c *TRandomText) Word() string {
-	return RandomString.Pick(allWords)
+// Word return string with random word
+func (c *_TRandomText) Word() string {
+	return String.Pick(allWords)
 }
 
-//Return string with random words
-//
-func (c *TRandomText) Words(min int, max int) string {
+// Words return string with random words
+func (c *_TRandomText) Words(min int, max int) string {
 	builder := strings.Builder{}
 
-	count := RandomInteger.NextInteger(min, max)
+	count := Integer.Next(min, max)
 	for i := 0; i < count; i++ {
-		builder.WriteString(RandomString.Pick(allWords))
+		builder.WriteString(String.Pick(allWords))
 	}
 
 	return builder.String()
 }
 
-//Return string with random phone
-//
-func (c *TRandomText) Phone() string {
+// Phone return string with random phone
+func (c *_TRandomText) Phone() string {
 	builder := strings.Builder{}
 	builder.WriteString("(")
-	builder.WriteString(strconv.Itoa(RandomInteger.NextInteger(111, 999)))
+	builder.WriteString(strconv.Itoa(Integer.Next(111, 999)))
 	builder.WriteString(") ")
-	builder.WriteString(strconv.Itoa(RandomInteger.NextInteger(111, 999)))
+	builder.WriteString(strconv.Itoa(Integer.Next(111, 999)))
 	builder.WriteString("-")
-	builder.WriteString(strconv.Itoa(RandomInteger.NextInteger(1111, 9999)))
+	builder.WriteString(strconv.Itoa(Integer.Next(1111, 9999)))
 	return builder.String()
 }
 
-//Return string with random email
-//
-func (c *TRandomText) Email() string {
+// Email return string with random email
+func (c *_TRandomText) Email() string {
 	builder := strings.Builder{}
 	builder.WriteString(c.Words(2, 6))
 	builder.WriteString("@")
@@ -185,28 +173,27 @@ func (c *TRandomText) Email() string {
 	return builder.String()
 }
 
-//Return string with random text
-//
-func (c *TRandomText) Text(min int, max int) string {
-	size := RandomInteger.NextInteger(min, max)
+// Text return string with random text
+func (c *_TRandomText) Text(min int, max int) string {
+	size := Integer.Next(min, max)
 
 	builder := strings.Builder{}
-	builder.WriteString(RandomString.Pick(allWords))
+	builder.WriteString(String.Pick(allWords))
 
 	for builder.Len() < size {
-		next := RandomString.Pick(allWords)
-		if RandomBoolean.Chance(4, 6) {
+		next := String.Pick(allWords)
+		if Boolean.Chance(4, 6) {
 			builder.WriteString(" ")
 			builder.WriteString(strings.ToLower(next))
-		} else if RandomBoolean.Chance(2, 5) {
-			builder.WriteByte(RandomString.PickChar(":,-"))
+		} else if Boolean.Chance(2, 5) {
+			builder.WriteByte(String.PickChar(":,-"))
 			builder.WriteString(strings.ToLower(next))
-		} else if RandomBoolean.Chance(3, 5) {
-			builder.WriteByte(RandomString.PickChar(":,-"))
+		} else if Boolean.Chance(3, 5) {
+			builder.WriteByte(String.PickChar(":,-"))
 			builder.WriteString(" ")
 			builder.WriteString(strings.ToLower(next))
 		} else {
-			builder.WriteByte(RandomString.PickChar(".!?"))
+			builder.WriteByte(String.PickChar(".!?"))
 			builder.WriteString(" ")
 			builder.WriteString(next)
 		}

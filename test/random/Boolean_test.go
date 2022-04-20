@@ -8,18 +8,18 @@ import (
 )
 
 func TestChance(t *testing.T) {
-	value := random.RandomBoolean.Chance(5, 10)
+	value := random.Boolean.Chance(5, 10)
 	assert.True(t, value || !value)
 
-	value = random.RandomBoolean.Chance(5, 5)
+	value = random.Boolean.Chance(5, 5)
 	assert.True(t, value || !value)
 
-	value = random.RandomBoolean.Chance(0, 0)
+	value = random.Boolean.Chance(0, 0)
 	assert.True(t, !value)
 
-	value = random.RandomBoolean.Chance(-1, 0)
+	value = random.Boolean.Chance(-1, 0)
 	assert.True(t, !value)
 
-	value = random.RandomBoolean.Chance(-1, -1)
+	value = random.Boolean.Chance(-1, -1)
 	assert.True(t, !value)
 }

@@ -8,19 +8,19 @@ import (
 )
 
 func TestNextFloat(t *testing.T) {
-	value := random.RandomFloat.NextFloat(0, 5)
+	value := random.Float.Next(0, 5)
 	assert.True(t, value <= 5)
 
-	value = random.RandomFloat.NextFloat(2, 5)
+	value = random.Float.Next(2, 5)
 	assert.True(t, value <= 5 && value >= 2)
 }
 
 func TestUpdateFloat(t *testing.T) {
-	value := random.RandomFloat.UpdateFloat(0, 5)
+	value := random.Float.Update(0, 5)
 	assert.True(t, value <= 5 && value >= -5)
 
-	value = random.RandomFloat.UpdateFloat(5, 0)
+	value = random.Float.Update(5, 0)
 
-	value = random.RandomFloat.UpdateFloat(0, 0)
+	value = random.Float.Update(0, 0)
 	assert.True(t, value == 0)
 }
