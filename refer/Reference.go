@@ -2,21 +2,19 @@ package refer
 
 import "github.com/pip-services3-gox/pip-services3-commons-gox/data"
 
-/*
-Contains a reference to a component and locator to find it. It is used by References to store registered component references.
-*/
+// Reference contains a reference to a component and locator to find it. It is used by
+// References to store registered component references.
 type Reference struct {
-	locator   interface{}
-	component interface{}
+	locator   any
+	component any
 }
 
-// Create a new instance of the reference object and assigns its values.
+// NewReference create a new instance of the reference object and assigns its values.
 // Parameters:
-//  - locator interface{}
-//  a locator to find the reference.
-//  - component interface {}
-// Returns *Reference
-func NewReference(locator interface{}, component interface{}) *Reference {
+//		- locator any a locator to find the reference.
+//		- component interface {}
+//	Returns: *Reference
+func NewReference(locator any, component any) *Reference {
 	if component == nil {
 		panic("Component cannot be null")
 	}
@@ -27,30 +25,24 @@ func NewReference(locator interface{}, component interface{}) *Reference {
 	}
 }
 
-// Gets the stored component reference.
-// Returns any
-// the component's references.
-func (c *Reference) Component() interface{} {
+// Component gets the stored component reference.
+//	Returns: any the component's references.
+func (c *Reference) Component() any {
 	return c.component
 }
 
-// Gets the stored component locator.
-// Returns any
-// the component's locator.
-func (c *Reference) Locator() interface{} {
+// Locator gets the stored component locator.
+//	Returns: any the component's locator.
+func (c *Reference) Locator() any {
 	return c.locator
 }
 
-// Matches locator to this reference locator.
+// Match locator to this reference locator.
 // Descriptors are matched using equal method. All other locator types are matched using direct comparison.
-// see
-// Descriptor
-// Parameters:
-//  - locator interface{}
-//  the locator to match.
-// Returns bool
-// true if locators are matching and false it they don't.
-func (c *Reference) Match(locator interface{}) bool {
+//	see Descriptor
+//	Parameters:  locator any the locator to match.
+//	Returns: bool true if locators are matching and false it they don't.
+func (c *Reference) Match(locator any) bool {
 	// Check for nil locator
 	if locator == nil {
 		return false
@@ -62,8 +54,7 @@ func (c *Reference) Match(locator interface{}) bool {
 	}
 
 	// Locate by direct locator matching
-	equatable, ok := c.locator.(data.IEquatable)
-	if ok {
+	if equatable, ok := c.locator.(data.IEquatable); ok {
 		return equatable.Equals(locator)
 	}
 

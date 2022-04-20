@@ -5,54 +5,44 @@ import (
 	convert "github.com/pip-services3-gox/pip-services3-commons-gox/convert"
 )
 
-/*
-Helper class for resolving component dependencies.
-
-The resolver is configured to resolve named dependencies by specific locator. During deployment the dependency locator can be changed.
-
-This mechanism can be used to clarify specific dependency among several alternatives. Typically components are configured to retrieve the first dependency that matches logical group, type and version. But if container contains more than one instance and resolution has to be specific about those instances, they can be given a unique name and dependency resolvers can be reconfigured to retrieve dependencies by their name.
-
-Configuration parameters
- dependencies:
-
-  [dependency name 1]: Dependency 1 locator (descriptor)
-  ...
-  [dependency name N]: Dependency N locator (descriptor)
-References
-References must match configured dependencies.
-
-Example:
-
-*/
+// DependencyResolver helper class for resolving component dependencies.
+// The resolver is configured to resolve named dependencies by specific locator.
+// During deployment the dependency locator can be changed.
+// This mechanism can be used to clarify specific dependency among several alternatives.
+// Typically components are configured to retrieve the first dependency that matches
+// logical group, type and version. But if container contains more than one instance
+// and resolution has to be specific about those instances, they can be given a unique
+// name and dependency resolvers can be reconfigured to retrieve dependencies by their name.
+//
+//	Configuration parameters dependencies:
+//		[dependency name 1]: Dependency 1 locator (descriptor)
+//		...
+//		[dependency name N]: Dependency N locator (descriptor)
+//	References must match configured dependencies.
 type DependencyResolver struct {
-	dependencies map[string]interface{}
+	dependencies map[string]any
 	references   IReferences
 }
 
-// Creates a new instance of the dependency resolver.
-// Returns *DependencyResolver
+// NewDependencyResolver creates a new instance of the dependency resolver.
+//	Returns: *DependencyResolver
 func NewDependencyResolver() *DependencyResolver {
 	return &DependencyResolver{
-		dependencies: map[string]interface{}{},
+		dependencies: make(map[string]any),
 		references:   nil,
 	}
 }
 
-// Creates a new instance of the dependency resolver.
-// see
-// ConfigParams
-// see
-// configure
-// see
-// IReferences
-// see
-// setReferences
-// Parameters:
-//   - config ConfigParams
-//    default configuration where key is dependency name and value is locator (descriptor)
-//   - references IReferences
-//    default component references
-// Returns *DependencyResolver
+// NewDependencyResolverWithParams creates a new instance of the dependency resolver.
+//	see ConfigParams
+//	see Configure
+//	see IReferences
+//	see SetReferences
+//	Parameters:
+//		- config ConfigParams default configuration where key is
+//			dependency name and value is locator (descriptor)
+//		- references IReferences default component references
+//	Returns: *DependencyResolver
 func NewDependencyResolverWithParams(config *conf.ConfigParams, references IReferences) *DependencyResolver {
 	c := NewDependencyResolver()
 
@@ -67,56 +57,42 @@ func NewDependencyResolverWithParams(config *conf.ConfigParams, references IRefe
 	return c
 }
 
-//Configures the component with specified parameters.
-// see
-// ConfigParams
-// Parameters:
-//  - config *conf.ConfigParams
-//  configuration parameters to set.
+// Configure the component with specified parameters.
+//	see ConfigParams
+//	Parameters: config *conf.ConfigParams configuration parameters to set.
 func (c *DependencyResolver) Configure(config *conf.ConfigParams) {
 	dependencies := config.GetSection("dependencies")
 	names := dependencies.Keys()
 	for _, name := range names {
-		locator := dependencies.Get(name)
-		if locator == "" {
-			continue
-		}
-
-		descriptor, err := ParseDescriptorFromString(locator)
-		if err == nil {
-			c.dependencies[name] = descriptor
-		} else {
-			c.dependencies[name] = locator
+		if locator, ok := dependencies.GetAsNullableString(name); ok {
+			descriptor, err := ParseDescriptorFromString(locator)
+			if err == nil {
+				c.dependencies[name] = descriptor
+			} else {
+				c.dependencies[name] = locator
+			}
 		}
 	}
 }
 
-// Sets the component references. References must match configured dependencies.
-// Parameters:
-//   - references IReferences
-//   references to set.
+// SetReferences sets the component references. References must match configured dependencies.
+//	Parameters: references IReferences references to set.
 func (c *DependencyResolver) SetReferences(references IReferences) {
 	c.references = references
 }
 
-// Adds a new dependency into this resolver.
-// Parameters:
-//   - name string
-//   the dependency's name.
-//   locator interface{}
-//   the locator to find the dependency by.
-
-func (c *DependencyResolver) Put(name string, locator interface{}) {
+// Put adds a new dependency into this resolver.
+//	Parameters:
+//		- name string the dependency's name.
+//		- locator any the locator to find the dependency by.
+func (c *DependencyResolver) Put(name string, locator any) {
 	c.dependencies[name] = locator
 }
 
 // Locate dependency by name
-// Parameters:
-//  - name string
-//  dependency name
-// Returns interface{}
-// located dependency
-func (c *DependencyResolver) Locate(name string) interface{} {
+//	Parameters: name string dependency name
+//	Returns: any located dependency
+func (c *DependencyResolver) Locate(name string) any {
 	if name == "" {
 		panic("Dependency name cannot be empty")
 	}
@@ -128,46 +104,37 @@ func (c *DependencyResolver) Locate(name string) interface{} {
 	return c.dependencies[name]
 }
 
-// Gets all optional dependencies by their name.
-// Parameters:
-//  - name string
-// the dependency name to locate.
-// Returns []interface{}
-// a list with found dependencies or empty list of no dependencies was found.
-func (c *DependencyResolver) GetOptional(name string) []interface{} {
+// GetOptional gets all optional dependencies by their name.
+//	Parameters: name string the dependency name to locate.
+//	Returns: []any a list with found dependencies or
+//		empty list of no dependencies was found.
+func (c *DependencyResolver) GetOptional(name string) []any {
 	locator := c.Locate(name)
 	if locator == nil {
-		return []interface{}{}
+		return make([]any, 0)
 	}
 	return c.references.GetOptional(locator)
 }
 
-// Gets all required dependencies by their name. At least one dependency must be present.
+// GetRequired gets all required dependencies by their name. At least one dependency must be present.
 // If no dependencies was found it throws a ReferenceError
-// throws
-// a ReferenceError if no dependencies were found.
-// Parameters:
-//  - name string
-// 	 the dependency name to locate.
-// Returns []interface{}
-// a list with found dependencies.
-func (c *DependencyResolver) GetRequired(name string) ([]interface{}, error) {
+// throws a ReferenceError if no dependencies were found.
+//	Parameters: name string the dependency name to locate.
+//	Returns: []any a list with found dependencies.
+func (c *DependencyResolver) GetRequired(name string) ([]any, error) {
 	locator := c.Locate(name)
 	if locator == nil {
 		err := NewReferenceError("", name)
-		return []interface{}{}, err
+		return make([]any, 0), err
 	}
 
 	return c.references.GetRequired(locator)
 }
 
-// Gets one optional dependency by its name.
-// Parameters:
-//   - name string
-// 	 the dependency name to locate.
-// Returns interface{}
-// a dependency reference or nil of the dependency was not found
-func (c *DependencyResolver) GetOneOptional(name string) interface{} {
+// GetOneOptional gets one optional dependency by its name.
+//	Parameters: name string the dependency name to locate.
+//	Returns: any a dependency reference or nil of the dependency was not found
+func (c *DependencyResolver) GetOneOptional(name string) any {
 	locator := c.Locate(name)
 	if locator == nil {
 		return nil
@@ -175,17 +142,12 @@ func (c *DependencyResolver) GetOneOptional(name string) interface{} {
 	return c.references.GetOneOptional(locator)
 }
 
-// Gets one required dependency by its name. At least one dependency must present.
+// GetOneRequired gets one required dependency by its name. At least one dependency must present.
 // If the dependency was found it throws a ReferenceError
-// throws
-// a ReferenceError if dependency was not found.
-// Parameters:
-//  - name string
-//  the dependency name to locate.
-// Returns interface {}, error
-// a dependency reference and error
-
-func (c *DependencyResolver) GetOneRequired(name string) (interface{}, error) {
+// throws a ReferenceError if dependency was not found.
+//	Parameters: name string the dependency name to locate.
+//	Returns: any, error a dependency reference and error
+func (c *DependencyResolver) GetOneRequired(name string) (any, error) {
 	locator := c.Locate(name)
 	if locator == nil {
 		err := NewReferenceError("", name)
@@ -194,17 +156,13 @@ func (c *DependencyResolver) GetOneRequired(name string) (interface{}, error) {
 	return c.references.GetOneRequired(locator)
 }
 
-// Finds all matching dependencies by their name.
-// throws
-// a ReferenceError of required is true and no dependencies found.
-// Parameters:
-//   - name string
-//   the dependency name to locate.
-//   - required bool
-//   true to raise an exception when no dependencies are found.
-// Returns []interface{}, error
-// a list of found dependencies and error
-func (c *DependencyResolver) Find(name string, required bool) ([]interface{}, error) {
+// Find all matching dependencies by their name.
+// throws a ReferenceError of required is true and no dependencies found.
+//	Parameters:
+//		- name string the dependency name to locate.
+//		- required bool true to raise an exception when no dependencies are found.
+//	Returns: []any, error a list of found dependencies and error
+func (c *DependencyResolver) Find(name string, required bool) ([]any, error) {
 	if name == "" {
 		panic("Name cannot be empty")
 	}
@@ -213,25 +171,22 @@ func (c *DependencyResolver) Find(name string, required bool) ([]interface{}, er
 	if locator == nil {
 		if required {
 			err := NewReferenceError("", name)
-			return []interface{}{}, err
+			return make([]any, 0), err
 		}
-		return []interface{}{}, nil
+		return make([]any, 0), nil
 	}
 
 	return c.references.Find(locator, required)
 }
 
-// Creates a new DependencyResolver from a list of key-value pairs
-// called tuples where key is dependency name and value the depedency locator (descriptor).
-// see
-// NewDependencyResolverFromTuplesArray
-// Parameters:
-//  - tuples ...interface{}
-//  a list of values where odd elements are dependency name and
-//  the following even elements are dependency locator (descriptor)
-// Returns *DependencyResolver
-// a newly created DependencyResolver.
-func NewDependencyResolverFromTuples(tuples ...interface{}) *DependencyResolver {
+// NewDependencyResolverFromTuples creates a new DependencyResolver from a list of key-value pairs
+// called tuples where key is dependency name and value the dependency locator (descriptor).
+//	see NewDependencyResolverFromTuplesArray
+//	Parameters: tuples ...any a list of values where odd elements are
+//		dependency name and the following even elements
+//		are dependency locator (descriptor)
+//	Returns: *DependencyResolver a newly created DependencyResolver.
+func NewDependencyResolverFromTuples(tuples ...any) *DependencyResolver {
 	result := NewDependencyResolver()
 	if len(tuples) == 0 {
 		return result

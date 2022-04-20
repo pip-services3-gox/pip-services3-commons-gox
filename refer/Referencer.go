@@ -1,65 +1,54 @@
 package refer
 
-/*
-Helper class that sets and unsets references to components.
-*/
-type TReferencer struct{}
+// Referencer Helper class that sets and unsets references to components.
+var Referencer = &_TReferencer{}
 
-var Referencer *TReferencer = &TReferencer{}
+type _TReferencer struct{}
 
-// Sets references to specific component.
-// To set references components must implement IReferenceable interface. If they don't the call to this method has no effect.
-// see
-// IReferenceable
-// Parameters:
-//  - references IReferences
-//  the references to be set.
-//  - component interface{}
-//  the component to set references to.
-func (c *TReferencer) SetReferencesForOne(references IReferences, component interface{}) {
-	v, ok := component.(IReferenceable)
-	if ok {
+// SetReferencesForOne sets references to specific component.
+// To set references components must implement IReferenceable interface.
+// If they don't the call to this method has no effect.
+//	see IReferenceable
+//	Parameters:
+//		- references IReferences the references to be set.
+//		- component any the component to set references to.
+func (c *_TReferencer) SetReferencesForOne(references IReferences, component any) {
+	if v, ok := component.(IReferenceable); ok {
 		v.SetReferences(references)
 	}
 }
 
-// Sets references to multiple components.
-// To set references components must implement IReferenceable interface. If they don't the call to this method has no effect.
-// see
-// IReferenceable
-// Parameters:
-// 			- references IReferences
-// 			the references to be set.
-// 			- components []interface{}
-// 			a list of components to set the references to.
-func (c *TReferencer) SetReferences(references IReferences, components []interface{}) {
+// SetReferences sets references to multiple components.
+// To set references components must implement IReferenceable interface.
+// If they don't the call to this method has no effect.
+//	see IReferenceable
+//	Parameters:
+//		- references IReferences the references to be set.
+//		- components []any a list of components to set the references to.
+func (c *_TReferencer) SetReferences(references IReferences, components []any) {
 	for _, component := range components {
 		c.SetReferencesForOne(references, component)
 	}
 }
 
-// Unsets references in specific component.
-// To unset references components must implement IUnreferenceable interface. If they don't the call to this method has no effect.
-// see
-// IUnreferenceable
-// Parameters:
-// 			 - component interface{}
-//           the component to unset references.
-func (c *TReferencer) UnsetReferencesForOne(component interface{}) {
+// UnsetReferencesForOne unsets references in specific component.
+// To unset references components must implement IUnreferenceable interface.
+// If they don't the call to this method has no effect.
+//	see IUnreferenceable
+//	Parameters: component any the component to unset references.
+func (c *_TReferencer) UnsetReferencesForOne(component any) {
 	v, ok := component.(IUnreferenceable)
 	if ok {
 		v.UnsetReferences()
 	}
 }
 
-// Unsets references in multiple components.
-// To unset references components must implement IUnreferenceable interface. If they don't the call to this method has no effect.
-// see
-// IUnreferenceable
-// Parameters:
-// 			 - components [] interface{}
-// 			 the list of components, whose references must be cleared.
-func (c *TReferencer) UnsetReferences(components []interface{}) {
+// UnsetReferences unsets references in multiple components.
+// To unset references components must implement IUnreferenceable interface.
+// If they don't the call to this method has no effect.
+//	see IUnreferenceable
+//	Parameters: components [] any the list of components, whose references must be cleared.
+func (c *_TReferencer) UnsetReferences(components []any) {
 	for _, component := range components {
 		c.UnsetReferencesForOne(component)
 	}
