@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func commandExec(correlationId string, args *run.Parameters) (interface{}, error) {
+func commandExec(correlationId string, args *run.Parameters) (any, error) {
 	if correlationId == "wrongId" {
 		panic("Test error")
 	}
