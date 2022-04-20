@@ -1,26 +1,20 @@
 package run
 
-/*
- Helper class that executes components.
-*/
-type TExecutor struct{}
+// Executor Helper class that executes components.
+var Executor = &_TExecutor{}
 
-var Executor *TExecutor = &TExecutor{}
+type _TExecutor struct{}
 
-// Executes specific component.
-// To be executed components must implement IExecutable interface. If they don't the call to this method has no effect.
-// Parameters:
-//  - correlationId string
-//  transaction id to trace execution through call chain.
-//  - component interface{}
-//  the component that is to be executed.
-//  - args: *Parameters
-//  execution arguments.
-// Returns []interface{}, error
-// execution result or error
-func (c *TExecutor) ExecuteOne(correlationId string, component interface{}, args *Parameters) (interface{}, error) {
-	v, ok := component.(IExecutable)
-	if ok {
+// ExecuteOne executes specific component.
+// To be executed components must implement IExecutable interface.
+// If they don't the call to this method has no effect.
+//	Parameters:
+//		- correlationId string transaction id to trace execution through call chain.
+//		- component any the component that is to be executed.
+//		- args: *Parameters execution arguments.
+//	Returns: []any, error execution result or error
+func (c *_TExecutor) ExecuteOne(correlationId string, component any, args *Parameters) (any, error) {
+	if v, ok := component.(IExecutable); ok {
 		return v.Execute(correlationId, args)
 	}
 	return nil, nil
@@ -28,18 +22,15 @@ func (c *TExecutor) ExecuteOne(correlationId string, component interface{}, args
 
 // Executes multiple components.
 
-// To be executed components must implement IExecutable interface. If they don't the call to this method has no effect.
-// Parameters:
-//  - correlationId string
-//  transaction id to trace execution through call chain.
-//  - components []interface{}
-//  a list of components that are to be executed.
-//  - args *Parameters
-//  execution arguments.
-// Returns []interface{}, error
-// execution result or error
-func (c *TExecutor) Execute(correlationId string, components []interface{}, args *Parameters) ([]interface{}, error) {
-	results := make([]interface{}, 0, 5)
+// Execute to be executed components must implement IExecutable interface.
+// If they don't the call to this method has no effect.
+//	Parameters:
+//		- correlationId string transaction id to trace execution through call chain.
+//		- components []any a list of components that are to be executed.
+//		- args *Parameters execution arguments.
+//	Returns: []any, error execution result or error
+func (c *_TExecutor) Execute(correlationId string, components []any, args *Parameters) ([]any, error) {
+	results := make([]any, 0, 5)
 
 	for _, component := range components {
 		result, err := c.ExecuteOne(correlationId, component, args)

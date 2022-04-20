@@ -14,14 +14,16 @@ func TestGetParams(t *testing.T) {
 	obj := convert.JsonConverter.ToMap("{ \"value1\": 123, \"value2\": { \"value21\": 111, \"value22\": 222 } }")
 	params := run.NewParametersFromValue(obj)
 
-	value := params.Get("")
+	value, ok := params.Get("")
+	assert.False(t, ok)
 	assert.Nil(t, value)
 
 	value = params.GetAsInteger("value1")
 	assert.NotNil(t, value)
 	assert.Equal(t, 123, value)
 
-	value = params.Get("value2")
+	value, ok = params.Get("value2")
+	assert.True(t, ok)
 	assert.NotNil(t, value)
 
 	boolVal := params.Contains("value3")
@@ -82,10 +84,16 @@ func TestSetParams(t *testing.T) {
 
 	params.Put("field2", "ABC")
 	assert.Equal(t, 2, params.Len())
-	assert.Equal(t, "ABC", params.Get("field2"))
+
+	val, ok := params.Get("field2")
+	assert.True(t, ok)
+	assert.Equal(t, "ABC", val)
 
 	params.Put("field2.field1", 123)
-	assert.Equal(t, "ABC", params.Get("field2"))
+
+	val, ok = params.Get("field2")
+	assert.True(t, ok)
+	assert.Equal(t, "ABC", val)
 
 	// params.Put("field3.field31", 456)
 	// assert.Equal(t, 3, params.Len())
@@ -108,9 +116,18 @@ func TestParamsDefaults(t *testing.T) {
 	)
 	result = result.SetDefaults(defaults, false)
 	assert.Equal(t, 3, result.Len())
-	assert.Equal(t, 123, result.Get("value1"))
-	assert.Equal(t, 234, result.Get("value2"))
-	assert.Equal(t, 345, result.Get("value3"))
+
+	val, ok := result.Get("value1")
+	assert.True(t, ok)
+	assert.Equal(t, 123, val)
+
+	val, ok = result.Get("value2")
+	assert.True(t, ok)
+	assert.Equal(t, 234, val)
+
+	val, ok = result.Get("value3")
+	assert.True(t, ok)
+	assert.Equal(t, 345, val)
 }
 
 func TestParamsOverrideRecursive(t *testing.T) {
@@ -121,8 +138,14 @@ func TestParamsOverrideRecursive(t *testing.T) {
 	result = result.SetDefaults(defaults, true)
 
 	assert.Equal(t, 3, result.Len())
-	assert.Equal(t, float64(123), result.Get("value1"))
-	assert.Equal(t, float64(345), result.Get("value3"))
+
+	val, ok := result.Get("value1")
+	assert.True(t, ok)
+	assert.Equal(t, float64(123), val)
+
+	val, ok = result.Get("value3")
+	assert.True(t, ok)
+	assert.Equal(t, float64(345), val)
 
 	deepResult := result.GetAsMap("value2")
 	assert.Equal(t, 3, deepResult.Len())
@@ -137,8 +160,14 @@ func TestParamsOverrideNulls(t *testing.T) {
 	result = result.Override(nil, true)
 
 	assert.Equal(t, 2, result.Len())
-	assert.Equal(t, float64(123), result.Get("value1"))
-	assert.Equal(t, float64(234), result.Get("value2"))
+
+	val, ok := result.Get("value1")
+	assert.True(t, ok)
+	assert.Equal(t, float64(123), val)
+
+	val, ok = result.Get("value2")
+	assert.True(t, ok)
+	assert.Equal(t, float64(234), val)
 }
 
 func TestParamsAssignTo(t *testing.T) {
@@ -162,10 +191,19 @@ func TestParamsFromConfig(t *testing.T) {
 
 	parameters := run.NewParametersFromConfig(params)
 	assert.Equal(t, 2, parameters.Len())
-	assert.Equal(t, "ABC", parameters.Get("field2"))
+
+	val, ok := parameters.Get("field2")
+	assert.True(t, ok)
+	assert.Equal(t, "ABC", val)
 
 	value := parameters.GetAsMap("field1")
 	assert.Equal(t, 2, value.Len())
-	assert.Equal(t, "123", value.Get("field11"))
-	assert.Equal(t, "XYZ", value.Get("field12"))
+
+	val, ok = value.Get("field11")
+	assert.True(t, ok)
+	assert.Equal(t, "123", val)
+
+	val, ok = value.Get("field12")
+	assert.True(t, ok)
+	assert.Equal(t, "XYZ", val)
 }
