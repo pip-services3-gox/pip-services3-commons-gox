@@ -8,30 +8,23 @@ import (
 	"github.com/pip-services3-gox/pip-services3-commons-gox/reflect"
 )
 
-/*
-Schema to validate arrays.
-
-Example:
- schema := NewArraySchema(TypeCode.String);
-
- schema.Validate(["A", "B", "C"]);    // Result: no errors
- schema.Validate([1, 2, 3]);          // Result: element type mismatch
- schema.Validate("A");                // Result: type mismatch
-*/
+// ArraySchema to validate arrays.
+//	Example:
+//		schema := NewArraySchema(TypeCode.String);
+//		schema.Validate(["A", "B", "C"]);    // Result: no errors
+//		schema.Validate([1, 2, 3]);          // Result: element type mismatch
+//		schema.Validate("A");                // Result: type mismatch
 type ArraySchema struct {
 	Schema
-	valueType interface{}
+	valueType any
 }
 
-// Creates a new instance of validation schema and sets its values.
-// see
-// TypeCode
-// Parameters:
-//  - valueType interface{}
-//  a type of array elements. Null means that elements may have any type.
-
-// Returns *ArraySchema
-func NewArraySchema(valueType interface{}) *ArraySchema {
+// NewArraySchema creates a new instance of validation schema and sets its values.
+//	see TypeCode
+//	Parameters: valueType any a type of array elements.
+//		Null means that elements may have any type.
+//	Returns: *ArraySchema
+func NewArraySchema(valueType any) *ArraySchema {
 	c := &ArraySchema{
 		valueType: valueType,
 	}
@@ -39,30 +32,24 @@ func NewArraySchema(valueType interface{}) *ArraySchema {
 	return c
 }
 
-// Gets the type of array elements. Null means that elements may have any type.
-// Returns interface{}
-// the type of array elements.
-func (c *ArraySchema) ValueType() interface{} {
+// ValueType gets the type of array elements. Null means that elements may have any type.
+//	Returns: any the type of array elements.
+func (c *ArraySchema) ValueType() any {
 	return c.valueType
 }
 
-// Sets the type of array elements. Null means that elements may have any type.
-// Parameters
-// value interface{}
-// a type of array elements.
-func (c *ArraySchema) SetValueType(value interface{}) {
+// SetValueType sets the type of array elements. Null means that elements may have any type.
+//	Parameters: value any a type of array elements.
+func (c *ArraySchema) SetValueType(value any) {
 	c.valueType = value
 }
 
-// Validates a given value against the schema and configured validation rules.
-// Parameters:
-//  - path string
-//  a dot notation path to the value.
-//  - value interface{}
-//  a value to be validated.
-// Return []*ValidationResult
-// a list with validation results to add new results.
-func (c *ArraySchema) PerformValidation(path string, value interface{}) []*ValidationResult {
+// PerformValidation validates a given value against the schema and configured validation rules.
+//	Parameters:
+//		- path string a dot notation path to the value.
+//		- value any a value to be validated.
+//	Returns: []*ValidationResult  a list with validation results to add new results.
+func (c *ArraySchema) PerformValidation(path string, value any) []*ValidationResult {
 	name := path
 	if name == "" {
 		name = "value"
@@ -71,7 +58,7 @@ func (c *ArraySchema) PerformValidation(path string, value interface{}) []*Valid
 
 	results := c.Schema.PerformValidation(path, value)
 	if results == nil {
-		results = []*ValidationResult{}
+		results = make([]*ValidationResult, 0)
 	}
 
 	if value == nil {

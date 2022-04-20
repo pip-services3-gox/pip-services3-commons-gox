@@ -42,7 +42,7 @@ func TestObjectSchemaWithRequiredProperties(t *testing.T) {
 	obj = &TestClass{
 		IntArrayField:    []int{1, 2, 3},
 		StringArrayField: []string{"A", "B", "C"},
-		MapField:         map[string]interface{}{},
+		MapField:         map[string]any{},
 		SubObjectField:   &SubTestClass{},
 		SubArrayField:    []*SubTestClass{},
 	}
@@ -64,7 +64,7 @@ func TestObjectSchemaTypes(t *testing.T) {
 	obj := &TestClass{
 		IntArrayField:    []int{1, 2, 3},
 		StringArrayField: []string{"A", "B", "C"},
-		MapField:         map[string]interface{}{},
+		MapField:         map[string]any{},
 		SubObjectField:   &SubTestClass{},
 		SubArrayField:    []*SubTestClass{},
 	}
@@ -90,7 +90,7 @@ func TestObjectSubSchema(t *testing.T) {
 	obj := &TestClass{
 		IntArrayField:    []int{1, 2, 3},
 		StringArrayField: []string{"A", "B", "C"},
-		MapField:         map[string]interface{}{},
+		MapField:         map[string]any{},
 		SubObjectField:   &SubTestClass{},
 		SubArrayField:    []*SubTestClass{},
 	}

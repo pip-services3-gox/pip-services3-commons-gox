@@ -7,34 +7,26 @@ import (
 	"github.com/pip-services3-gox/pip-services3-commons-gox/reflect"
 )
 
-/*
-Schema to validate maps.
-
-Example
- var schema = NewMapSchema(TypeCode.String, TypeCode.Integer);
-
- schema.Validate({ "key1": "A", "key2": "B" });       // Result: no errors
- schema.Validate({ "key1": 1, "key2": 2 });           // Result: element type mismatch
- schema.Validate([ 1, 2, 3 ]);                        // Result: type mismatch
-*/
+// MapSchema to validate maps.
+//	Example
+//		var schema = NewMapSchema(TypeCode.String, TypeCode.Integer);
+//		schema.Validate({ "key1": "A", "key2": "B" });       // Result: no errors
+//		schema.Validate({ "key1": 1, "key2": 2 });           // Result: element type mismatch
+//		schema.Validate([ 1, 2, 3 ]);                        // Result: type mismatch
 type MapSchema struct {
 	Schema
-	keyType   interface{}
-	valueType interface{}
+	keyType   any
+	valueType any
 }
 
-// Creates a new instance of validation schema and sets its values.
-// see
-// IValidationRule
-// see
-// TypeCode
-// Parameters:
-// 			- keyType interface{}
-// 			a type of map keys. Null means that keys may have any type.
-// 			- valueType interface{}
-// 			a type of map values. Null means that values may have any type.
-// Returns *MapSchema
-func NewMapSchema(keyType interface{}, valueType interface{}) *MapSchema {
+// NewMapSchema creates a new instance of validation schema and sets its values.
+//	see IValidationRule
+//	see TypeCode
+//	Parameters:
+//		- keyType any a type of map keys. Null means that keys may have any type.
+//		- valueType any a type of map values. Null means that values may have any type.
+//	Returns: *MapSchema
+func NewMapSchema(keyType any, valueType any) *MapSchema {
 	c := &MapSchema{
 		keyType:   keyType,
 		valueType: valueType,
@@ -43,22 +35,16 @@ func NewMapSchema(keyType interface{}, valueType interface{}) *MapSchema {
 	return c
 }
 
-// Creates a new instance of validation schema and sets its values.
-// see
-// IValidationRule
-// see
-// TypeCode
-// Parameters:
-// 			 - keyType interface{}
-// 			 a type of map keys. Null means that keys may have any type.
-// 			 - valueType interface{}
-// 			 a type of map values. Null means that values may have any type.
-// 			 - required: boolean
-// 			 true to always require non-null values.
-// 			 - rules: []IValidationRule
-// 			 a list with validation rules.
-// Returns *MapSchema
-func NewMapSchemaWithRules(keyType interface{}, valueType interface{}, required bool, rules []IValidationRule) *MapSchema {
+// NewMapSchemaWithRules creates a new instance of validation schema and sets its values.
+//	see IValidationRule
+//	see TypeCode
+//	Parameters:
+//		- keyType any a type of map keys. Null means that keys may have any type.
+//		- valueType any a type of map values. Null means that values may have any type.
+//		- required: boolean true to always require non-null values.
+//		- rules: []IValidationRule a list with validation rules.
+//	Returns: *MapSchema
+func NewMapSchemaWithRules(keyType any, valueType any, required bool, rules []IValidationRule) *MapSchema {
 	c := &MapSchema{
 		keyType:   keyType,
 		valueType: valueType,
@@ -67,45 +53,36 @@ func NewMapSchemaWithRules(keyType interface{}, valueType interface{}, required 
 	return c
 }
 
-// Gets the type of map keys. Null means that keys may have any type.
-// Returns interface{}
-// the type of map keys.
-func (c *MapSchema) KeyType() interface{} {
+// KeyType gets the type of map keys. Null means that keys may have any type.
+//	Returns: any the type of map keys.
+func (c *MapSchema) KeyType() any {
 	return c.keyType
 }
 
-// Sets the type of map keys. Null means that keys may have any type.
-// Parameters:
-// 			- value interface{}
-// 			a type of map keys.
-func (c *MapSchema) SetKeyType(value interface{}) {
+// SetKeyType sets the type of map keys. Null means that keys may have any type.
+//	Parameters: value any a type of map keys.
+func (c *MapSchema) SetKeyType(value any) {
 	c.keyType = value
 }
 
-// Gets the type of map values. Null means that values may have any type.
-// Returns interface{}
-// the type of map values.
-func (c *MapSchema) ValueType() interface{} {
+// ValueType gets the type of map values. Null means that values may have any type.
+//	Returns: any the type of map values.
+func (c *MapSchema) ValueType() any {
 	return c.valueType
 }
 
-// Sets the type of map values. Null means that values may have any type.
-// Parameters:
-// 			- value interface{}
-// 			a type of map values.
-func (c *MapSchema) SetValueType(value interface{}) {
+// SetValueType sets the type of map values. Null means that values may have any type.
+//	Parameters: value any a type of map values.
+func (c *MapSchema) SetValueType(value any) {
 	c.valueType = value
 }
 
-// Validates a given value against the schema and configured validation rules.
-// Parameters:
-// 			 - path string
-// 			 a dot notation path to the value.
-// 			 - value interface{}
-// 			 a value to be validated.
-// REturns  []*ValidationResult[]
-// a list with validation results to add new results.
-func (c *MapSchema) PerformValidation(path string, value interface{}) []*ValidationResult {
+// PerformValidation validates a given value against the schema and configured validation rules.
+//	Parameters:
+//		- path string a dot notation path to the value.
+//		- value any a value to be validated.
+//	Returns: []*ValidationResult[] a list with validation results to add new results.
+func (c *MapSchema) PerformValidation(path string, value any) []*ValidationResult {
 	value = reflect.ObjectReader.GetValue(value)
 
 	results := c.Schema.PerformValidation(path, value)

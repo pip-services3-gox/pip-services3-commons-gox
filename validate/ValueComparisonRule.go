@@ -2,40 +2,32 @@ package validate
 
 import "github.com/pip-services3-gox/pip-services3-commons-gox/convert"
 
-/*
-
-Validation rule that compares value to a constant.
-
-see
-IValidationRule
-
-Example
-  var schema = NewSchema()
-      .WithRule(NewValueComparisonRule("EQ", 1));
-
-  schema.Validate(1);          // Result: no errors
-  schema.Validate(2);          // Result: 2 is not equal to 1
-*/
+// ValueComparisonRule validation rule that compares value to a constant.
+//	see IValidationRule
+//	Example:
+//		var schema = NewSchema()
+//			.WithRule(NewValueComparisonRule("EQ", 1));
+//		schema.Validate(1);          // Result: no errors
+//		schema.Validate(2);          // Result: 2 is not equal to 1
 type ValueComparisonRule struct {
-	value     interface{}
+	value     any
 	operation string
 }
 
-// Creates a new validation rule and sets its values.
-// Parameters:
-//   - operation string
-//   a comparison operation: "==" ("=", "EQ"), "!= " ("<>", "NE"); "<"/">" ("LT"/"GT"), "<="/">=" ("LE"/"GE"); "LIKE".
-//   - value interface{}
-//   a constant value to compare to
-// Returns *ValueComparisonRule
-func NewValueComparisonRule(operation string, value interface{}) *ValueComparisonRule {
+// NewValueComparisonRule creates a new validation rule and sets its values.
+//	Parameters:
+//		- operation string a comparison operation:
+//			"==" ("=", "EQ"), "!= " ("<>", "NE"); "<"/">" ("LT"/"GT"), "<="/">=" ("LE"/"GE"); "LIKE".
+//		- value any a constant value to compare to
+//	Returns: *ValueComparisonRule
+func NewValueComparisonRule(operation string, value any) *ValueComparisonRule {
 	return &ValueComparisonRule{
 		value:     value,
 		operation: operation,
 	}
 }
 
-func (c *ValueComparisonRule) Validate(path string, schema ISchema, value interface{}) []*ValidationResult {
+func (c *ValueComparisonRule) Validate(path string, schema ISchema, value any) []*ValidationResult {
 	name := path
 	if name == "" {
 		name = "value"

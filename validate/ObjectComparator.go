@@ -8,28 +8,23 @@ import (
 	"github.com/pip-services3-gox/pip-services3-commons-gox/data"
 )
 
-/*
-Helper class to perform comparison operations over arbitrary values.
+// ObjectComparator Helper class to perform comparison operations over arbitrary values.
+//	Example:
+//		ObjectComparator.Compare(2, "GT", 1);        // Result: true
+//		ObjectComparator.AreEqual("A", "B");         // Result: false
+var ObjectComparator = &_TObjectComparator{}
 
-Example
- ObjectComparator.Compare(2, "GT", 1);        // Result: true
- ObjectComparator.AreEqual("A", "B");         // Result: false
-*/
-type TObjectComparator struct{}
+type _TObjectComparator struct{}
 
-var ObjectComparator = &TObjectComparator{}
-
-// Perform comparison operation over two arguments. The operation can be performed over values of any type.
-// Parameters:
-//  - value1 interface{}
-//  the first argument to compare
-//  operation string
-//  the comparison operation: "==" ("=", "EQ"), "!= " ("<>", "NE"); "<"/">" ("LT"/"GT"), "<="/">=" ("LE"/"GE"); "LIKE".
-//  - value2 interface{}
-//  the second argument to compare
-// Returns bool
-// result of the comparison operation
-func (c *TObjectComparator) Compare(value1 interface{}, operation string, value2 interface{}) bool {
+// Compare perform comparison operation over two arguments.
+// The operation can be performed over values of any type.
+//	Parameters:
+//		- value1 any the first argument to compare
+//		- operation string the comparison operation:
+//			"==" ("=", "EQ"), "!= " ("<>", "NE"); "<"/">" ("LT"/"GT"), "<="/">=" ("LE"/"GE"); "LIKE".
+//		- value2 any the second argument to compare
+//	Returns: bool result of the comparison operation
+func (c *_TObjectComparator) Compare(value1 any, operation string, value2 any) bool {
 	operation = strings.ToUpper(operation)
 
 	if operation == "=" || operation == "==" || operation == "EQ" {
@@ -57,15 +52,12 @@ func (c *TObjectComparator) Compare(value1 interface{}, operation string, value2
 	return false
 }
 
-// Checks if two values are equal. The operation can be performed over values of any type.
-// Parameters:
-//  - value1 interface
-//  the first value to compare
-//  value2 interface{}
-//  the second value to compare
-// Returns bool
-// true if values are equal and false otherwise
-func (c *TObjectComparator) AreEqual(value1 interface{}, value2 interface{}) bool {
+// AreEqual checks if two values are equal. The operation can be performed over values of any type.
+//	Parameters:
+//		- value1 interface the first value to compare
+//		- value2 any the second value to compare
+//	Returns: bool true if values are equal and false otherwise
+func (c *_TObjectComparator) AreEqual(value1 any, value2 any) bool {
 	if value1 == nil && value2 == nil {
 		return true
 	}
@@ -73,89 +65,71 @@ func (c *TObjectComparator) AreEqual(value1 interface{}, value2 interface{}) boo
 		return false
 	}
 
-	equatable, ok := value1.(data.IEquatable)
-	if ok {
+	if equatable, ok := value1.(data.IEquatable); ok {
 		return equatable.Equals(value2)
 	}
-	equatable, ok = value2.(data.IEquatable)
-	if ok {
+	if equatable, ok := value2.(data.IEquatable); ok {
 		return equatable.Equals(value1)
 	}
 
-	number1 := convert.DoubleConverter.ToNullableDouble(value1)
-	number2 := convert.DoubleConverter.ToNullableDouble(value2)
-	if number1 != nil && number2 != nil {
-		return *number1 == *number2
+	if number1, ok := convert.DoubleConverter.ToNullableDouble(value1); ok {
+		if number2, ok := convert.DoubleConverter.ToNullableDouble(value2); ok {
+			return number1 == number2
+		}
 	}
 
-	str1 := convert.StringConverter.ToNullableString(value1)
-	str2 := convert.StringConverter.ToNullableString(value1)
-	if str1 == nil && str2 == nil {
-		return *str1 == *str2
+	if str1, ok := convert.StringConverter.ToNullableString(value1); ok {
+		if str2, ok := convert.StringConverter.ToNullableString(value2); ok {
+			return str1 == str2
+		}
 	}
 
 	return value1 == value2
 }
 
-// Checks if two values are NOT equal The operation can be performed over values of any type.
-// Parameters:
-//  - value1 interface{}
-//  the first value to compare
-//  - value2 interface{}
-//  the second value to compare
-// Returns bool
-// true if values are NOT equal and false otherwise
-func (c *TObjectComparator) AreNotEqual(value1 interface{}, value2 interface{}) bool {
+// AreNotEqual checks if two values are NOT equal The operation can be performed over values of any type.
+//	Parameters:
+//		- value1 any the first value to compare
+//		- value2 any the second value to compare
+//	Returns: bool true if values are NOT equal and false otherwise
+func (c *_TObjectComparator) AreNotEqual(value1 any, value2 any) bool {
 	return !c.AreEqual(value1, value2)
 }
 
-// Checks if first value is less than the second one. The operation can be performed over numbers or strings.
-// Parameters:
-//  - value1 interface{}
-//  the first value to compare
-//  - value2 interface{}
-//  the second value to compare
-// Returns bool
-// true if the first value is less than second and false otherwise.
-func (c *TObjectComparator) IsLess(value1 interface{}, value2 interface{}) bool {
-	number1 := convert.DoubleConverter.ToNullableDouble(value1)
-	number2 := convert.DoubleConverter.ToNullableDouble(value2)
-
-	if number1 == nil || number2 == nil {
-		return false
+// IsLess checks if first value is less than the second one. The operation can be performed over numbers or strings.
+//	Parameters:
+//		- value1 any the first value to compare
+//		- value2 any the second value to compare
+//	Returns: bool true if the first value is less than second and false otherwise.
+func (c *_TObjectComparator) IsLess(value1 any, value2 any) bool {
+	if number1, ok := convert.DoubleConverter.ToNullableDouble(value1); ok {
+		if number2, ok := convert.DoubleConverter.ToNullableDouble(value2); ok {
+			return number1 < number2
+		}
 	}
-
-	return *number1 < *number2
+	return false
 }
 
-// Checks if first value is greater than the second one. The operation can be performed over numbers or strings.
-// Parameters:
-//  - value1 interface{}
-//  the first value to compare
-//  - value2 interface{}
-//  the second value to compare
-// Returns bool
-// true if the first value is greater than second and false otherwise.
-func (c *TObjectComparator) IsGreater(value1 interface{}, value2 interface{}) bool {
-	number1 := convert.DoubleConverter.ToNullableDouble(value1)
-	number2 := convert.DoubleConverter.ToNullableDouble(value2)
-
-	if number1 == nil || number2 == nil {
-		return false
+// IsGreater checks if first value is greater than the second one. The operation can be performed over numbers or strings.
+//	Parameters:
+//		- value1 any the first value to compare
+//		- value2 any the second value to compare
+//	Returns: bool true if the first value is greater than second and false otherwise.
+func (c *_TObjectComparator) IsGreater(value1 any, value2 any) bool {
+	if number1, ok := convert.DoubleConverter.ToNullableDouble(value1); ok {
+		if number2, ok := convert.DoubleConverter.ToNullableDouble(value2); ok {
+			return number1 > number2
+		}
 	}
-
-	return *number1 > *number2
+	return false
 }
 
-// Checks if string  views are matches
-// Parameters:
-//  - value1 interface{}
-//  a string value to match
-//  - value1 interface{}
-//  a string value to match
-// Returns bool
-// true if the value matches regular expression and false otherwise.
-func (c *TObjectComparator) Match(value1 interface{}, value2 interface{}) bool {
+// Match checks if string  views are matches
+//	Parameters:
+//		- value1 any a string value to match
+//		- value1 any a string value to match
+//	Returns: bool true if the value matches regular expression and false otherwise.
+func (c *_TObjectComparator) Match(value1 any, value2 any) bool {
 	if value1 == nil && value2 == nil {
 		return true
 	}
