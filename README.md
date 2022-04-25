@@ -41,7 +41,7 @@ go get -u github.com/pip-services3-gox/pip-services3-commons-gox@latest
 ## Develop
 
 For development you shall install the following prerequisites:
-* Golang v1.12+
+* Golang v1.18+
 * Visual Studio Code or another IDE of your choice
 * Docker
 * Git
