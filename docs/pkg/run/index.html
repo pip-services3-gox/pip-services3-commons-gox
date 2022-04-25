@@ -109,6 +109,8 @@
 			<div id="manual-nav">
 			<dl>
 			
+				<dd><a href="index.html#pkg-constants">Constants</a></dd>
+			
 			
 				<dd><a href="index.html#pkg-variables">Variables</a></dd>
 			
@@ -126,7 +128,7 @@
 				<dd><a href="index.html#NewCancelContext">func NewCancelContext(ctx context.Context, contextFeedbackChan ContextFeedbackChan) (context.Context, bool)</a></dd>
 			
 				
-				<dd><a href="index.html#NewCancelContextWithData">func NewCancelContextWithData[T any](ctx context.Context, contextFeedbackChan ContextFeedbackChanWithData[T]) (context.Context, bool)</a></dd>
+				<dd><a href="index.html#NewCancelContextWithCustomDataChannel">func NewCancelContextWithCustomDataChannel[T any](ctx context.Context, contextFeedbackChan ContextFeedbackChanWithCustomData[T]) (context.Context, bool)</a></dd>
 			
 				
 				<dd><a href="index.html#NewCancelContextWithError">func NewCancelContextWithError(ctx context.Context, contextFeedbackChan ContextFeedbackChanWithError) (context.Context, bool)</a></dd>
@@ -138,7 +140,7 @@
 				
 			
 				
-				<dd><a href="index.html#ContextFeedbackChanWithData">type ContextFeedbackChanWithData</a></dd>
+				<dd><a href="index.html#ContextFeedbackChanWithCustomData">type ContextFeedbackChanWithCustomData</a></dd>
 				
 				
 			
@@ -353,6 +355,12 @@
 		
 
 		
+			<h2 id="pkg-constants">Constants</h2>
+			
+				
+				<pre>const <span id="DefaultCancellationSignal">DefaultCancellationSignal</span> <a href="http://localhost:6060/pkg/builtin/#int8">int8</a> = 1</pre>
+			
+		
 		
 			<h2 id="pkg-variables">Variables</h2>
 			
@@ -390,7 +398,7 @@ Opener Helper class that opens components.
 		
 			
 			
-			<h2 id="CancelContextFeedback">func <a href="http://localhost:6060/src/run/Context.go?s=2866:2918#L70">CancelContextFeedback</a>
+			<h2 id="CancelContextFeedback">func <a href="http://localhost:6060/src/run/Context.go?s=2997:3049#L72">CancelContextFeedback</a>
 				<a class="permalink" href="index.html#CancelContextFeedback">&#xb6;</a>
 				
 				
@@ -409,7 +417,7 @@ Returns: bool true if signal sends successful or false
 		
 			
 			
-			<h2 id="CancelContextFeedbackWithData">func <a href="http://localhost:6060/src/run/Context.go?s=3899:3974#L108">CancelContextFeedbackWithData</a>
+			<h2 id="CancelContextFeedbackWithData">func <a href="http://localhost:6060/src/run/Context.go?s=4054:4129#L110">CancelContextFeedbackWithData</a>
 				<a class="permalink" href="index.html#CancelContextFeedbackWithData">&#xb6;</a>
 				
 				
@@ -430,7 +438,7 @@ Returns: bool true if signal sends successful or false
 		
 			
 			
-			<h2 id="CancelContextFeedbackWithError">func <a href="http://localhost:6060/src/run/Context.go?s=3356:3428#L89">CancelContextFeedbackWithError</a>
+			<h2 id="CancelContextFeedbackWithError">func <a href="http://localhost:6060/src/run/Context.go?s=3511:3583#L91">CancelContextFeedbackWithError</a>
 				<a class="permalink" href="index.html#CancelContextFeedbackWithError">&#xb6;</a>
 				
 				
@@ -451,7 +459,7 @@ Returns: bool true if signal sends successful or false
 		
 			
 			
-			<h2 id="NewCancelContext">func <a href="http://localhost:6060/src/run/Context.go?s=1193:1300#L29">NewCancelContext</a>
+			<h2 id="NewCancelContext">func <a href="http://localhost:6060/src/run/Context.go?s=1274:1381#L31">NewCancelContext</a>
 				<a class="permalink" href="index.html#NewCancelContext">&#xb6;</a>
 				
 				
@@ -475,20 +483,20 @@ Returns:
 		
 			
 			
-			<h2 id="NewCancelContextWithData">func <a href="http://localhost:6060/src/run/Context.go?s=2398:2531#L60">NewCancelContextWithData</a>
-				<a class="permalink" href="index.html#NewCancelContextWithData">&#xb6;</a>
+			<h2 id="NewCancelContextWithCustomDataChannel">func <a href="http://localhost:6060/src/run/Context.go?s=2504:2656#L62">NewCancelContextWithCustomDataChannel</a>
+				<a class="permalink" href="index.html#NewCancelContextWithCustomDataChannel">&#xb6;</a>
 				
 				
 			</h2>
-			<pre>func NewCancelContextWithData[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>](ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, contextFeedbackChan <a href="index.html#ContextFeedbackChanWithData">ContextFeedbackChanWithData</a>[T]) (<a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>)</pre>
+			<pre>func NewCancelContextWithCustomDataChannel[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>](ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, contextFeedbackChan <a href="index.html#ContextFeedbackChanWithCustomData">ContextFeedbackChanWithCustomData</a>[T]) (<a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>)</pre>
 			<p>
-NewCancelContextWithData wrap context with ContextFeedbackChanWithData
+NewCancelContextWithCustomDataChannel wrap context with ContextFeedbackChanWithCustomData
 </p>
 <pre>T is a custom data type
 see context.WithValue
 Parameters:
 	- context.Context - parent context
-	- ContextFeedbackChanWithData - channel to put into context
+	- ContextFeedbackChanWithCustomData - channel to put into context
 Returns:
 	- context.Context is a context with value
 	- bool true if channel is not nil or false
@@ -500,7 +508,7 @@ Returns:
 		
 			
 			
-			<h2 id="NewCancelContextWithError">func <a href="http://localhost:6060/src/run/Context.go?s=1770:1895#L44">NewCancelContextWithError</a>
+			<h2 id="NewCancelContextWithError">func <a href="http://localhost:6060/src/run/Context.go?s=1851:1976#L46">NewCancelContextWithError</a>
 				<a class="permalink" href="index.html#NewCancelContextWithError">&#xb6;</a>
 				
 				
@@ -551,17 +559,17 @@ default context feedback
 		
 			
 			
-			<h2 id="ContextFeedbackChanWithData">type <a href="http://localhost:6060/src/run/Context.go?s=352:398#L5">ContextFeedbackChanWithData</a>
-				<a class="permalink" href="index.html#ContextFeedbackChanWithData">&#xb6;</a>
+			<h2 id="ContextFeedbackChanWithCustomData">type <a href="http://localhost:6060/src/run/Context.go?s=358:410#L5">ContextFeedbackChanWithCustomData</a>
+				<a class="permalink" href="index.html#ContextFeedbackChanWithCustomData">&#xb6;</a>
 				
 				
 			</h2>
 			<p>
-ContextFeedbackChanWithData a channel to
+ContextFeedbackChanWithCustomData a channel to
 send context feedback with specific data.
 </p>
 
-			<pre>type ContextFeedbackChanWithData[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>] chan T</pre>
+			<pre>type ContextFeedbackChanWithCustomData[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>] chan T</pre>
 
 			
 
@@ -603,7 +611,7 @@ context feedback with error
 		
 			
 			
-			<h2 id="ContextValueType">type <a href="http://localhost:6060/src/run/Context.go?s=604:632#L13">ContextValueType</a>
+			<h2 id="ContextValueType">type <a href="http://localhost:6060/src/run/Context.go?s=622:650#L13">ContextValueType</a>
 				<a class="permalink" href="index.html#ContextValueType">&#xb6;</a>
 				
 				
@@ -615,7 +623,7 @@ context feedback channel
 <pre>Possible values:
 	- ContextFeedbackChanType
 	- ContextFeedbackChanWithErrorType
-	- ContextFeedbackChanWithDataType
+	- ContextFeedbackChanWithCustomDataType
 </pre>
 
 			<pre>type ContextValueType <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
@@ -623,9 +631,9 @@ context feedback channel
 			
 				
 				<pre>const (
-    <span id="ContextFeedbackChanType">ContextFeedbackChanType</span>          <a href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextFeedbackChan&#34;
-    <span id="ContextFeedbackChanWithErrorType">ContextFeedbackChanWithErrorType</span> <a href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextFeedbackChanWithError&#34;
-    <span id="ContextFeedbackChanWithDataType">ContextFeedbackChanWithDataType</span>  <a href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextFeedbackChanWithData&#34;
+    <span id="ContextFeedbackChanType">ContextFeedbackChanType</span>               <a href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextFeedbackChan&#34;
+    <span id="ContextFeedbackChanWithErrorType">ContextFeedbackChanWithErrorType</span>      <a href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextFeedbackChanWithError&#34;
+    <span id="ContextFeedbackChanWithCustomDataType">ContextFeedbackChanWithCustomDataType</span> <a href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextFeedbackChanWithCustomData&#34;
 )</pre>
 			
 

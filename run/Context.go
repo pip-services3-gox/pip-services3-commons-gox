@@ -10,23 +10,25 @@ type ContextFeedbackChan chan int8
 // context feedback with error
 type ContextFeedbackChanWithError chan error
 
-// ContextFeedbackChanWithData a channel to
+// ContextFeedbackChanWithCustomData a channel to
 // send context feedback with specific data.
-type ContextFeedbackChanWithData[T any] chan T
+type ContextFeedbackChanWithCustomData[T any] chan T
 
 // ContextValueType an enum to describe specific
 // context feedback channel
 //	Possible values:
 //		- ContextFeedbackChanType
 //		- ContextFeedbackChanWithErrorType
-//		- ContextFeedbackChanWithDataType
+//		- ContextFeedbackChanWithCustomDataType
 type ContextValueType string
 
 const (
-	ContextFeedbackChanType          ContextValueType = "pip.ContextFeedbackChan"
-	ContextFeedbackChanWithErrorType ContextValueType = "pip.ContextFeedbackChanWithError"
-	ContextFeedbackChanWithDataType  ContextValueType = "pip.ContextFeedbackChanWithData"
+	ContextFeedbackChanType               ContextValueType = "pip.ContextFeedbackChan"
+	ContextFeedbackChanWithErrorType      ContextValueType = "pip.ContextFeedbackChanWithError"
+	ContextFeedbackChanWithCustomDataType ContextValueType = "pip.ContextFeedbackChanWithCustomData"
 )
+
+const DefaultCancellationSignal int8 = 1
 
 // NewCancelContext wrap context with ContextFeedbackChan
 //	see context.WithValue
@@ -58,20 +60,20 @@ func NewCancelContextWithError(ctx context.Context, contextFeedbackChan ContextF
 	return context.WithValue(ctx, ContextFeedbackChanWithErrorType, contextFeedbackChan), true
 }
 
-// NewCancelContextWithData wrap context with ContextFeedbackChanWithData
+// NewCancelContextWithCustomDataChannel wrap context with ContextFeedbackChanWithCustomData
 //	T is a custom data type
 //	see context.WithValue
 //	Parameters:
 //		- context.Context - parent context
-//		- ContextFeedbackChanWithData - channel to put into context
+//		- ContextFeedbackChanWithCustomData - channel to put into context
 //	Returns:
 //		- context.Context is a context with value
 //		- bool true if channel is not nil or false
-func NewCancelContextWithData[T any](ctx context.Context, contextFeedbackChan ContextFeedbackChanWithData[T]) (context.Context, bool) {
+func NewCancelContextWithCustomDataChannel[T any](ctx context.Context, contextFeedbackChan ContextFeedbackChanWithCustomData[T]) (context.Context, bool) {
 	if contextFeedbackChan == nil {
 		return ctx, false
 	}
-	return context.WithValue(ctx, ContextFeedbackChanWithDataType, contextFeedbackChan), true
+	return context.WithValue(ctx, ContextFeedbackChanWithCustomDataType, contextFeedbackChan), true
 }
 
 // CancelContextFeedback sends interrupt signal up to the context owner
@@ -81,7 +83,7 @@ func CancelContextFeedback(ctx context.Context) bool {
 	if val := ctx.Value(ContextFeedbackChanType); val != nil {
 		if _chan, ok := val.(ContextFeedbackChan); ok {
 			select {
-			case _chan <- 1:
+			case _chan <- DefaultCancellationSignal:
 				return true
 			default:
 				return false
@@ -116,8 +118,8 @@ func CancelContextFeedbackWithError(ctx context.Context, err error) bool {
 //		- T custom data
 //	Returns: bool true if signal sends successful or false
 func CancelContextFeedbackWithData[T any](ctx context.Context, data T) bool {
-	if val := ctx.Value(ContextFeedbackChanWithDataType); val != nil {
-		if _chan, ok := val.(ContextFeedbackChanWithData[T]); ok {
+	if val := ctx.Value(ContextFeedbackChanWithCustomDataType); val != nil {
+		if _chan, ok := val.(ContextFeedbackChanWithCustomData[T]); ok {
 			select {
 			case _chan <- data:
 				return true
