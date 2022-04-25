@@ -1,5 +1,7 @@
 package run
 
+import "context"
+
 // INotifiable interface for components that can be asynchronously notified.
 // The notification may include optional argument that describe the occurred event.
 //	see Notifier
@@ -15,7 +17,8 @@ package run
 type INotifiable interface {
 	// Notify notifies the component about occured event.
 	//	Parameters:
+	//		- ctx context.Context
 	//		- correlationId string transaction id to trace execution through call chain.
 	//		- args *Parameters notification arguments.
-	Notify(correlationId string, args *Parameters)
+	Notify(ctx context.Context, correlationId string, args *Parameters)
 }

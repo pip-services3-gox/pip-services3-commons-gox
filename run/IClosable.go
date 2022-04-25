@@ -1,5 +1,7 @@
 package run
 
+import "context"
+
 // IClosable interface for components that require explicit closure.
 // For components that require opening as well as closing use IOpenable interface instead.
 //	see IOpenable
@@ -17,5 +19,5 @@ package run
 //			}
 //		}
 type IClosable interface {
-	Close(correlationId string) error
+	Close(ctx context.Context, correlationId string) error
 }

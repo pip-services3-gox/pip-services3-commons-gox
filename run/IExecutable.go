@@ -1,5 +1,7 @@
 package run
 
+import "context"
+
 // IExecutable interface for components that can be called to execute work.
 //	Example:
 //		type EchoComponent {}
@@ -14,8 +16,9 @@ package run
 type IExecutable interface {
 	// Execute component with arguments and receives execution result.
 	//	Parameters:
+	//		- ctx context.Context
 	//		- correlationId string transaction id to trace execution through call chain.
 	//		- args *Parameters execution arguments.
 	//	Returns: any, error result or execution and error
-	Execute(correlationId string, args *Parameters) (result any, err error)
+	Execute(ctx context.Context, correlationId string, args *Parameters) (result any, err error)
 }

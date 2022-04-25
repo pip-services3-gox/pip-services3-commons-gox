@@ -1,6 +1,7 @@
 package run
 
 import (
+	"context"
 	"sync"
 	"time"
 )
@@ -14,30 +15,35 @@ import (
 //			timer FixedRateTimer
 //		}
 //		...
-//		func (mc* MyComponent) open(correlationId string) {
+//		func (mc* MyComponent) Open(ctx, context.Context, correlationId string) {
 //			...
-//			mc.timer = NewFixedRateTimerFromCallback(() => { this.cleanup }, 60000, 0);
-//			mc.timer.start();
+//			mc.timer = NewFixedRateTimerFromCallback(func(ctx context.Context){ this.cleanup }, 60000, 0, 5);
+//			mc.timer.Start(ctx);
 //			...
 //		}
-//		func (mc* MyComponent) open(correlationId: string){
+//		func (mc* MyComponent) Close(ctx, context.Context, correlationId: string){
 //			...
-//			mc.timer.stop();
+//			mc.timer.Stop(ctx);
 //			...
 //		}
 type FixedRateTimer struct {
-	task     INotifiable
-	callback func()
-	delay    int
-	interval int
-	ticker   *time.Ticker
-	mtx      sync.Mutex
+	task        INotifiable
+	callback    func(ctx context.Context)
+	delay       int
+	interval    int
+	ticker      *time.Ticker
+	mtx         sync.Mutex
+	workerCount int
+	exit        chan bool
 }
 
 // NewFixedRateTimer creates new instance of the timer and sets its values.
 //	Returns: *FixedRateTimer
 func NewFixedRateTimer() *FixedRateTimer {
-	return &FixedRateTimer{}
+	return &FixedRateTimer{
+		workerCount: 5,
+		exit:        make(chan bool),
+	}
 }
 
 // NewFixedRateTimerFromCallback creates new instance of the timer and sets its values.
@@ -45,12 +51,17 @@ func NewFixedRateTimer() *FixedRateTimer {
 //		- callback func() callback function to call when timer is triggered.
 //		- interval int an interval to trigger timer in milliseconds.
 //		- delay int a delay before the first triggering in milliseconds.
+//		- workerCount int a count of parallel running workers.
 //	Returns: *FixedRateTimer
-func NewFixedRateTimerFromCallback(callback func(), interval int, delay int) *FixedRateTimer {
+func NewFixedRateTimerFromCallback(callback func(ctx context.Context),
+	interval int, delay int, workerCount int) *FixedRateTimer {
+
 	return &FixedRateTimer{
-		callback: callback,
-		interval: interval,
-		delay:    delay,
+		workerCount: workerCount,
+		exit:        make(chan bool),
+		callback:    callback,
+		interval:    interval,
+		delay:       delay,
 	}
 }
 
@@ -59,11 +70,16 @@ func NewFixedRateTimerFromCallback(callback func(), interval int, delay int) *Fi
 //		- callback INotifiable Notifiable object to call when timer is triggered.
 //		- interval int an interval to trigger timer in milliseconds.
 //		- delay int a delay before the first triggering in milliseconds.
+//		- workerCount int a count of parallel running workers.
 //	Returns: *FixedRateTimer
-func NewFixedRateTimerFromTask(task INotifiable, interval int, delay int) *FixedRateTimer {
+func NewFixedRateTimerFromTask(task INotifiable,
+	interval int, delay int, workerCount int) *FixedRateTimer {
+
 	c := &FixedRateTimer{
-		interval: interval,
-		delay:    delay,
+		workerCount: 5,
+		exit:        make(chan bool),
+		interval:    interval,
+		delay:       delay,
 	}
 	c.SetTask(task)
 	return c
@@ -78,21 +94,42 @@ func (c *FixedRateTimer) Task() INotifiable {
 // SetTask sets a new INotifiable object to receive notifications from this timer.
 //	Parameters: value INotifiable a INotifiable object to be triggered.
 func (c *FixedRateTimer) SetTask(value INotifiable) {
-	c.task = value
-	c.callback = func() {
-		c.task.Notify("timer", NewEmptyParameters())
+	if c.IsStarted() {
+		return
 	}
+	c.task = value
+	c.callback = func(ctx context.Context) {
+		c.task.Notify(ctx, "timer", NewEmptyParameters())
+	}
+}
+
+// WorkerCount gets the worker count.
+//	Returns: int worker count.
+func (c *FixedRateTimer) WorkerCount() int {
+	return c.workerCount
+}
+
+// SetWorkerCount sets a new worker count.
+//	Parameters: workerCount int.
+func (c *FixedRateTimer) SetWorkerCount(workerCount int) {
+	if workerCount < 1 || c.IsStarted() {
+		return
+	}
+	c.workerCount = workerCount
 }
 
 // Callback gets the callback function that is called when this timer is triggered.
 //	Returns: function the callback function or null if it is not set.
-func (c *FixedRateTimer) Callback() func() {
+func (c *FixedRateTimer) Callback() func(ctx context.Context) {
 	return c.callback
 }
 
 // SetCallback sets the callback function that is called when this timer is triggered.
 //	Parameters: value func() the callback function to be called.
-func (c *FixedRateTimer) SetCallback(value func()) {
+func (c *FixedRateTimer) SetCallback(value func(ctx context.Context)) {
+	if c.IsStarted() {
+		return
+	}
 	c.callback = value
 	c.task = nil
 }
@@ -106,6 +143,9 @@ func (c *FixedRateTimer) Delay() int {
 // SetDelay sets initial delay before the timer is triggered for the first time.
 //	Parameters: value int a delay in milliseconds.
 func (c *FixedRateTimer) SetDelay(value int) {
+	if c.IsStarted() {
+		return
+	}
 	c.delay = value
 }
 
@@ -118,6 +158,9 @@ func (c *FixedRateTimer) Interval() int {
 // SetInterval sets periodic timer triggering interval.
 //	Parameters: value int an interval in milliseconds.
 func (c *FixedRateTimer) SetInterval(value int) {
+	if c.IsStarted() {
+		return
+	}
 	c.interval = value
 }
 
@@ -129,10 +172,12 @@ func (c *FixedRateTimer) IsStarted() bool {
 
 // Start starts the timer. Initially the timer is triggered after delay.
 // After that it is triggered after interval until it is stopped.
-func (c *FixedRateTimer) Start() {
+func (c *FixedRateTimer) Start(ctx context.Context) {
 	c.mtx.Lock()
+	defer c.mtx.Unlock()
+
 	// Stop previously set timer
-	c.stop()
+	c.stop(ctx)
 
 	// Exit if interval is not defined
 	if c.interval <= 0 {
@@ -144,35 +189,46 @@ func (c *FixedRateTimer) Start() {
 	ticker := time.NewTicker(time.Millisecond * time.Duration(c.interval))
 	c.ticker = ticker
 
-	c.mtx.Unlock()
+	callback := c.callback
+	exit := c.exit
 
-	go func() {
-		if delay > 0 {
-			time.Sleep(time.Millisecond * time.Duration(delay))
-		}
+	if delay > 0 {
+		time.Sleep(time.Millisecond * time.Duration(delay))
+	}
 
-		for range ticker.C {
-			callback := c.callback
-			if callback != nil {
-				callback()
+	for i := 0; i < c.workerCount; i++ {
+		go func() {
+			for {
+				select {
+				case <-ticker.C:
+					if callback != nil {
+						callback(ctx)
+					}
+					break
+				case _, ok := <-exit:
+					if !ok {
+						return
+					}
+				}
 			}
-		}
-	}()
+		}()
+	}
 }
 
 // Stop the timer.
-func (c *FixedRateTimer) Stop() {
+func (c *FixedRateTimer) Stop(ctx context.Context) {
 	c.mtx.Lock()
-	c.stop()
+	c.stop(ctx)
 	c.mtx.Unlock()
 }
 
 // stop is a private function to implement thread save
-func (c *FixedRateTimer) stop() {
+func (c *FixedRateTimer) stop(ctx context.Context) {
 	ticker := c.ticker
 	if ticker != nil {
 		ticker.Stop()
 		c.ticker = nil
+		close(c.exit)
 	}
 }
 
@@ -180,9 +236,9 @@ func (c *FixedRateTimer) stop() {
 // This is required by ICloseable interface, but besides that it is identical to stop().
 //	Parameters: correlationId: string transaction id to trace execution through call chain.
 //	Returns: error
-func (c *FixedRateTimer) Close(correlationId string) error {
+func (c *FixedRateTimer) Close(ctx context.Context, correlationId string) error {
 	c.mtx.Lock()
-	c.stop()
+	c.stop(ctx)
 	c.mtx.Unlock()
 	return nil
 }

@@ -1,5 +1,7 @@
 package run
 
+import "context"
+
 // IOpenable interface for components that require explicit opening and closing.
 // For components that perform opening on demand consider using ICloseable interface instead.
 //	see IOpenable
@@ -30,7 +32,9 @@ type IOpenable interface {
 	IsOpen() bool
 
 	// Open opens the component.
-	//	Parameters: correlationId: string transaction id to trace execution through call chain.
+	//	Parameters:
+	//		- ctx context.Context
+	//		- correlationId: string transaction id to trace execution through call chain.
 	//	Return: error
-	Open(correlationId string) error
+	Open(ctx context.Context, correlationId string) error
 }
