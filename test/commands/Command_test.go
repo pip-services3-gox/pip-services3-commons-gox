@@ -1,6 +1,7 @@
 package test_commands
 
 import (
+	"context"
 	"testing"
 
 	"github.com/pip-services3-gox/pip-services3-commons-gox/commands"
@@ -8,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func commandExec(correlationId string, args *run.Parameters) (any, error) {
+func commandExec(ctx context.Context, correlationId string, args *run.Parameters) (any, error) {
 	if correlationId == "wrongId" {
 		panic("Test error")
 	}
@@ -27,9 +28,9 @@ func TestGetCommandName(t *testing.T) {
 func TestExecuteCommand(t *testing.T) {
 	command := commands.NewCommand("name", nil, commandExec)
 
-	_, err := command.Execute("", nil)
+	_, err := command.Execute(context.Background(), "", nil)
 	assert.Nil(t, err)
 
-	_, err = command.Execute("wrongId", nil)
+	_, err = command.Execute(context.Background(), "wrongId", nil)
 	assert.NotNil(t, err)
 }

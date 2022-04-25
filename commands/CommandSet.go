@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"context"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/data"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/errors"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/run"
@@ -175,13 +176,14 @@ func (c *CommandSet) AddInterceptor(interceptor ICommandInterceptor) {
 //	see ICommand
 //	see Parameters
 //	Parameters:
+//		- ctx context.Context
 //		- correlationId: string (optional) transaction id to trace execution through call chain.
 //		- commandName: string the name of that command that is to be executed.
 //		- args: Parameters the parameters (arguments) to pass to the command for execution.
 //	Returns:
 //		- result: any
 //		- err: error
-func (c *CommandSet) Execute(correlationId string, commandName string, args *run.Parameters) (result any, err error) {
+func (c *CommandSet) Execute(ctx context.Context, correlationId string, commandName string, args *run.Parameters) (result any, err error) {
 	cref := c.FindCommand(commandName)
 
 	if cref == nil {
@@ -204,7 +206,7 @@ func (c *CommandSet) Execute(correlationId string, commandName string, args *run
 		return nil, err
 	}
 
-	return cref.Execute(correlationId, args)
+	return cref.Execute(ctx, correlationId, args)
 }
 
 // Validate args for command specified by its name using defined schema. If validation schema is
@@ -240,11 +242,12 @@ func (c *CommandSet) Validate(commandName string, args *run.Parameters) []*valid
 
 // Notify fires event specified by its name and notifies all registered listeners
 //	Parameters:
+//		- ctx context.Context.
 //		- correlationId: string (optional) transaction id to trace execution through call chain.
 //		- eventName: string the name of the event that is to be fired.
 //		- args: Parameters the event arguments (parameters).
-func (c *CommandSet) Notify(correlationId string, eventName string, args *run.Parameters) {
+func (c *CommandSet) Notify(ctx context.Context, correlationId string, eventName string, args *run.Parameters) {
 	if event := c.FindEvent(eventName); event != nil {
-		event.Notify(correlationId, args)
+		event.Notify(ctx, correlationId, args)
 	}
 }

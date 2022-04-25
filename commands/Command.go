@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"context"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/convert"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/errors"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/run"
@@ -25,7 +26,7 @@ import (
 //		// Console output: 2 + 2 = 4
 type Command struct {
 	schema   validate.ISchema
-	function func(correlationId string, args *run.Parameters) (any, error)
+	function func(ctx context.Context, correlationId string, args *run.Parameters) (any, error)
 	name     string
 }
 
@@ -37,7 +38,7 @@ type Command struct {
 //			the function to be executed by this command.
 //	Returns: *Command
 func NewCommand(name string, schema validate.ISchema,
-	function func(correlationId string, args *run.Parameters) (any, error)) *Command {
+	function func(ctx context.Context, correlationId string, args *run.Parameters) (any, error)) *Command {
 
 	if name == "" {
 		panic("Name cannot be empty")
@@ -63,10 +64,11 @@ func (c *Command) Name() string {
 // The command execution intercepts exceptions raised by
 // the called function and returns them as an error in callback.
 //	Parameters:
+//		- ctx context.Context.
 //		- correlationId: string - (optional) transaction id to trace execution through call chain.
 //		- args: run.Parameters - the parameters (arguments) to pass to this command for execution.
 //	Returns: (any, error)
-func (c *Command) Execute(correlationId string, args *run.Parameters) (any, error) {
+func (c *Command) Execute(ctx context.Context, correlationId string, args *run.Parameters) (any, error) {
 	if c.schema != nil {
 		if err := c.schema.ValidateAndReturnError(correlationId, args, false); err != nil {
 			return nil, err
@@ -95,7 +97,7 @@ func (c *Command) Execute(correlationId string, args *run.Parameters) (any, erro
 			}
 		}()
 
-		return c.function(correlationId, args)
+		return c.function(ctx, correlationId, args)
 	}()
 
 	if err2 != nil {

@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"context"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/run"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/validate"
 )
@@ -23,6 +24,7 @@ type ICommandInterceptor interface {
 	// Otherwise, it shall just delete the call to the wrapped command.
 	//	see Parameters
 	//	Parameters:
+	//		- ctx context.Context
 	//		- correlationId: string (optional) transaction id to trace execution through call chain.
 	//		- command: ICommand the next command in the call chain that is to be executed.
 	//		- args: Parameters the function that is to be called once execution is complete.
@@ -30,7 +32,7 @@ type ICommandInterceptor interface {
 	//	Returns:
 	//		- result: any
 	//		- err: error
-	Execute(correlationId string, command ICommand, args *run.Parameters) (any, error)
+	Execute(ctx context.Context, correlationId string, command ICommand, args *run.Parameters) (any, error)
 
 	// Validate arguments of the wrapped command before its execution.
 	// The interceptor can use this method to intercept and alter validation of the command arguments.

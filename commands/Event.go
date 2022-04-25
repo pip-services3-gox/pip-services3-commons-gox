@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"context"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/run"
 )
 
@@ -64,10 +65,11 @@ func (c *Event) RemoveListener(listener IEventListener) {
 
 // Notify fires this event and notifies all registred listeners.
 //	Parameters:
+//		- ctx context.Context.
 //		- correlationId: string (optional) transaction id to trace execution through call chain.
 //		- args: Parameters the parameters to raise this event with.
-func (c *Event) Notify(correlationId string, args *run.Parameters) {
+func (c *Event) Notify(ctx context.Context, correlationId string, args *run.Parameters) {
 	for _, listener := range c.listeners {
-		listener.OnEvent(correlationId, c, args)
+		listener.OnEvent(ctx, correlationId, c, args)
 	}
 }

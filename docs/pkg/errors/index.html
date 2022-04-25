@@ -14,7 +14,7 @@
 
 
 
-<script>var goVersion = "go1.13.15";</script>
+<script>var goVersion = "go1.18.1";</script>
 <script src="../../lib/godoc/godocs.js" defer></script>
 </head>
 <body>
@@ -93,22 +93,7 @@
 			</div>
 			<div class="expanded">
 				<h2 class="toggleButton" title="Click to hide Overview section">Overview ▾</h2>
-				<p>
-Portable and localizable Exceptions classes. Each Exception, in addition to a description and stack trace has a unique string code, details array (which can be used for creating localized strings).
-</p>
-<p>
-Way to use:
-</p>
-<p>
-An existing exception class can be used.
-A child class that extends ApplicationException can we written.
-A exception can be wrapped around (into?) an existing application exception.
-Exceptions are serializable. The exception classes themselves are not serializable, but they can be converted to ErrorDescriptions, which are serializable in one language, transferred to the receiving side, and deserialized in another language. After deserialization, the initial exception class can be restored.
-</p>
-<p>
-Additionally: when transferring an exception from one language to another, the exception type that is closest to the initial exception type is chosen from the exceptions available in the target language.
-</p>
-
+				
 				
 			</div>
 		</div>
@@ -196,7 +181,7 @@ Additionally: when transferring an exception from one language to another, the e
 					<dd>&nbsp; &nbsp; <a href="index.html#ApplicationError.WithCorrelationId">func (e *ApplicationError) WithCorrelationId(correlationId string) *ApplicationError</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#ApplicationError.WithDetails">func (e *ApplicationError) WithDetails(key string, value interface{}) *ApplicationError</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#ApplicationError.WithDetails">func (e *ApplicationError) WithDetails(key string, value any) *ApplicationError</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#ApplicationError.WithStatus">func (e *ApplicationError) WithStatus(status int) *ApplicationError</a></dd>
@@ -209,24 +194,8 @@ Additionally: when transferring an exception from one language to another, the e
 				<dd><a href="index.html#ErrorDescription">type ErrorDescription</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewErrorDescription">func NewErrorDescription(err interface{}) *ErrorDescription</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#NewErrorDescription">func NewErrorDescription(err any) *ErrorDescription</a></dd>
 				
-				
-			
-				
-				<dd><a href="index.html#TApplicationErrorFactory">type TApplicationErrorFactory</a></dd>
-				
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#TApplicationErrorFactory.Create">func (c *TApplicationErrorFactory) Create(description *ErrorDescription) *ApplicationError</a></dd>
-				
-			
-				
-				<dd><a href="index.html#TErrorDescriptionFactory">type TErrorDescriptionFactory</a></dd>
-				
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#TErrorDescriptionFactory.Create">func (c *TErrorDescriptionFactory) Create(err interface{}) *ErrorDescription</a></dd>
 				
 			
 			
@@ -290,44 +259,33 @@ Additionally: when transferring an exception from one language to another, the e
 				<p>
 Defines standard error categories to application exceptions supported by PipServices toolkit.
 </p>
-<p>
-BadRequest - Errors due to incorrectly specified invocation parameters.
+<pre>BadRequest - Errors due to incorrectly specified invocation parameters.
 For example: missing or incorrect parameters.
-</p>
-<p>
-Conflict - Errors raised by conflicts between object versions that were posted by the user and those that are stored on the server.
-</p>
-<p>
+
+Conflict - Errors raised by conflicts between object versions that were posted by the user and those
+that are stored on the server.
+
 FailedInvocation - Errors caused by remote calls failed due to unidenfied reasons.
-</p>
-<p>
+
 FileError - Errors in read/write local disk operations.
-</p>
-<p>
+
 Internal - Internal errors caused by programming mistakes.
-</p>
-<p>
+
 InvalidState - Errors caused by incorrect object state..
 For example: business calls when the component is not ready.
-</p>
-<p>
+
 Misconfiguration - Errors related to mistakes in user-defined configurations.
-</p>
-<p>
+
 NoResponse - Errors caused by remote calls timeouted and not returning results. It allows to clearly separate communication related problems from other application errors.
-</p>
-<p>
+
 NotFound - Errors caused by attempts to access missing objects.
-</p>
-<p>
+
 Unauthorized - Access errors caused by missing user identity (authentication error) or incorrect security permissions (authorization error).
-</p>
-<p>
+
 Unknown - Unknown or unexpected errors.
-</p>
-<p>
+
 Unsupported - Errors caused by calls to unsupported or not yet implemented functionality.
-</p>
+</pre>
 
 				<pre>const (
     <span id="Unknown">Unknown</span>          = &#34;Unknown&#34;
@@ -348,36 +306,64 @@ Unsupported - Errors caused by calls to unsupported or not yet implemented funct
 		
 			<h2 id="pkg-variables">Variables</h2>
 			
-				
-				<pre>var <span id="ErrorDescriptionFactory">ErrorDescriptionFactory</span> = &amp;<a href="index.html#TErrorDescriptionFactory">TErrorDescriptionFactory</a>{}</pre>
+				<p>
+ApplicationErrorFactory is a factory to recreate exceptions from ErrorDescription values passed through the wire.
+</p>
+<pre>see ErrorDescription
+see ApplicationError
+</pre>
+
+				<pre>var <span id="ApplicationErrorFactory">ApplicationErrorFactory</span> *_TApplicationErrorFactory = &amp;_TApplicationErrorFactory{}</pre>
+			
+				<p>
+ErrorDescriptionFactory is a factory to create serializeable ErrorDescription
+from ApplicationException or from arbitrary errors.
+The ErrorDescriptions are used to pass errors through the wire
+between microservices implemented in different languages.
+They allow to restore exceptions on the receiving side close to
+the original type and preserve additional information.
+</p>
+<pre>see ErrorDescription
+see ApplicationError
+</pre>
+
+				<pre>var <span id="ErrorDescriptionFactory">ErrorDescriptionFactory</span> = &amp;_TErrorDescriptionFactory{}</pre>
 			
 		
 		
 		
 			
 			
-			<h2 id="ApplicationError">type <a href="http://localhost:6060/src/errors/ApplicationError.go?s=1801:2279#L20">ApplicationError</a>
+			<h2 id="ApplicationError">type <a href="http://localhost:6060/src/errors/ApplicationError.go?s=1906:2320#L26">ApplicationError</a>
 				<a class="permalink" href="index.html#ApplicationError">&#xb6;</a>
 				
 				
 			</h2>
 			<p>
-Defines a base class to defive various application exceptions.
+ApplicationError Defines a base class to defive various application exceptions.
 </p>
 <p>
-Most languages have own definition of base exception (error) types. However, this class is implemented symmetrically in all languages supported by PipServices toolkit. It allows to create portable implementations and support proper error propagation in microservices calls.
+Most languages have own definition of base exception (error) types.
+However, this class is implemented symmetrically in all languages supported by
+PipServices toolkit. It allows to create portable implementations and support
+proper error propagation in microservices calls.
 </p>
 <p>
-Error propagation means that when microservice implemented in one language calls microservice(s) implemented in a different language(s), errors are returned throught the entire call chain and restored in their original (or close) type.
+Error propagation means that when microservice implemented in one
+language calls microservice(s) implemented in a different language(s),
+errors are returned throught the entire call chain and restored in their original (or close) type.
 </p>
 <p>
-Since number of potential exception types is endless, PipServices toolkit supports only 12 standard categories of exceptions defined in ErrorCategory. This ApplicationException class acts as a basis for all other 12 standard exception types.
+Since number of potential exception types is endless,
+PipServices toolkit supports only 12 standard categories of exceptions defined in ErrorCategory.
+This ApplicationException class acts as a basis for all other 12 standard exception types.
 </p>
 <p>
-Most exceptions have just free-form message that describes occured error. That may not be sufficient to create meaninful error descriptions. The ApplicationException class proposes an extended error definition that has more standard fields:
+Most exceptions have just free-form message that describes occured error.
+That may not be sufficient to create meaninful error descriptions.
+The ApplicationException class proposes an extended error definition that has more standard fields:
 </p>
-<p>
-message: is a human-readable error description
+<pre>message: is a human-readable error description
 category: one of 12 standard error categories of errors
 status: numeric HTTP status code for REST invocations
 code: a unique error code, usually defined as &#34;MY_ERROR_CODE&#34;
@@ -385,26 +371,23 @@ correlation_id: a unique transaction id to trace execution through a call chain
 details: map with error parameters that can help to recreate meaningful error description in other languages
 stack_trace: a stack trace
 cause: original error that is wrapped by this exception
-ApplicationException class is not serializable. To pass errors through the wire it is converted into ErrorDescription object and restored on receiving end into identical exception type.
-</p>
-<p>
-see
-ErrorCategory
-</p>
-<p>
-see
-ErrorDescription
-</p>
+ApplicationException class is not serializable.
+	To pass errors through the wire it is converted into
+	ErrorDescription object and restored on receiving end into identical exception type.
+
+see ErrorCategory
+see ErrorDescription
+</pre>
 
 			<pre>type ApplicationError struct {
-<span id="ApplicationError.Message"></span>    Message       <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;message&#34;`
-<span id="ApplicationError.Category"></span>    Category      <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;category&#34;`
-<span id="ApplicationError.Status"></span>    Status        <a href="http://localhost:6060/pkg/builtin/#int">int</a>                    `json:&#34;status&#34;`
-<span id="ApplicationError.Code"></span>    Code          <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;code&#34;`
-<span id="ApplicationError.Details"></span>    Details       map[<a href="http://localhost:6060/pkg/builtin/#string">string</a>]interface{} `json:&#34;details&#34;`
-<span id="ApplicationError.CorrelationId"></span>    CorrelationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;correlation_id&#34;`
-<span id="ApplicationError.StackTrace"></span>    StackTrace    <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;stack_trace&#34;`
-<span id="ApplicationError.Cause"></span>    Cause         <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;cause&#34;`
+<span id="ApplicationError.Message"></span>    Message       <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;message&#34;`
+<span id="ApplicationError.Category"></span>    Category      <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;category&#34;`
+<span id="ApplicationError.Status"></span>    Status        <a href="http://localhost:6060/pkg/builtin/#int">int</a>            `json:&#34;status&#34;`
+<span id="ApplicationError.Code"></span>    Code          <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;code&#34;`
+<span id="ApplicationError.Details"></span>    Details       map[<a href="http://localhost:6060/pkg/builtin/#string">string</a>]<a href="http://localhost:6060/pkg/builtin/#any">any</a> `json:&#34;details&#34;`
+<span id="ApplicationError.CorrelationId"></span>    CorrelationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;correlation_id&#34;`
+<span id="ApplicationError.StackTrace"></span>    StackTrace    <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;stack_trace&#34;`
+<span id="ApplicationError.Cause"></span>    Cause         <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;cause&#34;`
 }
 </pre>
 
@@ -418,381 +401,307 @@ ErrorDescription
 
 			
 				
-				<h3 id="NewBadRequestError">func <a href="http://localhost:6060/src/errors/BadRequestError.go?s=435:513#L10">NewBadRequestError</a>
+				<h3 id="NewBadRequestError">func <a href="http://localhost:6060/src/errors/BadRequestError.go?s=440:518#L4">NewBadRequestError</a>
 					<a class="permalink" href="index.html#NewBadRequestError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewBadRequestError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewBadRequestError Creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewConfigError">func <a href="http://localhost:6060/src/errors/ConfigError.go?s=428:502#L8">NewConfigError</a>
+				<h3 id="NewConfigError">func <a href="http://localhost:6060/src/errors/ConfigError.go?s=426:500#L2">NewConfigError</a>
 					<a class="permalink" href="index.html#NewConfigError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewConfigError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewConfigError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewConflictError">func <a href="http://localhost:6060/src/errors/ConflictError.go?s=471:547#L8">NewConflictError</a>
+				<h3 id="NewConflictError">func <a href="http://localhost:6060/src/errors/ConflictError.go?s=474:550#L3">NewConflictError</a>
 					<a class="permalink" href="index.html#NewConflictError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewConflictError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewConflictError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewConnectionError">func <a href="http://localhost:6060/src/errors/ConnectionError.go?s=494:572#L8">NewConnectionError</a>
+				<h3 id="NewConnectionError">func <a href="http://localhost:6060/src/errors/ConnectionError.go?s=499:577#L3">NewConnectionError</a>
 					<a class="permalink" href="index.html#NewConnectionError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewConnectionError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewConnectionError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewError">func <a href="http://localhost:6060/src/errors/ApplicationError.go?s=4715:4762#L137">NewError</a>
+				<h3 id="NewError">func <a href="http://localhost:6060/src/errors/ApplicationError.go?s=4777:4824#L123">NewError</a>
 					<a class="permalink" href="index.html#NewError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewError(message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates a new instance of application error and assigns its message.
-Parameters:
+NewError creates a new instance of application error and assigns its message.
 </p>
-<pre>- message string
-an error message
+<pre>Parameters: message string an error message
+Returns: *ApplicationError generated new ApplicationError
 </pre>
-<p>
-Return *ApplicationError
-generated new ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewErrorFromDescription">func <a href="http://localhost:6060/src/errors/ApplicationErrorFactory.go?s=1013:1090#L22">NewErrorFromDescription</a>
+				<h3 id="NewErrorFromDescription">func <a href="http://localhost:6060/src/errors/ApplicationErrorFactory.go?s=1060:1137#L12">NewErrorFromDescription</a>
 					<a class="permalink" href="index.html#NewErrorFromDescription">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewErrorFromDescription(description *<a href="index.html#ErrorDescription">ErrorDescription</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Returns *ApplicationError
+NewErrorFromDescription Recreates ApplicationError object from description.
+It tries to restore original exception type using type or error category fields.
 </p>
+<pre>Parameters: description: ErrorDescription a serialized error description received as a result of remote call
+Returns: *ApplicationError
+</pre>
 
 				
 				
 			
 				
-				<h3 id="NewFileError">func <a href="http://localhost:6060/src/errors/FileError.go?s=394:466#L8">NewFileError</a>
+				<h3 id="NewFileError">func <a href="http://localhost:6060/src/errors/FileError.go?s=390:462#L2">NewFileError</a>
 					<a class="permalink" href="index.html#NewFileError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewFileError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewFileError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewInternalError">func <a href="http://localhost:6060/src/errors/InternalError.go?s=389:465#L8">NewInternalError</a>
+				<h3 id="NewInternalError">func <a href="http://localhost:6060/src/errors/InternalError.go?s=389:465#L2">NewInternalError</a>
 					<a class="permalink" href="index.html#NewInternalError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewInternalError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewInternalError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewInvalidStateError">func <a href="http://localhost:6060/src/errors/InvalidStateError.go?s=505:585#L9">NewInvalidStateError</a>
+				<h3 id="NewInvalidStateError">func <a href="http://localhost:6060/src/errors/InvalidStateError.go?s=512:592#L3">NewInvalidStateError</a>
 					<a class="permalink" href="index.html#NewInvalidStateError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewInvalidStateError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewInvalidStateError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewInvocationError">func <a href="http://localhost:6060/src/errors/InvocationError.go?s=425:503#L8">NewInvocationError</a>
+				<h3 id="NewInvocationError">func <a href="http://localhost:6060/src/errors/InvocationError.go?s=427:505#L2">NewInvocationError</a>
 					<a class="permalink" href="index.html#NewInvocationError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewInvocationError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewInvocationError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewNotFoundError">func <a href="http://localhost:6060/src/errors/NotFoundError.go?s=403:479#L8">NewNotFoundError</a>
+				<h3 id="NewNotFoundError">func <a href="http://localhost:6060/src/errors/NotFoundError.go?s=403:479#L2">NewNotFoundError</a>
 					<a class="permalink" href="index.html#NewNotFoundError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewNotFoundError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewNotFoundError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewUnauthorizedError">func <a href="http://localhost:6060/src/errors/UnauthorizedError.go?s=476:556#L8">NewUnauthorizedError</a>
+				<h3 id="NewUnauthorizedError">func <a href="http://localhost:6060/src/errors/UnauthorizedError.go?s=483:563#L3">NewUnauthorizedError</a>
 					<a class="permalink" href="index.html#NewUnauthorizedError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewUnauthorizedError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewUnauthorizedError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewUnknownError">func <a href="http://localhost:6060/src/errors/UnknownError.go?s=380:455#L8">NewUnknownError</a>
+				<h3 id="NewUnknownError">func <a href="http://localhost:6060/src/errors/UnknownError.go?s=379:454#L2">NewUnknownError</a>
 					<a class="permalink" href="index.html#NewUnknownError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewUnknownError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewUnknownError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="NewUnsupportedError">func <a href="http://localhost:6060/src/errors/UnsupportedError.go?s=426:505#L8">NewUnsupportedError</a>
+				<h3 id="NewUnsupportedError">func <a href="http://localhost:6060/src/errors/UnsupportedError.go?s=429:508#L2">NewUnsupportedError</a>
 					<a class="permalink" href="index.html#NewUnsupportedError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func NewUnsupportedError(correlationId, code, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Creates an error instance and assigns its values.
-see
-ErrorCategory
+NewUnsupportedError creates an error instance and assigns its values.
+</p>
+<pre>see ErrorCategory
 Parameters:
-</p>
-<pre>- correlation_id string
-a unique transaction id to trace execution through call chain.
-- code string
-a unique error code.
-- message string
-a human-readable description of the error.
+	- correlation_id string a unique transaction id to trace execution through call chain.
+	- code string a unique error code.
+	- message string a human-readable description of the error.
+Returns: *ApplicationError
 </pre>
-<p>
-Returns *ApplicationError
-</p>
 
 				
 				
 			
 				
-				<h3 id="WrapError">func <a href="http://localhost:6060/src/errors/ApplicationError.go?s=4352:4411#L123">WrapError</a>
+				<h3 id="WrapError">func <a href="http://localhost:6060/src/errors/ApplicationError.go?s=4424:4483#L112">WrapError</a>
 					<a class="permalink" href="index.html#WrapError">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func WrapError(err <a href="http://localhost:6060/pkg/builtin/#error">error</a>, message <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Wrap error by ApplicationError struct and sets message
-Parameters:
-- err error
-an error what neet to wrap
-- message string
-error message
-Return *ApplicationError
+WrapError wrap error by ApplicationError struct and sets message
 </p>
+<pre>Parameters:
+	- err error an error what neet to wrap
+	- message string error message
+Returns: *ApplicationError
+</pre>
 
 				
 				
@@ -800,15 +709,14 @@ Return *ApplicationError
 
 			
 				
-				<h3 id="ApplicationError.Error">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=2315:2356#L33">Error</a>
+				<h3 id="ApplicationError.Error">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=2359:2400#L38">Error</a>
 					<a class="permalink" href="index.html#ApplicationError.Error">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func (e *<a href="index.html#ApplicationError">ApplicationError</a>) Error() <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
 				<p>
-Return string
-error message
+Error return string error message
 </p>
 
 				
@@ -816,123 +724,117 @@ error message
 				
 			
 				
-				<h3 id="ApplicationError.WithCause">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=3271:3338#L77">WithCause</a>
+				<h3 id="ApplicationError.WithCause">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=3321:3388#L74">WithCause</a>
 					<a class="permalink" href="index.html#ApplicationError.WithCause">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func (e *<a href="index.html#ApplicationError">ApplicationError</a>) WithCause(cause <a href="http://localhost:6060/pkg/builtin/#error">error</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Add cause to ApplicationError
-Parameters:
-- cause error
-a cause error object
-Return *ApplicationError
+WithCause add cause to ApplicationError
 </p>
+<pre>Parameters: cause error a cause error object
+Returns: *ApplicationError
+</pre>
 
 				
 				
 				
 			
 				
-				<h3 id="ApplicationError.WithCauseString">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=3507:3581#L87">WithCauseString</a>
+				<h3 id="ApplicationError.WithCauseString">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=3569:3643#L82">WithCauseString</a>
 					<a class="permalink" href="index.html#ApplicationError.WithCauseString">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func (e *<a href="index.html#ApplicationError">ApplicationError</a>) WithCauseString(cause <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Add cause to ApplicationError
-Parameters:
-- cause string
-a cause string describe an error
-Return *ApplicationError
+WithCauseString add cause to ApplicationError
 </p>
+<pre>Parameters: cause string a cause string describe an error
+Returns: *ApplicationError
+</pre>
 
 				
 				
 				
 			
 				
-				<h3 id="ApplicationError.WithCode">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=2486:2552#L42">WithCode</a>
+				<h3 id="ApplicationError.WithCode">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=2535:2601#L45">WithCode</a>
 					<a class="permalink" href="index.html#ApplicationError.WithCode">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func (e *<a href="index.html#ApplicationError">ApplicationError</a>) WithCode(code <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Add code to ApplicationError
-Parameters:
-- code string
-a error code
-Return *ApplicationError
+WithCode Add code to ApplicationError
 </p>
+<pre>Parameters: code string a error code
+Returns: *ApplicationError
+</pre>
 
 				
 				
 				
 			
 				
-				<h3 id="ApplicationError.WithCorrelationId">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=3747:3831#L97">WithCorrelationId</a>
+				<h3 id="ApplicationError.WithCorrelationId">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=3823:3907#L90">WithCorrelationId</a>
 					<a class="permalink" href="index.html#ApplicationError.WithCorrelationId">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func (e *<a href="index.html#ApplicationError">ApplicationError</a>) WithCorrelationId(correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Add Correlation Id to ApplicationError
-Parameters:
-- correlationId string
-a correlation string
-Return *ApplicationError
+WithCorrelationId add Correlation Id to ApplicationError
 </p>
+<pre>Parameters: correlationId string a correlation string
+Returns: *ApplicationError
+</pre>
 
 				
 				
 				
 			
 				
-				<h3 id="ApplicationError.WithDetails">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=2964:3051#L64">WithDetails</a>
+				<h3 id="ApplicationError.WithDetails">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=3024:3103#L63">WithDetails</a>
 					<a class="permalink" href="index.html#ApplicationError.WithDetails">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func (e *<a href="index.html#ApplicationError">ApplicationError</a>) WithDetails(key <a href="http://localhost:6060/pkg/builtin/#string">string</a>, value interface{}) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
+				<pre>func (e *<a href="index.html#ApplicationError">ApplicationError</a>) WithDetails(key <a href="http://localhost:6060/pkg/builtin/#string">string</a>, value <a href="http://localhost:6060/pkg/builtin/#any">any</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Add error details to ApplicationError
-Parameters:
-- key string
-a detail key word
-- value interface{}
-an value of detail object
-Return *ApplicationError
+WithDetails add error details to ApplicationError
 </p>
+<pre>Parameters:
+	- key string a detail key word
+	- value any an value of detail object
+Returns: *ApplicationError
+</pre>
 
 				
 				
 				
 			
 				
-				<h3 id="ApplicationError.WithStatus">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=2691:2758#L52">WithStatus</a>
+				<h3 id="ApplicationError.WithStatus">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=2747:2814#L53">WithStatus</a>
 					<a class="permalink" href="index.html#ApplicationError.WithStatus">&#xb6;</a>
 					
 					
 				</h3>
 				<pre>func (e *<a href="index.html#ApplicationError">ApplicationError</a>) WithStatus(status <a href="http://localhost:6060/pkg/builtin/#int">int</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
-Add status to ApplicationError
-Parameters:
-- status int
-a status code
-Return *ApplicationError
+WithStatus add status to ApplicationError
 </p>
+<pre>Parameters: status int a status code
+Returns: *ApplicationError
+</pre>
 
 				
 				
 				
 			
 				
-				<h3 id="ApplicationError.Wrap">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=4009:4069#L107">Wrap</a>
+				<h3 id="ApplicationError.Wrap">func (*ApplicationError) <a href="http://localhost:6060/src/errors/ApplicationError.go?s=4079:4139#L98">Wrap</a>
 					<a class="permalink" href="index.html#ApplicationError.Wrap">&#xb6;</a>
 					
 					
@@ -940,14 +842,10 @@ Return *ApplicationError
 				<pre>func (e *<a href="index.html#ApplicationError">ApplicationError</a>) Wrap(err <a href="http://localhost:6060/pkg/builtin/#error">error</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
 				<p>
 Wrap error by ApplicationError struct
-Parameters:
 </p>
-<pre>- err error
-an error what neet to wrap
+<pre>Parameters: err error an error what neet to wrap
+Returns: *ApplicationError
 </pre>
-<p>
-Return *ApplicationError
-</p>
 
 				
 				
@@ -956,18 +854,17 @@ Return *ApplicationError
 		
 			
 			
-			<h2 id="ErrorDescription">type <a href="http://localhost:6060/src/errors/ErrorDescription.go?s=815:1344#L8">ErrorDescription</a>
+			<h2 id="ErrorDescription">type <a href="http://localhost:6060/src/errors/ErrorDescription.go?s=852:1310#L6">ErrorDescription</a>
 				<a class="permalink" href="index.html#ErrorDescription">&#xb6;</a>
 				
 				
 			</h2>
 			<p>
-Seializeable error description. It is use to pass information about errors between microservices
+ErrorDescription seializeable error description. It is use to pass information about errors between microservices
 implemented in different languages. On the receiving side ErrorDescription is used to recreate exception
 object close to its original type without missing additional details.
 </p>
-<p>
-category - Standard error category
+<pre>category - Standard error category
 cause - Original error wrapped by this exception
 code - A unique error code
 correlation_id - A unique transaction id to trace execution throug call chain
@@ -976,18 +873,18 @@ message - A human-readable error description (usually written in English)
 stack_trace - Stack trace of the exception
 status - HTTP status code associated with this error type
 type - Data type of the original error
-</p>
+</pre>
 
 			<pre>type ErrorDescription struct {
-<span id="ErrorDescription.Type"></span>    Type          <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;type&#34;`
-<span id="ErrorDescription.Category"></span>    Category      <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;category&#34;`
-<span id="ErrorDescription.Status"></span>    Status        <a href="http://localhost:6060/pkg/builtin/#int">int</a>                    `json:&#34;status&#34;`
-<span id="ErrorDescription.Code"></span>    Code          <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;code&#34;`
-<span id="ErrorDescription.Message"></span>    Message       <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;message&#34;`
-<span id="ErrorDescription.Details"></span>    Details       map[<a href="http://localhost:6060/pkg/builtin/#string">string</a>]interface{} `json:&#34;details&#34;`
-<span id="ErrorDescription.CorrelationId"></span>    CorrelationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;correlaion_id&#34;`
-<span id="ErrorDescription.Cause"></span>    Cause         <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;cause&#34;`
-<span id="ErrorDescription.StackTrace"></span>    StackTrace    <a href="http://localhost:6060/pkg/builtin/#string">string</a>                 `json:&#34;stack_trace&#34;`
+<span id="ErrorDescription.Type"></span>    Type          <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;type&#34;`
+<span id="ErrorDescription.Category"></span>    Category      <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;category&#34;`
+<span id="ErrorDescription.Status"></span>    Status        <a href="http://localhost:6060/pkg/builtin/#int">int</a>            `json:&#34;status&#34;`
+<span id="ErrorDescription.Code"></span>    Code          <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;code&#34;`
+<span id="ErrorDescription.Message"></span>    Message       <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;message&#34;`
+<span id="ErrorDescription.Details"></span>    Details       map[<a href="http://localhost:6060/pkg/builtin/#string">string</a>]<a href="http://localhost:6060/pkg/builtin/#any">any</a> `json:&#34;details&#34;`
+<span id="ErrorDescription.CorrelationId"></span>    CorrelationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;correlation_id&#34;`
+<span id="ErrorDescription.Cause"></span>    Cause         <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;cause&#34;`
+<span id="ErrorDescription.StackTrace"></span>    StackTrace    <a href="http://localhost:6060/pkg/builtin/#string">string</a>         `json:&#34;stack_trace&#34;`
 }
 </pre>
 
@@ -1001,130 +898,23 @@ type - Data type of the original error
 
 			
 				
-				<h3 id="NewErrorDescription">func <a href="http://localhost:6060/src/errors/ErrorDescriptionFactory.go?s=1066:1125#L25">NewErrorDescription</a>
+				<h3 id="NewErrorDescription">func <a href="http://localhost:6060/src/errors/ErrorDescriptionFactory.go?s=1103:1154#L19">NewErrorDescription</a>
 					<a class="permalink" href="index.html#NewErrorDescription">&#xb6;</a>
 					
 					
 				</h3>
-				<pre>func NewErrorDescription(err interface{}) *<a href="index.html#ErrorDescription">ErrorDescription</a></pre>
+				<pre>func NewErrorDescription(err <a href="http://localhost:6060/pkg/builtin/#any">any</a>) *<a href="index.html#ErrorDescription">ErrorDescription</a></pre>
 				<p>
-Creates a serializable ErrorDescription from error object.
-Parameters:
+NewErrorDescription creates a serializable ErrorDescription from error object.
 </p>
-<pre>- err interface{}
-an error object
-</pre>
-<p>
-Returns *ErrorDescription
-a serializeable ErrorDescription object that describes the error.
-</p>
-
-				
-				
-			
-
-			
-		
-			
-			
-			<h2 id="TApplicationErrorFactory">type <a href="http://localhost:6060/src/errors/ApplicationErrorFactory.go?s=149:187#L1">TApplicationErrorFactory</a>
-				<a class="permalink" href="index.html#TApplicationErrorFactory">&#xb6;</a>
-				
-				
-			</h2>
-			<p>
-Factory to recreate exceptions from ErrorDescription values passed through the wire.
-see
-ErrorDescription
-see
-ApplicationError
-</p>
-
-			<pre>type TApplicationErrorFactory struct{}
+<pre>Parameters: err any an error object
+Returns: *ErrorDescription a serializeable ErrorDescription object that describes the error.
 </pre>
 
-			
-
-			
-				
-				<pre>var <span id="ApplicationErrorFactory">ApplicationErrorFactory</span> *<a href="index.html#TApplicationErrorFactory">TApplicationErrorFactory</a> = &amp;<a href="index.html#TApplicationErrorFactory">TApplicationErrorFactory</a>{}</pre>
-			
-
-			
-			
-			
-
-			
-
-			
-				
-				<h3 id="TApplicationErrorFactory.Create">func (*TApplicationErrorFactory) <a href="http://localhost:6060/src/errors/ApplicationErrorFactory.go?s=581:671#L11">Create</a>
-					<a class="permalink" href="index.html#TApplicationErrorFactory.Create">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func (c *<a href="index.html#TApplicationErrorFactory">TApplicationErrorFactory</a>) Create(description *<a href="index.html#ErrorDescription">ErrorDescription</a>) *<a href="index.html#ApplicationError">ApplicationError</a></pre>
-				<p>
-Returns *ApplicationError
-</p>
-
-				
 				
 				
 			
-		
-			
-			
-			<h2 id="TErrorDescriptionFactory">type <a href="http://localhost:6060/src/errors/ErrorDescriptionFactory.go?s=424:462#L5">TErrorDescriptionFactory</a>
-				<a class="permalink" href="index.html#TErrorDescriptionFactory">&#xb6;</a>
-				
-				
-			</h2>
-			<p>
-Factory to create serializeable ErrorDescription from ApplicationException or from arbitrary errors.
-The ErrorDescriptions are used to pass errors through the wire between microservices implemented in different languages. They allow to restore exceptions on the receiving side close to the original type and preserve additional information.
-see
-ErrorDescription
-see
-ApplicationError
-</p>
 
-			<pre>type TErrorDescriptionFactory struct{}
-</pre>
-
-			
-
-			
-
-			
-			
-			
-
-			
-
-			
-				
-				<h3 id="TErrorDescriptionFactory.Create">func (*TErrorDescriptionFactory) <a href="http://localhost:6060/src/errors/ErrorDescriptionFactory.go?s=734:810#L15">Create</a>
-					<a class="permalink" href="index.html#TErrorDescriptionFactory.Create">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func (c *<a href="index.html#TErrorDescriptionFactory">TErrorDescriptionFactory</a>) Create(err interface{}) *<a href="index.html#ErrorDescription">ErrorDescription</a></pre>
-				<p>
-Creates a serializable ErrorDescription from error object.
-Parameters:
-</p>
-<pre>- err error
-an error object
-</pre>
-<p>
-Returns *ErrorDescription
-a serializeable ErrorDescription object that describes the error.
-</p>
-
-				
-				
-				
 			
 		
 	
@@ -1138,13 +928,13 @@ a serializeable ErrorDescription object that describes the error.
 
 
 <div id="footer">
-Build version go1.13.15.<br>
+Build version go1.18.1.<br>
 Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
 the content of this page is licensed under the
 Creative Commons Attribution 3.0 License,
 and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
-<a href="http://localhost:6060/doc/tos.html">Terms of Service</a> |
-<a href="http://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
 </div>
 
 </div><!-- .container -->

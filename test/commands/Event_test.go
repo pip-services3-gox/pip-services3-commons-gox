@@ -1,6 +1,7 @@
 package test_commands
 
 import (
+	"context"
 	"testing"
 
 	"github.com/pip-services3-gox/pip-services3-commons-gox/commands"
@@ -10,7 +11,7 @@ import (
 
 type TestListener struct{}
 
-func (c *TestListener) OnEvent(correlationId string, e commands.IEvent, value *run.Parameters) {
+func (c *TestListener) OnEvent(ctx context.Context, correlationId string, e commands.IEvent, value *run.Parameters) {
 	if correlationId == "wrongId" {
 		panic("Test error")
 	}
@@ -30,7 +31,7 @@ func TestEventNotify(t *testing.T) {
 	event.AddListener(listener)
 	assert.Equal(t, 1, len(event.Listeners()))
 
-	event.Notify("", nil)
+	event.Notify(context.Background(), "", nil)
 
 	event.RemoveListener(listener)
 	assert.Equal(t, 0, len(event.Listeners()))

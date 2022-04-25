@@ -1,6 +1,7 @@
 package commands
 
 import (
+	"context"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/run"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/validate"
 )
@@ -63,8 +64,8 @@ func (c *InterceptedCommand) Name() string {
 //	Returns:
 //		- err: error
 //		- result: any
-func (c *InterceptedCommand) Execute(correlationId string, args *run.Parameters) (result any, err error) {
-	return c.interceptor.Execute(correlationId, c.next, args)
+func (c *InterceptedCommand) Execute(ctx context.Context, correlationId string, args *run.Parameters) (result any, err error) {
+	return c.interceptor.Execute(ctx, correlationId, c.next, args)
 }
 
 // Validate the parameters (arguments) that are to be passed to the command that is next in the execution chain.
