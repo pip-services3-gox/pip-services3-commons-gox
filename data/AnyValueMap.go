@@ -236,8 +236,10 @@ func (c *AnyValueMap) SetAsObject(key string, value any) {
 //	Parameters: key string a key of element to get.
 //	Returns: string value of the element or null if conversion is not supported.
 func (c *AnyValueMap) GetAsNullableString(key string) (string, bool) {
-	value, _ := c._base.Get(key)
-	return convert.StringConverter.ToNullableString(value)
+	if value, ok := c._base.Get(key); ok {
+		return convert.StringConverter.ToNullableString(value)
+	}
+	return "", false
 }
 
 // GetAsString converts map element into a string or returns "" if conversion is not possible.
@@ -255,8 +257,10 @@ func (c *AnyValueMap) GetAsString(key string) string {
 //		- defaultValue string the default value
 //	Returns: string value of the element or default value if conversion is not supported.
 func (c *AnyValueMap) GetAsStringWithDefault(key string, defaultValue string) string {
-	value, _ := c._base.Get(key)
-	return convert.StringConverter.ToStringWithDefault(value, defaultValue)
+	if value, ok := c._base.Get(key); ok {
+		return convert.StringConverter.ToStringWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableBoolean converts map element into a boolean or returns null if conversion is not possible.
@@ -264,8 +268,10 @@ func (c *AnyValueMap) GetAsStringWithDefault(key string, defaultValue string) st
 //	Parameters: key string a key of element to get.
 //	Returns: bool value of the element or null if conversion is not supported.
 func (c *AnyValueMap) GetAsNullableBoolean(key string) (bool, bool) {
-	value, _ := c._base.Get(key)
-	return convert.BooleanConverter.ToNullableBoolean(value)
+	if value, ok := c._base.Get(key); ok {
+		return convert.BooleanConverter.ToNullableBoolean(value)
+	}
+	return false, false
 }
 
 // GetAsBoolean converts map element into a boolean or returns false if conversion is not possible.
@@ -283,8 +289,10 @@ func (c *AnyValueMap) GetAsBoolean(key string) bool {
 //		- defaultValue bool the default value
 //	Returns: bool value of the element or default value if conversion is not supported.
 func (c *AnyValueMap) GetAsBooleanWithDefault(key string, defaultValue bool) bool {
-	value, _ := c._base.Get(key)
-	return convert.BooleanConverter.ToBooleanWithDefault(value, defaultValue)
+	if value, ok := c._base.Get(key); ok {
+		return convert.BooleanConverter.ToBooleanWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableInteger converts map element into an integer or returns null if conversion is not possible.
@@ -292,8 +300,10 @@ func (c *AnyValueMap) GetAsBooleanWithDefault(key string, defaultValue bool) boo
 //	Parameters: key string a key of element to get.
 //	Returns: value of the element or null if conversion is not supported.
 func (c *AnyValueMap) GetAsNullableInteger(key string) (int, bool) {
-	value, _ := c._base.Get(key)
-	return convert.IntegerConverter.ToNullableInteger(value)
+	if value, ok := c._base.Get(key); ok {
+		return convert.IntegerConverter.ToNullableInteger(value)
+	}
+	return 0, false
 }
 
 // GetAsInteger converts map element into an integer or returns 0 if conversion is not possible.
@@ -311,8 +321,10 @@ func (c *AnyValueMap) GetAsInteger(key string) int {
 //		-defaultValue int the default value
 //	Returns: integer value of the element or default value if conversion is not supported.
 func (c *AnyValueMap) GetAsIntegerWithDefault(key string, defaultValue int) int {
-	value, _ := c._base.Get(key)
-	return convert.IntegerConverter.ToIntegerWithDefault(value, defaultValue)
+	if value, ok := c._base.Get(key); ok {
+		return convert.IntegerConverter.ToIntegerWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableLong converts map element into a long or returns null if conversion is not possible.
@@ -320,8 +332,10 @@ func (c *AnyValueMap) GetAsIntegerWithDefault(key string, defaultValue int) int 
 //	Parameters: key string a key of element to get.
 //	Returns: int64 value of the element or null if conversion is not supported.
 func (c *AnyValueMap) GetAsNullableLong(key string) (int64, bool) {
-	value, _ := c._base.Get(key)
-	return convert.LongConverter.ToNullableLong(value)
+	if value, ok := c._base.Get(key); ok {
+		return convert.LongConverter.ToNullableLong(value)
+	}
+	return 0, false
 }
 
 // GetAsLong converts map element into a long or returns 0 if conversion is not possible.
@@ -339,8 +353,10 @@ func (c *AnyValueMap) GetAsLong(key string) int64 {
 //		- defaultValue int64 the default value
 //	Returns: int64 value of the element or default value if conversion is not supported.
 func (c *AnyValueMap) GetAsLongWithDefault(key string, defaultValue int64) int64 {
-	value, _ := c._base.Get(key)
-	return convert.LongConverter.ToLongWithDefault(value, defaultValue)
+	if value, ok := c._base.Get(key); ok {
+		return convert.LongConverter.ToLongWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableFloat converts map element into a float or returns null if conversion is not possible.
@@ -348,8 +364,10 @@ func (c *AnyValueMap) GetAsLongWithDefault(key string, defaultValue int64) int64
 // 	Parameters: key string a key of element to get.
 // 	Returns: float32 value of the element or null if conversion is not supported.
 func (c *AnyValueMap) GetAsNullableFloat(key string) (float32, bool) {
-	value, _ := c._base.Get(key)
-	return convert.FloatConverter.ToNullableFloat(value)
+	if value, ok := c._base.Get(key); ok {
+		return convert.FloatConverter.ToNullableFloat(value)
+	}
+	return 0, false
 }
 
 // GetAsFloat converts map element into a float or returns 0 if conversion is not possible.
@@ -367,8 +385,10 @@ func (c *AnyValueMap) GetAsFloat(key string) float32 {
 //		- defaultValue float32 the default value
 // 	Returns: float32 value of the element or default value if conversion is not supported.
 func (c *AnyValueMap) GetAsFloatWithDefault(key string, defaultValue float32) float32 {
-	value, _ := c._base.Get(key)
-	return convert.FloatConverter.ToFloatWithDefault(value, defaultValue)
+	if value, ok := c._base.Get(key); ok {
+		return convert.FloatConverter.ToFloatWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableDouble converts map element into a double or returns null if conversion is not possible.
@@ -376,8 +396,10 @@ func (c *AnyValueMap) GetAsFloatWithDefault(key string, defaultValue float32) fl
 //	Parameters: key string a key of element to get.
 // 	Returns: float64 value of the element or null if conversion is not supported.
 func (c *AnyValueMap) GetAsNullableDouble(key string) (float64, bool) {
-	value, _ := c._base.Get(key)
-	return convert.DoubleConverter.ToNullableDouble(value)
+	if value, ok := c._base.Get(key); ok {
+		return convert.DoubleConverter.ToNullableDouble(value)
+	}
+	return 0, false
 }
 
 // GetAsDouble converts map element into a double or returns 0 if conversion is not possible.
@@ -395,8 +417,10 @@ func (c *AnyValueMap) GetAsDouble(key string) float64 {
 //		- defaultValue float64 the default value
 //	Returns: float64 value of the element or default value if conversion is not supported.
 func (c *AnyValueMap) GetAsDoubleWithDefault(key string, defaultValue float64) float64 {
-	value, _ := c._base.Get(key)
-	return convert.DoubleConverter.ToDoubleWithDefault(value, defaultValue)
+	if value, ok := c._base.Get(key); ok {
+		return convert.DoubleConverter.ToDoubleWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableDateTime converts map element into a time.Time or returns null if conversion is not possible.
@@ -404,8 +428,10 @@ func (c *AnyValueMap) GetAsDoubleWithDefault(key string, defaultValue float64) f
 //	Parameters: key string a key of element to get.
 // 	Returns: time.Time value of the element or null if conversion is not supported.
 func (c *AnyValueMap) GetAsNullableDateTime(key string) (time.Time, bool) {
-	value, _ := c._base.Get(key)
-	return convert.DateTimeConverter.ToNullableDateTime(value)
+	if value, ok := c._base.Get(key); ok {
+		return convert.DateTimeConverter.ToNullableDateTime(value)
+	}
+	return time.Time{}, false
 }
 
 // GetAsDateTime converts map element into a time.Time or returns the current date if conversion is not possible.
@@ -423,8 +449,10 @@ func (c *AnyValueMap) GetAsDateTime(key string) time.Time {
 //		- defaultValue: Date the default value
 //	Returns: time.Time value of the element or default value if conversion is not supported.
 func (c *AnyValueMap) GetAsDateTimeWithDefault(key string, defaultValue time.Time) time.Time {
-	value, _ := c._base.Get(key)
-	return convert.DateTimeConverter.ToDateTimeWithDefault(value, defaultValue)
+	if value, ok := c._base.Get(key); ok {
+		return convert.DateTimeConverter.ToDateTimeWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableDuration converts map element into a time.Duration or returns null if conversion is not possible.
@@ -432,8 +460,10 @@ func (c *AnyValueMap) GetAsDateTimeWithDefault(key string, defaultValue time.Tim
 // 	Parameters: key string a key of element to get.
 // 	Returns: time.Duration value of the element or null if conversion is not supported.
 func (c *AnyValueMap) GetAsNullableDuration(key string) (time.Duration, bool) {
-	value, _ := c._base.Get(key)
-	return convert.DurationConverter.ToNullableDuration(value)
+	if value, ok := c._base.Get(key); ok {
+		return convert.DurationConverter.ToNullableDuration(value)
+	}
+	return 0, false
 }
 
 // GetAsDuration converts map element into a time.Duration or returns the current date if conversion is not possible.
@@ -451,8 +481,10 @@ func (c *AnyValueMap) GetAsDuration(key string) time.Duration {
 //		- defaultValue: Date the default value
 //	Returns: time.Duration value of the element or default value if conversion is not supported.
 func (c *AnyValueMap) GetAsDurationWithDefault(key string, defaultValue time.Duration) time.Duration {
-	value, _ := c._base.Get(key)
-	return convert.DurationConverter.ToDurationWithDefault(value, defaultValue)
+	if value, ok := c._base.Get(key); ok {
+		return convert.DurationConverter.ToDurationWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableType converts map element into a value defined by specied typecode.
@@ -463,8 +495,10 @@ func (c *AnyValueMap) GetAsDurationWithDefault(key string, defaultValue time.Dur
 //		- key string a key of element to get.
 //	Returns: any element value defined by the typecode or null if conversion is not supported.
 func (c *AnyValueMap) GetAsNullableType(typ convert.TypeCode, key string) (any, bool) {
-	value, _ := c._base.Get(key)
-	return convert.TypeConverter.ToNullableType(typ, value)
+	if value, ok := c._base.Get(key); ok {
+		return convert.TypeConverter.ToNullableType(typ, value)
+	}
+	return nil, false
 }
 
 // GetAsType converts map element into a value defined by specied typecode.
@@ -487,8 +521,10 @@ func (c *AnyValueMap) GetAsType(typ convert.TypeCode, key string) any {
 //		- defaultValue any the default value
 //	Returns: any element value defined by the typecode or default value if conversion is not supported.
 func (c *AnyValueMap) GetAsTypeWithDefault(typ convert.TypeCode, key string, defaultValue any) any {
-	value, _ := c._base.Get(key)
-	return convert.TypeConverter.ToTypeWithDefault(typ, value, defaultValue)
+	if value, ok := c._base.Get(key); ok {
+		return convert.TypeConverter.ToTypeWithDefault(typ, value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsValue converts map element into an AnyValue or returns an empty AnyValue if conversion is not possible.
@@ -497,8 +533,10 @@ func (c *AnyValueMap) GetAsTypeWithDefault(typ convert.TypeCode, key string, def
 //	Parameters: key string a key of element to get.
 //	Returns: *AnyValue value of the element or empty AnyValue if conversion is not supported.
 func (c *AnyValueMap) GetAsValue(key string) *AnyValue {
-	value, _ := c._base.Get(key)
-	return NewAnyValue(value)
+	if value, ok := c._base.Get(key); ok {
+		return NewAnyValue(value)
+	}
+	return NewEmptyAnyValue()
 }
 
 // GetAsNullableArray converts map element into an AnyValueArray or returns null if conversion is not possible.
@@ -519,8 +557,10 @@ func (c *AnyValueMap) GetAsNullableArray(key string) (*AnyValueArray, bool) {
 //	Parameters: key string a key of element to get.
 //	Returns: *AnyValueArray value of the element or empty AnyValueArray if conversion is not supported.
 func (c *AnyValueMap) GetAsArray(key string) *AnyValueArray {
-	value, _ := c._base.Get(key)
-	return NewAnyValueArrayFromValue(value)
+	if value, ok := c._base.Get(key); ok {
+		return NewAnyValueArrayFromValue(value)
+	}
+	return NewEmptyAnyValueArray()
 }
 
 // GetAsArrayWithDefault converts map element into an AnyValueArray or returns default value if conversion is not possible.
@@ -553,8 +593,10 @@ func (c *AnyValueMap) GetAsNullableMap(key string) (*AnyValueMap, bool) {
 //	Parameters: key string a key of element to get.
 //	Returns: *AnyValueMap value of the element or empty AnyValueMap if conversion is not supported.
 func (c *AnyValueMap) GetAsMap(key string) *AnyValueMap {
-	value, _ := c._base.Get(key)
-	return NewAnyValueMapFromValue(value)
+	if value, ok := c._base.Get(key); ok {
+		return NewAnyValueMapFromValue(value)
+	}
+	return NewEmptyAnyValueMap()
 }
 
 // GetAsMapWithDefault converts map element into an AnyValueMap or returns default value if conversion is not possible.

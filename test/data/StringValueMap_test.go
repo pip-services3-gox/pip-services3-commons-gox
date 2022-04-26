@@ -46,6 +46,9 @@ func TestStringValueMapNew(t *testing.T) {
 	val, ok = value.Get("key2")
 	assert.True(t, ok)
 	assert.Equal(t, "A", val)
+	val, ok = value.GetAsNullableString("key3")
+	assert.False(t, ok)
+	assert.Equal(t, "", val)
 }
 
 func TestStringValueMapGetAndSet(t *testing.T) {
@@ -86,4 +89,30 @@ func TestStringValueMapJsonSerialization(t *testing.T) {
 	json2, err2 := json.Marshal(value)
 	assert.Empty(t, err2)
 	assert.Equal(t, json1, json2)
+}
+
+func TestStringValueMapGetAsNullable(t *testing.T) {
+	array := data.NewEmptyStringValueMap()
+	assert.Equal(t, 0, array.Len())
+
+	_, ok := array.GetAsNullableInteger("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableLong("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableFloat("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableDouble("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableBoolean("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableString("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableDateTime("")
+	assert.False(t, ok)
 }

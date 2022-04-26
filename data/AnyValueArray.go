@@ -244,8 +244,10 @@ func (c *AnyValueArray) GetAsString(index int) string {
 //		defaultValue: string the default value
 //	Returns: string value ot the element or default value if conversion is not supported.
 func (c *AnyValueArray) GetAsStringWithDefault(index int, defaultValue string) string {
-	value, _ := c.Get(index)
-	return convert.StringConverter.ToStringWithDefault(value, defaultValue)
+	if value, ok := c.Get(index); ok {
+		return convert.StringConverter.ToStringWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableBoolean converts array element into a boolean or returns nil if conversion is not possible.
@@ -276,8 +278,10 @@ func (c *AnyValueArray) GetAsBoolean(index int) bool {
 //		defaultValue: boolean the default value
 //	Returns: boolean value ot the element or default value if conversion is not supported.
 func (c *AnyValueArray) GetAsBooleanWithDefault(index int, defaultValue bool) bool {
-	value, _ := c.Get(index)
-	return convert.BooleanConverter.ToBooleanWithDefault(value, defaultValue)
+	if value, ok := c.Get(index); ok {
+		return convert.BooleanConverter.ToBooleanWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableInteger converts array element into an integer or returns nil if conversion is not possible.
@@ -308,8 +312,10 @@ func (c *AnyValueArray) GetAsInteger(index int) int {
 //		defaultValue int the default value
 //	Returns: integer value ot the element or default value if conversion is not supported.
 func (c *AnyValueArray) GetAsIntegerWithDefault(index int, defaultValue int) int {
-	value, _ := c.Get(index)
-	return convert.IntegerConverter.ToIntegerWithDefault(value, defaultValue)
+	if value, ok := c.Get(index); ok {
+		return convert.IntegerConverter.ToIntegerWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableLong converts array element into a long or returns nil if conversion is not possible.
@@ -339,8 +345,10 @@ func (c *AnyValueArray) GetAsLong(index int) int64 {
 //		- defaultValue int64 the default value.
 //	Returns: int64 value ot the element or default value if conversion is not supported.
 func (c *AnyValueArray) GetAsLongWithDefault(index int, defaultValue int64) int64 {
-	value, _ := c.Get(index)
-	return convert.LongConverter.ToLongWithDefault(value, defaultValue)
+	if value, ok := c.Get(index); ok {
+		return convert.LongConverter.ToLongWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableFloat converts array element into a float or returns nil if conversion is not possible.
@@ -369,8 +377,10 @@ func (c *AnyValueArray) GetAsFloat(index int) float32 {
 //		- defaultValue: number the default value
 //	Returns: number float value ot the element or default value if conversion is not supported.
 func (c *AnyValueArray) GetAsFloatWithDefault(index int, defaultValue float32) float32 {
-	value, _ := c.Get(index)
-	return convert.FloatConverter.ToFloatWithDefault(value, defaultValue)
+	if value, ok := c.Get(index); ok {
+		return convert.FloatConverter.ToFloatWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableDouble converts array element into a double or returns nil if conversion is not possible.
@@ -399,8 +409,10 @@ func (c *AnyValueArray) GetAsDouble(index int) float64 {
 //		- defaultValue: float64 the default value.
 //	Returns: double value ot the element or default value if conversion is not supported.
 func (c *AnyValueArray) GetAsDoubleWithDefault(index int, defaultValue float64) float64 {
-	value, _ := c.Get(index)
-	return convert.DoubleConverter.ToDoubleWithDefault(value, defaultValue)
+	if value, ok := c.Get(index); ok {
+		return convert.DoubleConverter.ToDoubleWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableDateTime converts array element into a time.Time or returns nil if conversion is not possible.
@@ -429,8 +441,10 @@ func (c *AnyValueArray) GetAsDateTime(index int) time.Time {
 //		- defaultValue: time.Time the default value.
 //	Returns: time.time value ot the element or default value if conversion is not supported.
 func (c *AnyValueArray) GetAsDateTimeWithDefault(index int, defaultValue time.Time) time.Time {
-	value, _ := c.Get(index)
-	return convert.DateTimeConverter.ToDateTimeWithDefault(value, defaultValue)
+	if value, ok := c.Get(index); ok {
+		return convert.DateTimeConverter.ToDateTimeWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableDuration converts array element into a time.Duration or returns nil if conversion is not possible.
@@ -459,8 +473,10 @@ func (c *AnyValueArray) GetAsDuration(index int) time.Duration {
 //		- defaultValue: time.Duration the default value
 //	Returns: time.Duration value ot the element or default value if conversion is not supported.
 func (c *AnyValueArray) GetAsDurationWithDefault(index int, defaultValue time.Duration) time.Duration {
-	value, _ := c.Get(index)
-	return convert.DurationConverter.ToDurationWithDefault(value, defaultValue)
+	if value, ok := c.Get(index); ok {
+		return convert.DurationConverter.ToDurationWithDefault(value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsNullableType converts array element into a value defined by specied typecode. If conversion is not possible it returns nil.
@@ -496,8 +512,10 @@ func (c *AnyValueArray) GetAsType(typ convert.TypeCode, index int) any {
 //		- defaultValue any the default value
 //	Returns: any element value defined by the typecode or default value if conversion is not supported.
 func (c *AnyValueArray) GetAsTypeWithDefault(typ convert.TypeCode, index int, defaultValue any) any {
-	value, _ := c.Get(index)
-	return convert.TypeConverter.ToTypeWithDefault(typ, value, defaultValue)
+	if value, ok := c.Get(index); ok {
+		return convert.TypeConverter.ToTypeWithDefault(typ, value, defaultValue)
+	}
+	return defaultValue
 }
 
 // GetAsValue converts array element into an AnyValue or returns an empty AnyValue if conversion is not possible.

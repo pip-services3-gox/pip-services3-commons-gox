@@ -23,5 +23,25 @@ func TestAnyValueEquals(t *testing.T) {
 	assert.True(t, value.Equals(1))
 	assert.True(t, value.Equals(1.0))
 	assert.True(t, value.Equals("1"))
-	//	assert.True(t, value.EqualsAsType(convert.Float, "1"))
+}
+
+func TestAnyValueGetAsNullable(t *testing.T) {
+	value := data.NewAnyValue(1)
+
+	_, ok := value.GetAsNullableInteger()
+	assert.True(t, ok)
+	_, ok = value.GetAsNullableLong()
+	assert.True(t, ok)
+	_, ok = value.GetAsNullableFloat()
+	assert.True(t, ok)
+	_, ok = value.GetAsNullableDouble()
+	assert.True(t, ok)
+	_, ok = value.GetAsNullableString()
+	assert.True(t, ok)
+	_, ok = value.GetAsNullableBoolean()
+	assert.True(t, ok)
+	_, ok = value.GetAsNullableDuration()
+	assert.True(t, ok)
+	_, ok = value.GetAsNullableDateTime()
+	assert.True(t, ok)
 }

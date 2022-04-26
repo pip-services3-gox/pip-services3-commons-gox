@@ -12,7 +12,7 @@ func TestAnyValueMapNew(t *testing.T) {
 	_, ok := mp.GetAsObject("key1")
 	assert.False(t, ok)
 
-	mp = data.NewAnyValueMapFromValue(map[string]interface{}{
+	mp = data.NewAnyValueMapFromValue(map[string]any{
 		"key1": 1,
 		"key2": "A",
 	})
@@ -24,7 +24,11 @@ func TestAnyValueMapNew(t *testing.T) {
 	assert.True(t, ok)
 	assert.Equal(t, "A", val)
 
-	mp = data.NewAnyValueMapFromMaps(map[string]interface{}{
+	val, ok = mp.GetAsNullableString("key3")
+	assert.False(t, ok)
+	assert.Equal(t, "", val)
+
+	mp = data.NewAnyValueMapFromMaps(map[string]any{
 		"key1": 1,
 		"key2": "A",
 	})
@@ -66,5 +70,34 @@ func TestAnyValueMapGetAndSet(t *testing.T) {
 
 	mp.Remove("key2")
 	_, ok = mp.GetAsObject("key2")
+	assert.False(t, ok)
+}
+
+func TestAnyValueMapGetAsNullable(t *testing.T) {
+	array := data.NewEmptyAnyValueMap()
+	assert.Equal(t, 0, array.Len())
+
+	_, ok := array.GetAsNullableInteger("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableLong("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableFloat("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableDouble("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableBoolean("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableString("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableDuration("")
+	assert.False(t, ok)
+
+	_, ok = array.GetAsNullableDateTime("")
 	assert.False(t, ok)
 }
