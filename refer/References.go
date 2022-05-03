@@ -1,5 +1,7 @@
 package refer
 
+import "context"
+
 // References the most basic implementation of IReferences to store and locate component references.
 //	see IReferences
 //	Example:
@@ -33,27 +35,41 @@ func NewEmptyReferences() *References {
 }
 
 // NewReferences creates a new instance of references and initializes it with references.
-//	Parameters: tuples []any a list of values where odd
-//		elements are locators and the following even elements are component references
+//	Parameters:
+//		- ctx context.Context
+//		- tuples []any a list of values where odd
+//			elements are locators and the following even elements are component references
 //	Returns: *References
-func NewReferences(tuples []any) *References {
+func NewReferences(ctx context.Context, tuples []any) *References {
 	c := NewEmptyReferences()
 
 	for index := 0; index < len(tuples); index += 2 {
 		if index+1 >= len(tuples) {
 			break
 		}
-		c.Put(tuples[index], tuples[index+1])
+		c.Put(ctx, tuples[index], tuples[index+1])
 	}
 
 	return c
 }
 
+// NewReferencesFromTuples creates a new References from a list of key-value pairs called tuples.
+//	Parameters:
+//		- ctx context.Context
+//		- tuples  ...any a list of values where
+//			odd elements are locators and the following even elements
+//			are component references
+//	Returns: *References a newly created References.
+func NewReferencesFromTuples(ctx context.Context, tuples ...any) *References {
+	return NewReferences(ctx, tuples)
+}
+
 // Put a new reference into this reference map.
 //	Parameters:
+//		- ctx context.Context
 //		- locator any a locator to find the reference by.
 //		- component any a component reference to be added.
-func (c *References) Put(locator any, component any) {
+func (c *References) Put(ctx context.Context, locator any, component any) {
 	if component == nil {
 		panic("Component cannot be null")
 	}
@@ -66,9 +82,11 @@ func (c *References) Put(locator any, component any) {
 // If many references match the locator, it removes only the first one.
 // When all references shall be removed, use removeAll method instead.
 //	see RemoveAll
-//	Parameters: locator any a locator to remove reference
+//	Parameters:
+//		- ctx context.Context
+//		- locator any a locator to remove reference
 //	Returns: any the removed component reference.
-func (c *References) Remove(locator any) any {
+func (c *References) Remove(ctx context.Context, locator any) any {
 	if locator == nil {
 		return nil
 	}
@@ -85,9 +103,11 @@ func (c *References) Remove(locator any) any {
 }
 
 // RemoveAll removes all component references that match the specified locator.
-//	Parameters: locator any the locator to remove references by.
+//	Parameters:
+//		- ctx context.Context
+//		- locator any a locator to remove reference
 //	Returns: []any a list, containing all removed references.
-func (c *References) RemoveAll(locator any) []any {
+func (c *References) RemoveAll(ctx context.Context, locator any) []any {
 	components := make([]any, 0, 5)
 
 	if locator == nil {
@@ -130,7 +150,8 @@ func (c *References) GetAll() []any {
 }
 
 // GetOneOptional gets an optional component reference that matches specified locator.
-//	Parameters:  locator any the locator to find references by.
+//	Parameters:
+//		- locator any a locator to remove reference
 //	Returns: any a matching component reference or nil if nothing was found.
 func (c *References) GetOneOptional(locator any) any {
 	components, err := c.Find(locator, false)
@@ -142,7 +163,8 @@ func (c *References) GetOneOptional(locator any) any {
 
 // GetOneRequired gets a required component reference that matches specified locator.
 // throws a ReferenceError when no references found.
-//	Parameters: locator any the locator to find a reference by.
+//	Parameters:
+//		- locator any a locator to remove reference
 //	Returns: any a matching component reference.
 func (c *References) GetOneRequired(locator any) (any, error) {
 	components, err := c.Find(locator, true)
@@ -153,7 +175,8 @@ func (c *References) GetOneRequired(locator any) (any, error) {
 }
 
 // GetOptional gets all component references that match specified locator.
-//	Parameters: locator any the locator to find references by.
+//	Parameters:
+//		- locator any a locator to remove reference
 //	Returns: []any a list with matching component references or
 //		empty list if nothing was found.
 func (c *References) GetOptional(locator any) []any {
@@ -165,7 +188,8 @@ func (c *References) GetOptional(locator any) []any {
 // At least one component reference must be present.
 // If it doesn't the method throws an error.
 // throws a ReferenceError when no references found.
-//	Parameters: locator any the locator to find references by.
+//	Parameters:
+//		- locator any a locator to remove reference
 //	Returns: []any a list with matching component references.
 func (c *References) GetRequired(locator any) ([]any, error) {
 	return c.Find(locator, true)
@@ -199,13 +223,4 @@ func (c *References) Find(locator any, required bool) ([]any, error) {
 	}
 
 	return components, nil
-}
-
-// NewReferencesFromTuples creates a new References from a list of key-value pairs called tuples.
-//	Parameters: tuples  ...any a list of values where
-//		odd elements are locators and the following even elements
-//		are component references
-//	Returns: *References a newly created References.
-func NewReferencesFromTuples(tuples ...any) *References {
-	return NewReferences(tuples)
 }

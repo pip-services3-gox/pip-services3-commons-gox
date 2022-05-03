@@ -14,11 +14,13 @@ var OptionsResolver = &_TOptionsResolver{}
 
 type _TOptionsResolver struct{}
 
+const SectionOptions = "options"
+
 // Resolve configuration section from component configuration parameters.
 //	Parameters: config: ConfigParams configuration parameters
 //	Returns: *ConfigParams configuration parameters from "options" section
 func (c *_TOptionsResolver) Resolve(config *ConfigParams) *ConfigParams {
-	var options = config.GetSection("options")
+	var options = config.GetSection(SectionOptions)
 	return options
 }
 

@@ -1,6 +1,7 @@
 package test_refer
 
 import (
+	"context"
 	"testing"
 
 	conf "github.com/pip-services3-gox/pip-services3-commons-gox/config"
@@ -12,15 +13,17 @@ func TestResolveDependencies(t *testing.T) {
 	ref1 := "AAA"
 	ref2 := "BBB"
 	refs := refer.NewReferencesFromTuples(
+		context.Background(),
 		"Reference1", ref1,
 		refer.NewDescriptor("pip-services-commons", "reference", "object", "ref2", "1.0"), ref2,
 	)
 
 	resolver := refer.NewDependencyResolverFromTuples(
+		context.Background(),
 		"ref1", "Reference1",
 		"ref2", refer.NewDescriptor("pip-services-commons", "reference", "*", "*", "*"),
 	)
-	resolver.SetReferences(refs)
+	resolver.SetReferences(context.Background(), refs)
 
 	ref, _ := resolver.GetOneRequired("ref1")
 	assert.Equal(t, ref1, ref)
@@ -33,6 +36,7 @@ func TestConfigureDependencies(t *testing.T) {
 	ref1 := "AAA"
 	ref2 := "BBB"
 	refs := refer.NewReferencesFromTuples(
+		context.Background(),
 		"Reference1", ref1,
 		refer.NewDescriptor("pip-services-commons", "reference", "object", "ref2", "1.0"), ref2,
 	)
@@ -43,8 +47,8 @@ func TestConfigureDependencies(t *testing.T) {
 		"dependencies.ref3", "",
 	)
 
-	resolver := refer.NewDependencyResolverWithParams(config, nil)
-	resolver.SetReferences(refs)
+	resolver := refer.NewDependencyResolverWithParams(context.Background(), config, nil)
+	resolver.SetReferences(context.Background(), refs)
 
 	ref, _ := resolver.GetOneRequired("ref1")
 	assert.Equal(t, ref1, ref)

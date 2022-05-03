@@ -1,8 +1,9 @@
 package refer
 
 import (
+	"context"
 	conf "github.com/pip-services3-gox/pip-services3-commons-gox/config"
-	convert "github.com/pip-services3-gox/pip-services3-commons-gox/convert"
+	"github.com/pip-services3-gox/pip-services3-commons-gox/convert"
 )
 
 // DependencyResolver helper class for resolving component dependencies.
@@ -39,28 +40,62 @@ func NewDependencyResolver() *DependencyResolver {
 //	see IReferences
 //	see SetReferences
 //	Parameters:
+//		- ctx context.Context
 //		- config ConfigParams default configuration where key is
 //			dependency name and value is locator (descriptor)
 //		- references IReferences default component references
 //	Returns: *DependencyResolver
-func NewDependencyResolverWithParams(config *conf.ConfigParams, references IReferences) *DependencyResolver {
+func NewDependencyResolverWithParams(ctx context.Context,
+	config *conf.ConfigParams, references IReferences) *DependencyResolver {
+
 	c := NewDependencyResolver()
 
 	if config != nil {
-		c.Configure(config)
+		c.Configure(ctx, config)
 	}
 
 	if references != nil {
-		c.SetReferences(references)
+		c.SetReferences(ctx, references)
 	}
 
 	return c
 }
 
+// NewDependencyResolverFromTuples creates a new DependencyResolver from a list of key-value pairs
+// called tuples where key is dependency name and value the dependency locator (descriptor).
+//	see NewDependencyResolverFromTuplesArray
+//	Parameters:
+//		- ctx context.Context
+//		- tuples ...any a list of values where odd elements are
+//		dependency name and the following even elements
+//		are dependency locator (descriptor)
+//	Returns: *DependencyResolver a newly created DependencyResolver.
+func NewDependencyResolverFromTuples(ctx context.Context, tuples ...any) *DependencyResolver {
+	result := NewDependencyResolver()
+	if len(tuples) == 0 {
+		return result
+	}
+
+	for index := 0; index < len(tuples); index += 2 {
+		if index+1 >= len(tuples) {
+			break
+		}
+
+		name := convert.StringConverter.ToString(tuples[index])
+		locator := tuples[index+1]
+
+		result.Put(ctx, name, locator)
+	}
+
+	return result
+}
+
 // Configure the component with specified parameters.
 //	see ConfigParams
-//	Parameters: config *conf.ConfigParams configuration parameters to set.
-func (c *DependencyResolver) Configure(config *conf.ConfigParams) {
+//	Parameters:
+//		- ctx context.Context
+//		- config *conf.ConfigParams configuration parameters to set.
+func (c *DependencyResolver) Configure(ctx context.Context, config *conf.ConfigParams) {
 	dependencies := config.GetSection("dependencies")
 	names := dependencies.Keys()
 	for _, name := range names {
@@ -76,16 +111,19 @@ func (c *DependencyResolver) Configure(config *conf.ConfigParams) {
 }
 
 // SetReferences sets the component references. References must match configured dependencies.
-//	Parameters: references IReferences references to set.
-func (c *DependencyResolver) SetReferences(references IReferences) {
+//	Parameters:
+//		- ctx context.Context
+//		- references IReferences references to set.
+func (c *DependencyResolver) SetReferences(ctx context.Context, references IReferences) {
 	c.references = references
 }
 
 // Put adds a new dependency into this resolver.
 //	Parameters:
+//		- ctx context.Context
 //		- name string the dependency's name.
 //		- locator any the locator to find the dependency by.
-func (c *DependencyResolver) Put(name string, locator any) {
+func (c *DependencyResolver) Put(ctx context.Context, name string, locator any) {
 	c.dependencies[name] = locator
 }
 
@@ -106,7 +144,8 @@ func (c *DependencyResolver) Locate(name string) any {
 
 // GetOptional gets all optional dependencies by their name.
 //	Parameters: name string the dependency name to locate.
-//	Returns: []any a list with found dependencies or
+//	Returns:
+//		- []any a list with found dependencies or
 //		empty list of no dependencies was found.
 func (c *DependencyResolver) GetOptional(name string) []any {
 	locator := c.Locate(name)
@@ -119,7 +158,8 @@ func (c *DependencyResolver) GetOptional(name string) []any {
 // GetRequired gets all required dependencies by their name. At least one dependency must be present.
 // If no dependencies was found it throws a ReferenceError
 // throws a ReferenceError if no dependencies were found.
-//	Parameters: name string the dependency name to locate.
+//	Parameters:
+//		- name string the dependency name to locate.
 //	Returns: []any a list with found dependencies.
 func (c *DependencyResolver) GetRequired(name string) ([]any, error) {
 	locator := c.Locate(name)
@@ -132,7 +172,9 @@ func (c *DependencyResolver) GetRequired(name string) ([]any, error) {
 }
 
 // GetOneOptional gets one optional dependency by its name.
-//	Parameters: name string the dependency name to locate.
+//	Parameters:
+//		- ctx context.Context
+//		- name string the dependency name to locate.
 //	Returns: any a dependency reference or nil of the dependency was not found
 func (c *DependencyResolver) GetOneOptional(name string) any {
 	locator := c.Locate(name)
@@ -145,7 +187,9 @@ func (c *DependencyResolver) GetOneOptional(name string) any {
 // GetOneRequired gets one required dependency by its name. At least one dependency must present.
 // If the dependency was found it throws a ReferenceError
 // throws a ReferenceError if dependency was not found.
-//	Parameters: name string the dependency name to locate.
+//	Parameters:
+//		- ctx context.Context
+//		- name string the dependency name to locate.
 //	Returns: any, error a dependency reference and error
 func (c *DependencyResolver) GetOneRequired(name string) (any, error) {
 	locator := c.Locate(name)
@@ -159,6 +203,7 @@ func (c *DependencyResolver) GetOneRequired(name string) (any, error) {
 // Find all matching dependencies by their name.
 // throws a ReferenceError of required is true and no dependencies found.
 //	Parameters:
+//		- ctx context.Context
 //		- name string the dependency name to locate.
 //		- required bool true to raise an exception when no dependencies are found.
 //	Returns: []any, error a list of found dependencies and error
@@ -177,31 +222,4 @@ func (c *DependencyResolver) Find(name string, required bool) ([]any, error) {
 	}
 
 	return c.references.Find(locator, required)
-}
-
-// NewDependencyResolverFromTuples creates a new DependencyResolver from a list of key-value pairs
-// called tuples where key is dependency name and value the dependency locator (descriptor).
-//	see NewDependencyResolverFromTuplesArray
-//	Parameters: tuples ...any a list of values where odd elements are
-//		dependency name and the following even elements
-//		are dependency locator (descriptor)
-//	Returns: *DependencyResolver a newly created DependencyResolver.
-func NewDependencyResolverFromTuples(tuples ...any) *DependencyResolver {
-	result := NewDependencyResolver()
-	if len(tuples) == 0 {
-		return result
-	}
-
-	for index := 0; index < len(tuples); index += 2 {
-		if index+1 >= len(tuples) {
-			break
-		}
-
-		name := convert.StringConverter.ToString(tuples[index])
-		locator := tuples[index+1]
-
-		result.Put(name, locator)
-	}
-
-	return result
 }

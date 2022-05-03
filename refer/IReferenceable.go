@@ -1,5 +1,7 @@
 package refer
 
+import "context"
+
 // IReferenceable interface for components that depends on other components.
 // If component requires explicit notification to unset references it shall
 // additionally implement IUnreferenceable interface.
@@ -10,8 +12,8 @@ package refer
 //		type MyController {
 //			_persistence IPersistence
 //		}
-//		func (mc* MyController) setReferences(references IReferences) {
-//			mc._persistence = references.getOneRequired(
+//		func (mc* MyController) SetReferences(ctx context.Context, references IReferences) {
+//			mc._persistence = references.GetOneRequired(
 //				NewDescriptor("mygroup", "persistence", "*", "*", "1.0"))
 //			);
 //		}
@@ -19,6 +21,8 @@ package refer
 type IReferenceable interface {
 	// SetReferences sets references to dependent components.
 	//	see IReferences
-	//	Parameters: references IReferences references to locate the component dependencies.
-	SetReferences(references IReferences)
+	//	Parameters:
+	//		- ctx context.Context
+	//		- references IReferences references to locate the component dependencies.
+	SetReferences(ctx context.Context, references IReferences)
 }
