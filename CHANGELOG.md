@@ -2,8 +2,8 @@
 
 ## <a name="1.0.2"></a> 1.0.2 (2022-05-04)
 
-Implement grasefull shutdown for FixedRateTimer
-Implement context.Context to SeReferences and Configure
+Implement graceful shutdown for FixedRateTimer 
+Implement context.Context to use References and Configure
 
 ## <a name="1.0.1"></a> 1.0.1 (2022-04-30)
 
