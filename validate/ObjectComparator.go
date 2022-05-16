@@ -65,10 +65,10 @@ func (c *_TObjectComparator) AreEqual(value1 any, value2 any) bool {
 		return false
 	}
 
-	if equatable, ok := value1.(data.IEquatable); ok {
+	if equatable, ok := value1.(data.IEquatable[any]); ok {
 		return equatable.Equals(value2)
 	}
-	if equatable, ok := value2.(data.IEquatable); ok {
+	if equatable, ok := value2.(data.IEquatable[any]); ok {
 		return equatable.Equals(value1)
 	}
 

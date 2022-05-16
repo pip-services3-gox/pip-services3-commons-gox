@@ -6,11 +6,11 @@ package data
 // When English does not exists it falls back to the first defined language.
 //
 //	Example:
-//		values := MultiString.fromTuples(
+//		values := MultiString.FromTuples(
 //			"en", "Hello World!",
 //			"ru", "Привет мир!"
 //		);
 //
-//	value1 := values.get('ru'); // Result: "Привет мир!"
-//	value2 := values.get('pt'); // Result: "Hello World!"
+//	value1 := values.Get('ru'); // Result: "Привет мир!"
+//	value2 := values.Get('pt'); // Result: "Hello World!"
 type MultiString map[string]string

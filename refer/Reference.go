@@ -54,7 +54,7 @@ func (c *Reference) Match(locator any) bool {
 	}
 
 	// Locate by direct locator matching
-	if equatable, ok := c.locator.(data.IEquatable); ok {
+	if equatable, ok := c.locator.(data.IEquatable[any]); ok {
 		return equatable.Equals(locator)
 	}
 

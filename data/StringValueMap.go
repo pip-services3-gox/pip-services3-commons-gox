@@ -608,7 +608,7 @@ func (c *StringValueMap) String() string {
 
 // Clone creates a binary clone of this object.
 //	Returns any a clone of this object.
-func (c *StringValueMap) Clone() any {
+func (c *StringValueMap) Clone() *StringValueMap {
 	return NewStringValueMap(c._value)
 }
 

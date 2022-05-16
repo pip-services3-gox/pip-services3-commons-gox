@@ -638,6 +638,6 @@ func (c *AnyValueMap) String() string {
 
 // Clone creates a binary clone of this object.
 //	Returns: any a clone of this object.
-func (c *AnyValueMap) Clone() any {
+func (c *AnyValueMap) Clone() *AnyValueMap {
 	return NewAnyValueMap(c._value)
 }

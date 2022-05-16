@@ -45,14 +45,15 @@ func (c *TypeDescriptor) Package() string {
 //	Parameters:
 //		- obj any a value to compare.
 //	Returns: bool true if value is identical TypeDescriptor and false otherwise.
-func (c *TypeDescriptor) Equals(obj any) bool {
-	if descriptor, ok := obj.(TypeDescriptor); ok {
-		if strings.Compare(c.name, descriptor.name) != 0 {
-			return false
-		}
-		if strings.Compare(c.pkg, descriptor.pkg) == 0 {
-			return true
-		}
+func (c *TypeDescriptor) Equals(descriptor *TypeDescriptor) bool {
+	if descriptor == nil {
+		return false
+	}
+	if strings.Compare(c.name, descriptor.name) != 0 {
+		return false
+	}
+	if strings.Compare(c.pkg, descriptor.pkg) == 0 {
+		return true
 	}
 
 	return false

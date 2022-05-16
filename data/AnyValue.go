@@ -16,6 +16,7 @@ import (
 // 		value.GetAsString()  // Result: "123.456"
 // 		value.GetAsFloat()   // Result: 123.456
 type AnyValue struct {
+	ICloneable[*AnyValue]
 	_value any
 }
 
@@ -313,7 +314,7 @@ func (c *AnyValue) EqualsAsType(typ convert.TypeCode, obj any) bool {
 
 // Clone creates a binary clone of this object.
 // 	Returns: a clone of this object.
-func (c *AnyValue) Clone() any {
+func (c *AnyValue) Clone() *AnyValue {
 	return NewAnyValue(c._value)
 }
 

@@ -185,7 +185,7 @@ func (c *Parameters) GetAsParametersWithDefault(key string, defaultValue *Parame
 
 // Clone creates a binary clone of this object.
 //	Returns: any a clone of this object.
-func (c *Parameters) Clone() any {
+func (c *Parameters) Clone() *Parameters {
 	return NewParametersFromValue(c.GetAsSingleObject())
 }
 

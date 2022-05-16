@@ -1,5 +1,5 @@
 package data
 
-type IEquatable interface {
-	Equals(value any) bool
+type IEquatable[T any] interface {
+	Equals(value T) bool
 }

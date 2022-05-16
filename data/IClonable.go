@@ -6,14 +6,14 @@ package data
 //			...
 //		}
 //
-//		func (c MyStruct) Clone() interface{} {
+//		func (c *MyStruct) Clone() *MyStruct {
 //			cloneObj := new(MyStruct)
 //			// Copy every attribute from this to cloneObj here.
 //			...
 //			return cloneObj
 //		}
-type ICloneable interface {
+type ICloneable[T any] interface {
 	// Clone creates a binary clone of this object.
 	// returns: a clone of this object.
-	Clone() any
+	Clone() T
 }

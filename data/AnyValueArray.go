@@ -636,7 +636,7 @@ func (c *AnyValueArray) ContainsAsType(typ convert.TypeCode, value any) bool {
 
 // Clone creates a binary clone of this object.
 //	Returns: any a clone of this object.
-func (c *AnyValueArray) Clone() any {
+func (c *AnyValueArray) Clone() *AnyValueArray {
 	return NewAnyValueArray(c._value)
 }
 
