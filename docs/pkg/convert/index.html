@@ -14,7 +14,7 @@
 
 
 
-<script>var goVersion = "go1.18.1";</script>
+<script>var goVersion = "go1.18.2";</script>
 <script src="../../lib/godoc/godocs.js" defer></script>
 </head>
 <body>
@@ -107,25 +107,23 @@
 
 		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
 			<div id="manual-nav">
-			<dl>
-			
-			
-				<dd><a href="index.html#pkg-variables">Variables</a></dd>
-			
-			
-			
-				
-				<dd><a href="index.html#IJSONEngine">type IJSONEngine</a></dd>
-				
-				
-			
-				
-				<dd><a href="index.html#TypeCode">type TypeCode</a></dd>
-				
-				
-			
-			
-			</dl>
+                <dl>
+
+
+                    <dd><a href="index.html#pkg-variables">Variables</a></dd>
+
+
+                    <dd><a href="index.html#IJSONEngine">type IJSONEngine</a></dd>
+
+
+                    <dd>&nbsp; &nbsp; <a href="index.html#NewDefaultCustomTypeJsonConvertor">func
+                        NewDefaultCustomTypeJsonConvertor[T any]() IJSONEngine[T]</a></dd>
+
+
+                    <dd><a href="index.html#TypeCode">type TypeCode</a></dd>
+
+
+                </dl>
 			</div><!-- #manual-nav -->
 
 		
@@ -318,9 +316,9 @@ fmt.Println(value4, ok4) // current milliseconds (e.g. 1566333428), true
 JsonConverter converts arbitrary values from and to JSON (JavaScript Object Notation) strings.
 </p>
 <p>
-Example:
+    Example:
 </p>
-<pre>value1, _ := convert.FromJson(&#34;{\&#34;key\&#34;:123}&#34;)
+    <pre>value1, _ := convert.FromJson(&#34;{\&#34;key\&#34;:123}&#34;)
 value2 := convert.JsonConverter.ToMap(&#34;{\&#34;key\&#34;:123}&#34;)
 value3, _ := convert.ToJson(map[string]int{&#34;key&#34;: 123})
 fmt.Println(value1) // map[key:123]
@@ -328,18 +326,19 @@ fmt.Println(value2) // map[key:123]
 fmt.Println(value3) // {&#34;key&#34;:123}
 </pre>
 
-				<pre>var <span id="JsonConverter">JsonConverter</span> = &amp;_TJsonConverter{
-    _jsonEngine: &amp;defaultJsonEngine{},
+    <pre>var <span id="JsonConverter">JsonConverter</span> = &amp;_TJsonConverter[<a
+            href="http://localhost:6060/pkg/builtin/#any">any</a>]{
+    _jsonEngine: &amp;defaultJsonEngine[<a href="http://localhost:6060/pkg/builtin/#any">any</a>]{},
 }</pre>
-			
-				<p>
-LongConverter Converts arbitrary values into long using extended conversion rules:
-- Strings are converted to long values
-- DateTime: total number of milliseconds since unix epoсh
-- Boolean: 1 for true and 0 for false
-</p>
-<p>
-Example:
+
+    <p>
+        LongConverter Converts arbitrary values into long using extended conversion rules:
+        - Strings are converted to long values
+        - DateTime: total number of milliseconds since unix epoсh
+        - Boolean: 1 for true and 0 for false
+    </p>
+    <p>
+        Example:
 </p>
 <pre>value1, ok1 := convert.LongConverter.ToNullableLong(&#34;ABC&#34;)
 value2, ok2 := convert.LongConverter.ToNullableLong(&#34;123.456&#34;)
@@ -411,45 +410,40 @@ fmt.Println(value3) // false
 </pre>
 
 				<pre>var <span id="TypeConverter">TypeConverter</span> = &amp;_TTypeConverter{}</pre>
-			
-		
-		
-		
-			
-			
-			<h2 id="IJSONEngine">type <a href="http://localhost:6060/src/convert/JsonConverter.go?s=653:755#L16">IJSONEngine</a>
-				<a class="permalink" href="index.html#IJSONEngine">&#xb6;</a>
-				
-				
-			</h2>
-			<p>
-IJSONEngine interface which helps to marshal and unmarshal json
-</p>
 
-			<pre>type IJSONEngine interface {
-    FromJson(value <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (<a href="http://localhost:6060/pkg/builtin/#any">any</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
-    ToJson(value <a href="http://localhost:6060/pkg/builtin/#any">any</a>) (<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)
+
+    <h2 id="IJSONEngine">type <a href="http://localhost:6060/src/convert/JsonConverter.go?s=673:778#L16">IJSONEngine</a>
+        <a class="permalink" href="index.html#IJSONEngine">&#xb6;</a>
+
+
+    </h2>
+    <p>
+        IJSONEngine interface which helps to marshal and unmarshal json
+    </p>
+
+    <pre>type IJSONEngine[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>] interface {
+    FromJson(value <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (T, <a
+                href="http://localhost:6060/pkg/builtin/#error">error</a>)
+    ToJson(value T) (<a href="http://localhost:6060/pkg/builtin/#string">string</a>, <a
+                href="http://localhost:6060/pkg/builtin/#error">error</a>)
 }</pre>
 
-			
 
-			
+    <h3 id="NewDefaultCustomTypeJsonConvertor">func <a
+            href="http://localhost:6060/src/convert/JsonConverter.go?s=780:842#L21">NewDefaultCustomTypeJsonConvertor</a>
+        <a class="permalink" href="index.html#NewDefaultCustomTypeJsonConvertor">&#xb6;</a>
 
-			
-			
-			
 
-			
+    </h3>
+    <pre>func NewDefaultCustomTypeJsonConvertor[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>]() <a
+            href="index.html#IJSONEngine">IJSONEngine</a>[T]</pre>
 
-			
-		
-			
-			
-			<h2 id="TypeCode">type <a href="http://localhost:6060/src/convert/TypeCode.go?s=97:114#L1">TypeCode</a>
-				<a class="permalink" href="index.html#TypeCode">&#xb6;</a>
-				
-				
-			</h2>
+
+    <h2 id="TypeCode">type <a href="http://localhost:6060/src/convert/TypeCode.go?s=97:114#L1">TypeCode</a>
+        <a class="permalink" href="index.html#TypeCode">&#xb6;</a>
+
+
+    </h2>
 			<p>
 TypeCode codes for the data types that can be converted using TypeConverter.
 </p>
@@ -473,37 +467,17 @@ TypeCode codes for the data types that can be converted using TypeConverter.
     <span id="Array">Array</span>    <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
     <span id="Map">Map</span>      <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
 )</pre>
-			
-
-			
-
-			
-			
-			
-
-			
-
-			
-		
-	
-
-	
 
 
-
-
-
-
-
-<div id="footer">
-Build version go1.18.1.<br>
-Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
-the content of this page is licensed under the
-Creative Commons Attribution 3.0 License,
-and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
-<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
-<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
-</div>
+    <div id="footer">
+        Build version go1.18.2.<br>
+        Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+        the content of this page is licensed under the
+        Creative Commons Attribution 3.0 License,
+        and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+        <a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+        <a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+    </div>
 
 </div><!-- .container -->
 </div><!-- #page -->

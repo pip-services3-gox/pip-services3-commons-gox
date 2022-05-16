@@ -14,7 +14,7 @@
 
 
 
-<script>var goVersion = "go1.18.1";</script>
+<script>var goVersion = "go1.18.2";</script>
 <script src="../../lib/godoc/godocs.js" defer></script>
 </head>
 <body>
@@ -164,10 +164,10 @@
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#ParseTypeDescriptorFromString">func ParseTypeDescriptorFromString(value string) (*TypeDescriptor, error)</a></dd>
-				
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.Equals">func (c *TypeDescriptor) Equals(obj any) bool</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.Equals">func (c *TypeDescriptor) Equals(descriptor
+                    *TypeDescriptor) bool</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.Name">func (c *TypeDescriptor) Name() string</a></dd>
@@ -689,15 +689,13 @@ Parameters:
 Returns: *TypeDescriptor
 </pre>
 
-				
-				
-			
-				
-				<h3 id="ParseTypeDescriptorFromString">func <a href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=2439:2512#L72">ParseTypeDescriptorFromString</a>
-					<a class="permalink" href="index.html#ParseTypeDescriptorFromString">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="ParseTypeDescriptorFromString">func <a
+            href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=2442:2515#L73">ParseTypeDescriptorFromString</a>
+        <a class="permalink" href="index.html#ParseTypeDescriptorFromString">&#xb6;</a>
+
+
+    </h3>
 				<pre>func ParseTypeDescriptorFromString(value <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (*<a href="index.html#TypeDescriptor">TypeDescriptor</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
 				<p>
 ParseTypeDescriptorFromString parses a string to get descriptor fields and returns them as a Descriptor.
@@ -709,18 +707,16 @@ throws a ConfigError if the descriptor string is of a wrong format.
 Returns: *TypeDescriptor a newly created Descriptor.
 </pre>
 
-				
-				
-			
 
-			
-				
-				<h3 id="TypeDescriptor.Equals">func (*TypeDescriptor) <a href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=1485:1530#L38">Equals</a>
-					<a class="permalink" href="index.html#TypeDescriptor.Equals">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func (c *<a href="index.html#TypeDescriptor">TypeDescriptor</a>) Equals(obj <a href="http://localhost:6060/pkg/builtin/#any">any</a>) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+    <h3 id="TypeDescriptor.Equals">func (*TypeDescriptor) <a
+            href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=1485:1549#L38">Equals</a>
+        <a class="permalink" href="index.html#TypeDescriptor.Equals">&#xb6;</a>
+
+
+    </h3>
+    <pre>func (c *<a href="index.html#TypeDescriptor">TypeDescriptor</a>) Equals(descriptor *<a
+            href="index.html#TypeDescriptor">TypeDescriptor</a>) <a
+            href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
 				<p>
 Equals compares this descriptor to a value. If the value is also a
 TypeDescriptor it compares their name and library fields.
@@ -764,16 +760,13 @@ Package gets the name of the package or module where the object type is defined.
 Returns: string the name of the package or module.
 </p>
 
-				
-				
-				
-			
-				
-				<h3 id="TypeDescriptor.String">func (*TypeDescriptor) <a href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=1895:1935#L53">String</a>
-					<a class="permalink" href="index.html#TypeDescriptor.String">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="TypeDescriptor.String">func (*TypeDescriptor) <a
+            href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=1898:1938#L54">String</a>
+        <a class="permalink" href="index.html#TypeDescriptor.String">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#TypeDescriptor">TypeDescriptor</a>) String() <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
 				<p>
 String gets a string representation of the object. The result has format name[,package]
@@ -781,30 +774,16 @@ String gets a string representation of the object. The result has format name[,p
 <pre>Returns: string a string representation of the object.
 </pre>
 
-				
-				
-				
-			
-		
-	
 
-	
-
-
-
-
-
-
-
-<div id="footer">
-Build version go1.18.1.<br>
-Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
-the content of this page is licensed under the
-Creative Commons Attribution 3.0 License,
-and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
-<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
-<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
-</div>
+    <div id="footer">
+        Build version go1.18.2.<br>
+        Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+        the content of this page is licensed under the
+        Creative Commons Attribution 3.0 License,
+        and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+        <a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+        <a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+    </div>
 
 </div><!-- .container -->
 </div><!-- #page -->

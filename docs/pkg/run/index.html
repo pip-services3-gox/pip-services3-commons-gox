@@ -14,7 +14,7 @@
 
 
 
-<script>var goVersion = "go1.18.1";</script>
+<script>var goVersion = "go1.18.2";</script>
 <script src="../../lib/godoc/godocs.js" defer></script>
 </head>
 <body>
@@ -113,39 +113,39 @@
 			
 			
 				<dd><a href="index.html#pkg-variables">Variables</a></dd>
-			
-			
-				
-				<dd><a href="index.html#CancelContextFeedback">func CancelContextFeedback(ctx context.Context) bool</a></dd>
-			
-				
-				<dd><a href="index.html#CancelContextFeedbackWithData">func CancelContextFeedbackWithData[T any](ctx context.Context, data T) bool</a></dd>
-			
-				
-				<dd><a href="index.html#CancelContextFeedbackWithError">func CancelContextFeedbackWithError(ctx context.Context, err error) bool</a></dd>
-			
-				
-				<dd><a href="index.html#NewCancelContext">func NewCancelContext(ctx context.Context, contextFeedbackChan ContextFeedbackChan) (context.Context, bool)</a></dd>
-			
-				
-				<dd><a href="index.html#NewCancelContextWithCustomDataChannel">func NewCancelContextWithCustomDataChannel[T any](ctx context.Context, contextFeedbackChan ContextFeedbackChanWithCustomData[T]) (context.Context, bool)</a></dd>
-			
-				
-				<dd><a href="index.html#NewCancelContextWithError">func NewCancelContextWithError(ctx context.Context, contextFeedbackChan ContextFeedbackChanWithError) (context.Context, bool)</a></dd>
-			
-			
-				
-				<dd><a href="index.html#ContextFeedbackChan">type ContextFeedbackChan</a></dd>
-				
-				
-			
-				
-				<dd><a href="index.html#ContextFeedbackChanWithCustomData">type ContextFeedbackChanWithCustomData</a></dd>
-				
-				
-			
-				
-				<dd><a href="index.html#ContextFeedbackChanWithError">type ContextFeedbackChanWithError</a></dd>
+
+
+                <dd><a href="index.html#AddCustomDataChanToContext">func AddCustomDataChanToContext[T any](ctx
+                    context.Context, channel ContextFeedbackWithCustomDataChan[T]) (context.Context, bool)</a></dd>
+
+
+                <dd><a href="index.html#AddErrShutdownChanToContext">func AddErrShutdownChanToContext(ctx
+                    context.Context, channel ContextShutdownWithErrorChan) (context.Context, bool)</a></dd>
+
+
+                <dd><a href="index.html#AddShutdownChanToContext">func AddShutdownChanToContext(ctx context.Context,
+                    channel ContextShutdownChan) (context.Context, bool)</a></dd>
+
+
+                <dd><a href="index.html#SendShutdownSignal">func SendShutdownSignal(ctx context.Context) bool</a></dd>
+
+
+                <dd><a href="index.html#SendShutdownSignalWithErr">func SendShutdownSignalWithErr(ctx context.Context,
+                    err error) bool</a></dd>
+
+
+                <dd><a href="index.html#SendSignalWithCustomData">func SendSignalWithCustomData[T any](ctx
+                    context.Context, data T) bool</a></dd>
+
+
+                <dd><a href="index.html#ContextFeedbackWithCustomDataChan">type ContextFeedbackWithCustomDataChan</a>
+                </dd>
+
+
+                <dd><a href="index.html#ContextShutdownChan">type ContextShutdownChan</a></dd>
+
+
+                <dd><a href="index.html#ContextShutdownWithErrorChan">type ContextShutdownWithErrorChan</a></dd>
 				
 				
 			
@@ -267,9 +267,10 @@
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#Parameters.AssignTo">func (c *Parameters) AssignTo(value any)</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#Parameters.Clone">func (c *Parameters) Clone() any</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#Parameters.Clone">func (c *Parameters) Clone() *Parameters</a>
+                </dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#Parameters.Contains">func (c *Parameters) Contains(key string) bool</a></dd>
@@ -387,231 +388,177 @@ Notifier helper class that notifies components.
 </p>
 
 				<pre>var <span id="Notifier">Notifier</span> = &amp;_TNotifier{}</pre>
-			
-				<p>
-Opener Helper class that opens components.
-</p>
 
-				<pre>var <span id="Opener">Opener</span> = &amp;_TOpener{}</pre>
-			
-		
-		
-			
-			
-			<h2 id="CancelContextFeedback">func <a href="http://localhost:6060/src/run/Context.go?s=2997:3049#L72">CancelContextFeedback</a>
-				<a class="permalink" href="index.html#CancelContextFeedback">&#xb6;</a>
-				
-				
-			</h2>
-			<pre>func CancelContextFeedback(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
-			<p>
-CancelContextFeedback sends interrupt signal up to the context owner
-</p>
-<pre>Parameters: context.Context is a current context
+    <p>
+        Opener Helper class that opens components.
+    </p>
+
+    <pre>var <span id="Opener">Opener</span> = &amp;_TOpener{}</pre>
+
+
+    <h2 id="AddCustomDataChanToContext">func <a href="http://localhost:6060/src/run/Context.go?s=2446:2575#L62">AddCustomDataChanToContext</a>
+        <a class="permalink" href="index.html#AddCustomDataChanToContext">&#xb6;</a>
+
+
+    </h2>
+    <pre>func AddCustomDataChanToContext[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>](ctx <a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, channel <a
+            href="index.html#ContextFeedbackWithCustomDataChan">ContextFeedbackWithCustomDataChan</a>[T]) (<a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, <a
+            href="http://localhost:6060/pkg/builtin/#bool">bool</a>)</pre>
+    <p>
+        AddCustomDataChanToContext wrap context with ContextFeedbackChanWithCustomData
+    </p>
+    <pre>T is a custom data type
+see context.WithValue
+Parameters:
+	- context.Context - parent context
+	- ContextFeedbackWithCustomDataChan[T] - channel to put into context
+Returns:
+	- context.Context is a context with value
+	- bool true if channel is not nil or false
+</pre>
+
+
+    <h2 id="AddErrShutdownChanToContext">func <a href="http://localhost:6060/src/run/Context.go?s=1835:1950#L46">AddErrShutdownChanToContext</a>
+        <a class="permalink" href="index.html#AddErrShutdownChanToContext">&#xb6;</a>
+
+
+    </h2>
+    <pre>func AddErrShutdownChanToContext(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a
+            href="http://localhost:6060/pkg/context/#Context">Context</a>, channel <a
+            href="index.html#ContextShutdownWithErrorChan">ContextShutdownWithErrorChan</a>) (<a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, <a
+            href="http://localhost:6060/pkg/builtin/#bool">bool</a>)</pre>
+    <p>
+        AddErrShutdownChanToContext wrap context with ContextFeedbackChanWithError
+    </p>
+    <pre>see context.WithValue
+Parameters:
+	- context.Context - parent context
+	- ContextShutdownWithErrorChan - channel to put into context
+Returns:
+	- context.Context is a context with value
+	- bool true if channel is not nil or false
+</pre>
+
+
+    <h2 id="AddShutdownChanToContext">func <a href="http://localhost:6060/src/run/Context.go?s=1284:1387#L31">AddShutdownChanToContext</a>
+        <a class="permalink" href="index.html#AddShutdownChanToContext">&#xb6;</a>
+
+
+    </h2>
+    <pre>func AddShutdownChanToContext(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a
+            href="http://localhost:6060/pkg/context/#Context">Context</a>, channel <a
+            href="index.html#ContextShutdownChan">ContextShutdownChan</a>) (<a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, <a
+            href="http://localhost:6060/pkg/builtin/#bool">bool</a>)</pre>
+    <p>
+        AddShutdownChanToContext wrap context with ContextFeedbackChan
+    </p>
+    <pre>see context.WithValue
+Parameters:
+	- context.Context parent context
+	- ContextShutdownChan - channel to put into context
+Returns:
+	- context.Context is a context with value
+	- bool true if channel is not nil or false
+</pre>
+
+
+    <h2 id="SendShutdownSignal">func <a href="http://localhost:6060/src/run/Context.go?s=2889:2938#L72">SendShutdownSignal</a>
+        <a class="permalink" href="index.html#SendShutdownSignal">&#xb6;</a>
+
+
+    </h2>
+    <pre>func SendShutdownSignal(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a
+            href="http://localhost:6060/pkg/context/#Context">Context</a>) <a
+            href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+    <p>
+        SendShutdownSignal sends interrupt signal up to the context owner
+    </p>
+    <pre>Parameters: context.Context is a current context
 Returns: bool true if signal sends successful or false
 </pre>
 
-			
-			
 
-		
-			
-			
-			<h2 id="CancelContextFeedbackWithData">func <a href="http://localhost:6060/src/run/Context.go?s=4054:4129#L110">CancelContextFeedbackWithData</a>
-				<a class="permalink" href="index.html#CancelContextFeedbackWithData">&#xb6;</a>
-				
-				
-			</h2>
-			<pre>func CancelContextFeedbackWithData[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>](ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, data T) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
-			<p>
-CancelContextFeedbackWithData sends custom data and interrupt signal up to the context owner
-</p>
-<pre>Parameters:
-	- context.Context is a current context
-	- T custom data
-Returns: bool true if signal sends successful or false
-</pre>
+    <h2 id="SendShutdownSignalWithErr">func <a href="http://localhost:6060/src/run/Context.go?s=3395:3462#L91">SendShutdownSignalWithErr</a>
+        <a class="permalink" href="index.html#SendShutdownSignalWithErr">&#xb6;</a>
 
-			
-			
 
-		
-			
-			
-			<h2 id="CancelContextFeedbackWithError">func <a href="http://localhost:6060/src/run/Context.go?s=3511:3583#L91">CancelContextFeedbackWithError</a>
-				<a class="permalink" href="index.html#CancelContextFeedbackWithError">&#xb6;</a>
-				
-				
-			</h2>
-			<pre>func CancelContextFeedbackWithError(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, err <a href="http://localhost:6060/pkg/builtin/#error">error</a>) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
-			<p>
-CancelContextFeedbackWithError sends error and interrupt signal up to the context owner
-</p>
-<pre>Parameters:
+    </h2>
+    <pre>func SendShutdownSignalWithErr(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a
+            href="http://localhost:6060/pkg/context/#Context">Context</a>, err <a
+            href="http://localhost:6060/pkg/builtin/#error">error</a>) <a
+            href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+    <p>
+        SendShutdownSignalWithErr sends error and interrupt signal up to the context owner
+    </p>
+    <pre>Parameters:
 	- context.Context is a current context
 	- error
 Returns: bool true if signal sends successful or false
 </pre>
 
-			
-			
 
-		
-			
-			
-			<h2 id="NewCancelContext">func <a href="http://localhost:6060/src/run/Context.go?s=1274:1381#L31">NewCancelContext</a>
-				<a class="permalink" href="index.html#NewCancelContext">&#xb6;</a>
-				
-				
-			</h2>
-			<pre>func NewCancelContext(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, contextFeedbackChan <a href="index.html#ContextFeedbackChan">ContextFeedbackChan</a>) (<a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>)</pre>
-			<p>
-NewCancelContext wrap context with ContextFeedbackChan
-</p>
-<pre>see context.WithValue
-Parameters:
-	- context.Context parent context
-	- ContextFeedbackChan channel to put into context
-Returns:
-	- context.Context is a context with value
-	- bool true if channel is not nil or false
+    <h2 id="SendSignalWithCustomData">func <a href="http://localhost:6060/src/run/Context.go?s=3928:3998#L110">SendSignalWithCustomData</a>
+        <a class="permalink" href="index.html#SendSignalWithCustomData">&#xb6;</a>
+
+
+    </h2>
+    <pre>func SendSignalWithCustomData[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>](ctx <a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, data T) <a
+            href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+    <p>
+        SendSignalWithCustomData sends custom data and interrupt signal up to the context owner
+    </p>
+    <pre>Parameters:
+	- context.Context is a current context
+	- T custom data
+Returns: bool true if signal sends successful or false
 </pre>
 
-			
-			
 
-		
-			
-			
-			<h2 id="NewCancelContextWithCustomDataChannel">func <a href="http://localhost:6060/src/run/Context.go?s=2504:2656#L62">NewCancelContextWithCustomDataChannel</a>
-				<a class="permalink" href="index.html#NewCancelContextWithCustomDataChannel">&#xb6;</a>
-				
-				
-			</h2>
-			<pre>func NewCancelContextWithCustomDataChannel[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>](ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, contextFeedbackChan <a href="index.html#ContextFeedbackChanWithCustomData">ContextFeedbackChanWithCustomData</a>[T]) (<a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>)</pre>
-			<p>
-NewCancelContextWithCustomDataChannel wrap context with ContextFeedbackChanWithCustomData
-</p>
-<pre>T is a custom data type
-see context.WithValue
-Parameters:
-	- context.Context - parent context
-	- ContextFeedbackChanWithCustomData - channel to put into context
-Returns:
-	- context.Context is a context with value
-	- bool true if channel is not nil or false
-</pre>
+    <h2 id="ContextFeedbackWithCustomDataChan">type <a href="http://localhost:6060/src/run/Context.go?s=358:410#L5">ContextFeedbackWithCustomDataChan</a>
+        <a class="permalink" href="index.html#ContextFeedbackWithCustomDataChan">&#xb6;</a>
 
-			
-			
 
-		
-			
-			
-			<h2 id="NewCancelContextWithError">func <a href="http://localhost:6060/src/run/Context.go?s=1851:1976#L46">NewCancelContextWithError</a>
-				<a class="permalink" href="index.html#NewCancelContextWithError">&#xb6;</a>
-				
-				
-			</h2>
-			<pre>func NewCancelContextWithError(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, contextFeedbackChan <a href="index.html#ContextFeedbackChanWithError">ContextFeedbackChanWithError</a>) (<a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>)</pre>
-			<p>
-NewCancelContextWithError wrap context with ContextFeedbackChanWithError
-</p>
-<pre>see context.WithValue
-Parameters:
-	- context.Context - parent context
-	- ContextFeedbackChanWithError - channel to put into context
-Returns:
-	- context.Context is a context with value
-	- bool true if channel is not nil or false
-</pre>
+    </h2>
+    <p>
+        ContextFeedbackWithCustomDataChan a channel to
+        send context feedback with specific data.
+    </p>
 
-			
-			
+    <pre>type ContextFeedbackWithCustomDataChan[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>] chan T</pre>
 
-		
-		
-			
-			
-			<h2 id="ContextFeedbackChan">type <a href="http://localhost:6060/src/run/Context.go?s=100:134#L1">ContextFeedbackChan</a>
-				<a class="permalink" href="index.html#ContextFeedbackChan">&#xb6;</a>
-				
-				
-			</h2>
-			<p>
-ContextFeedbackChan a channel to send
-default context feedback
-</p>
 
-			<pre>type ContextFeedbackChan chan <a href="http://localhost:6060/pkg/builtin/#int8">int8</a></pre>
+    <h2 id="ContextShutdownChan">type <a href="http://localhost:6060/src/run/Context.go?s=100:134#L1">ContextShutdownChan</a>
+        <a class="permalink" href="index.html#ContextShutdownChan">&#xb6;</a>
 
-			
 
-			
+    </h2>
+    <p>
+        ContextShutdownChan a channel to send
+        default context feedback
+    </p>
 
-			
-			
-			
+    <pre>type ContextShutdownChan chan <a href="http://localhost:6060/pkg/builtin/#int8">int8</a></pre>
 
-			
 
-			
-		
-			
-			
-			<h2 id="ContextFeedbackChanWithCustomData">type <a href="http://localhost:6060/src/run/Context.go?s=358:410#L5">ContextFeedbackChanWithCustomData</a>
-				<a class="permalink" href="index.html#ContextFeedbackChanWithCustomData">&#xb6;</a>
-				
-				
-			</h2>
-			<p>
-ContextFeedbackChanWithCustomData a channel to
-send context feedback with specific data.
-</p>
+    <h2 id="ContextShutdownWithErrorChan">type <a href="http://localhost:6060/src/run/Context.go?s=217:261#L1">ContextShutdownWithErrorChan</a>
+        <a class="permalink" href="index.html#ContextShutdownWithErrorChan">&#xb6;</a>
 
-			<pre>type ContextFeedbackChanWithCustomData[T <a href="http://localhost:6060/pkg/builtin/#any">any</a>] chan T</pre>
 
-			
+    </h2>
+    <p>
+        ContextShutdownWithErrorChan a channel to send
+        context feedback with error
+    </p>
 
-			
+    <pre>type ContextShutdownWithErrorChan chan <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
 
-			
-			
-			
 
-			
-
-			
-		
-			
-			
-			<h2 id="ContextFeedbackChanWithError">type <a href="http://localhost:6060/src/run/Context.go?s=217:261#L1">ContextFeedbackChanWithError</a>
-				<a class="permalink" href="index.html#ContextFeedbackChanWithError">&#xb6;</a>
-				
-				
-			</h2>
-			<p>
-ContextFeedbackChanWithError a channel to send
-context feedback with error
-</p>
-
-			<pre>type ContextFeedbackChanWithError chan <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
-
-			
-
-			
-
-			
-			
-			
-
-			
-
-			
-		
-			
-			
-			<h2 id="ContextValueType">type <a href="http://localhost:6060/src/run/Context.go?s=622:650#L13">ContextValueType</a>
+    <h2 id="ContextValueType">type <a href="http://localhost:6060/src/run/Context.go?s=622:650#L13">ContextValueType</a>
 				<a class="permalink" href="index.html#ContextValueType">&#xb6;</a>
 				
 				
@@ -621,39 +568,30 @@ ContextValueType an enum to describe specific
 context feedback channel
 </p>
 <pre>Possible values:
-	- ContextFeedbackChanType
-	- ContextFeedbackChanWithErrorType
+	- ContextShutdownChanType
+	- ContextShutdownWithErrorChanType
 	- ContextFeedbackChanWithCustomDataType
 </pre>
 
 			<pre>type ContextValueType <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
 
-			
-				
-				<pre>const (
-    <span id="ContextFeedbackChanType">ContextFeedbackChanType</span>               <a href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextFeedbackChan&#34;
-    <span id="ContextFeedbackChanWithErrorType">ContextFeedbackChanWithErrorType</span>      <a href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextFeedbackChanWithError&#34;
-    <span id="ContextFeedbackChanWithCustomDataType">ContextFeedbackChanWithCustomDataType</span> <a href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextFeedbackChanWithCustomData&#34;
+
+    <pre>const (
+    <span id="ContextShutdownChanType">ContextShutdownChanType</span>               <a
+                href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextShutdownChan&#34;
+    <span id="ContextShutdownWithErrorChanType">ContextShutdownWithErrorChanType</span>      <a
+                href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextShutdownWithErrorChan&#34;
+    <span id="ContextFeedbackWithCustomDataChanType">ContextFeedbackWithCustomDataChanType</span> <a
+                href="index.html#ContextValueType">ContextValueType</a> = &#34;pip.ContextFeedbackWithCustomDataChan&#34;
 )</pre>
-			
 
-			
 
-			
-			
-			
+    <h2 id="FixedRateTimer">type <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=804:1022#L21">FixedRateTimer</a>
+        <a class="permalink" href="index.html#FixedRateTimer">&#xb6;</a>
 
-			
 
-			
-		
-			
-			
-			<h2 id="FixedRateTimer">type <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=728:946#L19">FixedRateTimer</a>
-				<a class="permalink" href="index.html#FixedRateTimer">&#xb6;</a>
-				
-				
-			</h2>
+    </h2>
 			<p>
 FixedRateTimer timer that is triggered in equal time intervals.
 It has summetric cross-language implementation and is often used by Pip.Services toolkit
@@ -683,21 +621,12 @@ Example:
 }
 </pre>
 
-			
 
-			
+    <h3 id="NewFixedRateTimer">func <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=1128:1168#L34">NewFixedRateTimer</a>
+        <a class="permalink" href="index.html#NewFixedRateTimer">&#xb6;</a>
 
-			
-			
-			
 
-			
-				
-				<h3 id="NewFixedRateTimer">func <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=1052:1092#L32">NewFixedRateTimer</a>
-					<a class="permalink" href="index.html#NewFixedRateTimer">&#xb6;</a>
-					
-					
-				</h3>
+    </h3>
 				<pre>func NewFixedRateTimer() *<a href="index.html#FixedRateTimer">FixedRateTimer</a></pre>
 				<p>
 NewFixedRateTimer creates new instance of the timer and sets its values.
@@ -705,15 +634,13 @@ NewFixedRateTimer creates new instance of the timer and sets its values.
 <pre>Returns: *FixedRateTimer
 </pre>
 
-				
-				
-			
-				
-				<h3 id="NewFixedRateTimerFromCallback">func <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=1573:1702#L46">NewFixedRateTimerFromCallback</a>
-					<a class="permalink" href="index.html#NewFixedRateTimerFromCallback">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="NewFixedRateTimerFromCallback">func <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=1649:1778#L48">NewFixedRateTimerFromCallback</a>
+        <a class="permalink" href="index.html#NewFixedRateTimerFromCallback">&#xb6;</a>
+
+
+    </h3>
 				<pre>func NewFixedRateTimerFromCallback(callback func(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>),
     interval <a href="http://localhost:6060/pkg/builtin/#int">int</a>, delay <a href="http://localhost:6060/pkg/builtin/#int">int</a>, workerCount <a href="http://localhost:6060/pkg/builtin/#int">int</a>) *<a href="index.html#FixedRateTimer">FixedRateTimer</a></pre>
 				<p>
@@ -727,15 +654,12 @@ NewFixedRateTimerFromCallback creates new instance of the timer and sets its val
 Returns: *FixedRateTimer
 </pre>
 
-				
-				
-			
-				
-				<h3 id="NewFixedRateTimerFromTask">func <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=2267:2374#L65">NewFixedRateTimerFromTask</a>
-					<a class="permalink" href="index.html#NewFixedRateTimerFromTask">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="NewFixedRateTimerFromTask">func <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=2343:2450#L67">NewFixedRateTimerFromTask</a>
+        <a class="permalink" href="index.html#NewFixedRateTimerFromTask">&#xb6;</a>
+
+
+    </h3>
 				<pre>func NewFixedRateTimerFromTask(task <a href="index.html#INotifiable">INotifiable</a>,
     interval <a href="http://localhost:6060/pkg/builtin/#int">int</a>, delay <a href="http://localhost:6060/pkg/builtin/#int">int</a>, workerCount <a href="http://localhost:6060/pkg/builtin/#int">int</a>) *<a href="index.html#FixedRateTimer">FixedRateTimer</a></pre>
 				<p>
@@ -749,17 +673,13 @@ NewFixedRateTimerFromTask creates new instance of the timer and sets its values.
 Returns: *FixedRateTimer
 </pre>
 
-				
-				
-			
 
-			
-				
-				<h3 id="FixedRateTimer.Callback">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=3613:3674#L113">Callback</a>
-					<a class="permalink" href="index.html#FixedRateTimer.Callback">&#xb6;</a>
-					
-					
-				</h3>
+    <h3 id="FixedRateTimer.Callback">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=3689:3750#L115">Callback</a>
+        <a class="permalink" href="index.html#FixedRateTimer.Callback">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Callback() func(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>)</pre>
 				<p>
 Callback gets the callback function that is called when this timer is triggered.
@@ -767,16 +687,13 @@ Callback gets the callback function that is called when this timer is triggered.
 <pre>Returns: function the callback function or null if it is not set.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.Close">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=6366:6445#L229">Close</a>
-					<a class="permalink" href="index.html#FixedRateTimer.Close">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.Close">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=6672:6751#L241">Close</a>
+        <a class="permalink" href="index.html#FixedRateTimer.Close">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Close(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
 				<p>
 Close closes the timer.
@@ -786,16 +703,13 @@ This is required by ICloseable interface, but besides that it is identical to st
 Returns: error
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.Delay">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=4115:4151#L129">Delay</a>
-					<a class="permalink" href="index.html#FixedRateTimer.Delay">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.Delay">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=4191:4227#L131">Delay</a>
+        <a class="permalink" href="index.html#FixedRateTimer.Delay">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Delay() <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
 				<p>
 Delay gets initial delay before the timer is triggered for the first time.
@@ -803,16 +717,13 @@ Delay gets initial delay before the timer is triggered for the first time.
 <pre>Returns: number the delay in milliseconds.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.Interval">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=4504:4543#L144">Interval</a>
-					<a class="permalink" href="index.html#FixedRateTimer.Interval">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.Interval">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=4580:4619#L146">Interval</a>
+        <a class="permalink" href="index.html#FixedRateTimer.Interval">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Interval() <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
 				<p>
 Interval gets periodic timer triggering interval.
@@ -820,16 +731,13 @@ Interval gets periodic timer triggering interval.
 <pre>Returns: number the interval in milliseconds
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.IsStarted">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=4902:4943#L159">IsStarted</a>
-					<a class="permalink" href="index.html#FixedRateTimer.IsStarted">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.IsStarted">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=4978:5019#L161">IsStarted</a>
+        <a class="permalink" href="index.html#FixedRateTimer.IsStarted">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) IsStarted() <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
 				<p>
 IsStarted checks if the timer is started.
@@ -837,16 +745,13 @@ IsStarted checks if the timer is started.
 <pre>Returns: bool true if the timer is started and false if it is stopped.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.SetCallback">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=3850:3919#L119">SetCallback</a>
-					<a class="permalink" href="index.html#FixedRateTimer.SetCallback">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.SetCallback">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=3926:3995#L121">SetCallback</a>
+        <a class="permalink" href="index.html#FixedRateTimer.SetCallback">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetCallback(value func(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>))</pre>
 				<p>
 SetCallback sets the callback function that is called when this timer is triggered.
@@ -854,16 +759,13 @@ SetCallback sets the callback function that is called when this timer is trigger
 <pre>Parameters: value func() the callback function to be called.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.SetDelay">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=4304:4348#L135">SetDelay</a>
-					<a class="permalink" href="index.html#FixedRateTimer.SetDelay">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.SetDelay">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=4380:4424#L137">SetDelay</a>
+        <a class="permalink" href="index.html#FixedRateTimer.SetDelay">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetDelay(value <a href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
 				<p>
 SetDelay sets initial delay before the timer is triggered for the first time.
@@ -871,16 +773,13 @@ SetDelay sets initial delay before the timer is triggered for the first time.
 <pre>Parameters: value int a delay in milliseconds.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.SetInterval">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=4678:4725#L150">SetInterval</a>
-					<a class="permalink" href="index.html#FixedRateTimer.SetInterval">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.SetInterval">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=4754:4801#L152">SetInterval</a>
+        <a class="permalink" href="index.html#FixedRateTimer.SetInterval">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetInterval(value <a href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
 				<p>
 SetInterval sets periodic timer triggering interval.
@@ -888,16 +787,13 @@ SetInterval sets periodic timer triggering interval.
 <pre>Parameters: value int an interval in milliseconds.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.SetTask">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=2903:2954#L86">SetTask</a>
-					<a class="permalink" href="index.html#FixedRateTimer.SetTask">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.SetTask">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=2979:3030#L88">SetTask</a>
+        <a class="permalink" href="index.html#FixedRateTimer.SetTask">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetTask(value <a href="index.html#INotifiable">INotifiable</a>)</pre>
 				<p>
 SetTask sets a new INotifiable object to receive notifications from this timer.
@@ -905,16 +801,13 @@ SetTask sets a new INotifiable object to receive notifications from this timer.
 <pre>Parameters: value INotifiable a INotifiable object to be triggered.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.SetWorkerCount">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=3318:3374#L104">SetWorkerCount</a>
-					<a class="permalink" href="index.html#FixedRateTimer.SetWorkerCount">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.SetWorkerCount">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=3394:3450#L106">SetWorkerCount</a>
+        <a class="permalink" href="index.html#FixedRateTimer.SetWorkerCount">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetWorkerCount(workerCount <a href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
 				<p>
 SetWorkerCount sets a new worker count.
@@ -922,47 +815,38 @@ SetWorkerCount sets a new worker count.
 <pre>Parameters: workerCount int.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.Start">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=5112:5163#L165">Start</a>
-					<a class="permalink" href="index.html#FixedRateTimer.Start">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.Start">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=5188:5239#L167">Start</a>
+        <a class="permalink" href="index.html#FixedRateTimer.Start">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Start(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>)</pre>
 				<p>
 Start starts the timer. Initially the timer is triggered after delay.
 After that it is triggered after interval until it is stopped.
 </p>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.Stop">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=5839:5889#L209">Stop</a>
-					<a class="permalink" href="index.html#FixedRateTimer.Stop">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.Stop">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=6145:6195#L221">Stop</a>
+        <a class="permalink" href="index.html#FixedRateTimer.Stop">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Stop(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>)</pre>
 				<p>
 Stop the timer.
 </p>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.Task">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=2685:2728#L80">Task</a>
-					<a class="permalink" href="index.html#FixedRateTimer.Task">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.Task">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=2761:2804#L82">Task</a>
+        <a class="permalink" href="index.html#FixedRateTimer.Task">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Task() <a href="index.html#INotifiable">INotifiable</a></pre>
 				<p>
 Task gets the INotifiable object that receives notifications from this timer.
@@ -970,16 +854,13 @@ Task gets the INotifiable object that receives notifications from this timer.
 <pre>Returns: INotifiable the INotifiable object or null if it is not set.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="FixedRateTimer.WorkerCount">func (*FixedRateTimer) <a href="http://localhost:6060/src/run/FixedRateTimer.go?s=3173:3215#L98">WorkerCount</a>
-					<a class="permalink" href="index.html#FixedRateTimer.WorkerCount">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="FixedRateTimer.WorkerCount">func (*FixedRateTimer) <a
+            href="http://localhost:6060/src/run/FixedRateTimer.go?s=3249:3291#L100">WorkerCount</a>
+        <a class="permalink" href="index.html#FixedRateTimer.WorkerCount">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) WorkerCount() <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
 				<p>
 WorkerCount gets the worker count.
@@ -1408,17 +1289,13 @@ NewParametersFromValue creates a new Parameters object filled with key-value pai
 Returns: *Parameters a new Parameters object.
 </pre>
 
-				
-				
-			
 
-			
-				
-				<h3 id="Parameters.AssignTo">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=8974:9014#L228">AssignTo</a>
-					<a class="permalink" href="index.html#Parameters.AssignTo">&#xb6;</a>
-					
-					
-				</h3>
+    <h3 id="Parameters.AssignTo">func (*Parameters) <a
+            href="http://localhost:6060/src/run/Parameters.go?s=8982:9022#L228">AssignTo</a>
+        <a class="permalink" href="index.html#Parameters.AssignTo">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) AssignTo(value <a href="http://localhost:6060/pkg/builtin/#any">any</a>)</pre>
 				<p>
 AssignTo assigns (copies over) properties from the specified value to this map.
@@ -1426,17 +1303,14 @@ AssignTo assigns (copies over) properties from the specified value to this map.
 <pre>Parameters: value any value whose properties shall be copied over.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="Parameters.Clone">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=6849:6881#L178">Clone</a>
-					<a class="permalink" href="index.html#Parameters.Clone">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) Clone() <a href="http://localhost:6060/pkg/builtin/#any">any</a></pre>
+
+    <h3 id="Parameters.Clone">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=6849:6889#L178">Clone</a>
+        <a class="permalink" href="index.html#Parameters.Clone">&#xb6;</a>
+
+
+    </h3>
+    <pre>func (c *<a href="index.html#Parameters">Parameters</a>) Clone() *<a
+            href="index.html#Parameters">Parameters</a></pre>
 				<p>
 Clone creates a binary clone of this object.
 </p>
@@ -1538,16 +1412,12 @@ default value if conversion is not possible.
 Returns: *Parameters value of the element or default value if conversion is not supported.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="Parameters.Omit">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=9819:9873#L253">Omit</a>
-					<a class="permalink" href="index.html#Parameters.Omit">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="Parameters.Omit">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=9827:9881#L253">Omit</a>
+        <a class="permalink" href="index.html#Parameters.Omit">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) Omit(paths ...<a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#Parameters">Parameters</a></pre>
 				<p>
 Omit selected parameters from this Parameters and returns the rest as a new Parameters object.
@@ -1556,16 +1426,13 @@ Omit selected parameters from this Parameters and returns the rest as a new Para
 Returns: *Parameters a new Parameters object.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="Parameters.Override">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=7304:7385#L188">Override</a>
-					<a class="permalink" href="index.html#Parameters.Override">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="Parameters.Override">func (*Parameters) <a
+            href="http://localhost:6060/src/run/Parameters.go?s=7312:7393#L188">Override</a>
+        <a class="permalink" href="index.html#Parameters.Override">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) Override(parameters *<a href="index.html#Parameters">Parameters</a>, recursive <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>) *<a href="index.html#Parameters">Parameters</a></pre>
 				<p>
 Override overrides parameters with new values from specified Parameters and returns a new Parameters object.
@@ -1577,16 +1444,12 @@ Parameters:
 Returns: *Parameters a new Parameters object.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="Parameters.Pick">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=9351:9405#L238">Pick</a>
-					<a class="permalink" href="index.html#Parameters.Pick">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="Parameters.Pick">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=9359:9413#L238">Pick</a>
+        <a class="permalink" href="index.html#Parameters.Pick">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) Pick(paths ...<a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#Parameters">Parameters</a></pre>
 				<p>
 Pick picks select parameters from this Parameters and returns them as a new Parameters object.
@@ -1632,16 +1495,13 @@ Remove removes a map element specified by its key
 <pre>Parameters: key string a key of the element to remove.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="Parameters.SetDefaults">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=8220:8311#L210">SetDefaults</a>
-					<a class="permalink" href="index.html#Parameters.SetDefaults">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="Parameters.SetDefaults">func (*Parameters) <a
+            href="http://localhost:6060/src/run/Parameters.go?s=8228:8319#L210">SetDefaults</a>
+        <a class="permalink" href="index.html#Parameters.SetDefaults">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) SetDefaults(defaultParameters *<a href="index.html#Parameters">Parameters</a>, recursive <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>) *<a href="index.html#Parameters">Parameters</a></pre>
 				<p>
 SetDefaults set default values from specified Parameters and returns a new Parameters object.
@@ -1653,30 +1513,16 @@ Parameters:
 Returns: *Parameters a new Parameters object.
 </pre>
 
-				
-				
-				
-			
-		
-	
 
-	
-
-
-
-
-
-
-
-<div id="footer">
-Build version go1.18.1.<br>
-Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
-the content of this page is licensed under the
-Creative Commons Attribution 3.0 License,
-and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
-<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
-<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
-</div>
+    <div id="footer">
+        Build version go1.18.2.<br>
+        Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+        the content of this page is licensed under the
+        Creative Commons Attribution 3.0 License,
+        and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+        <a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+        <a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+    </div>
 
 </div><!-- .container -->
 </div><!-- #page -->

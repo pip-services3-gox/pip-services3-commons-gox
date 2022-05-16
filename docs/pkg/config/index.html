@@ -14,7 +14,7 @@
 
 
 
-<script>var goVersion = "go1.18.1";</script>
+<script>var goVersion = "go1.18.2";</script>
 <script src="../../lib/godoc/godocs.js" defer></script>
 </head>
 <body>
@@ -107,18 +107,19 @@
 
 		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
 			<div id="manual-nav">
-			<dl>
-			
-			
-				<dd><a href="index.html#pkg-variables">Variables</a></dd>
-			
-			
-			
-				
-				<dd><a href="index.html#ConfigParams">type ConfigParams</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewConfigParams">func NewConfigParams(values map[string]string) *ConfigParams</a></dd>
+                <dl>
+
+                    <dd><a href="index.html#pkg-constants">Constants</a></dd>
+
+
+                    <dd><a href="index.html#pkg-variables">Variables</a></dd>
+
+
+                    <dd><a href="index.html#ConfigParams">type ConfigParams</a></dd>
+
+
+                    <dd>&nbsp; &nbsp; <a href="index.html#NewConfigParams">func NewConfigParams(values
+                        map[string]string) *ConfigParams</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#NewConfigParamsFromMaps">func NewConfigParamsFromMaps(maps ...map[string]string) *ConfigParams</a></dd>
@@ -189,22 +190,25 @@
 				<a href="http://localhost:6060/src/config/doc.go">doc.go</a>
 			
 			</span>
-			</p>
-		
-		</div><!-- .expanded -->
-		</div><!-- #pkg-index -->
+            </p>
 
-		
+        </div><!-- .expanded -->
+        </div><!-- #pkg-index -->
 
-		
-		
-			<h2 id="pkg-variables">Variables</h2>
-			
-				<p>
-NameResolver is a helper class that allows to extract component name from configuration parameters.
-The name can be defined in &#34;id&#34;, &#34;name&#34; parameters or inside a component descriptor.
-</p>
-<pre>Example:
+
+    <h2 id="pkg-constants">Constants</h2>
+
+
+    <pre>const <span id="SectionOptions">SectionOptions</span> = &#34;options&#34;</pre>
+
+
+    <h2 id="pkg-variables">Variables</h2>
+
+    <p>
+        NameResolver is a helper class that allows to extract component name from configuration parameters.
+        The name can be defined in &#34;id&#34;, &#34;name&#34; parameters or inside a component descriptor.
+    </p>
+    <pre>Example:
 	config := NewConfigParamsFromTuples(
 		&#34;descriptor&#34;, &#34;myservice:connector:aws:connector1:1.0&#34;,
 		&#34;param1&#34;, &#34;ABC&#34;,
@@ -506,18 +510,13 @@ Parameters: defaultConfigParams: *ConfigParams ConfigMap with default parameter 
 Returns *ConfigParams a new ConfigParams object.
 </pre>
 
-				
-				
-				
-			
-		
-			
-			
-			<h2 id="IConfigurable">type <a href="http://localhost:6060/src/config/IConfigurable.go?s=358:567#L1">IConfigurable</a>
-				<a class="permalink" href="index.html#IConfigurable">&#xb6;</a>
-				
-				
-			</h2>
+
+    <h2 id="IConfigurable">type <a
+            href="http://localhost:6060/src/config/IConfigurable.go?s=376:628#L1">IConfigurable</a>
+        <a class="permalink" href="index.html#IConfigurable">&#xb6;</a>
+
+
+    </h2>
 			<p>
 IConfigurable An interface to set configuration parameters to an object.
 </p>
@@ -525,14 +524,19 @@ IConfigurable An interface to set configuration parameters to an object.
 It can be added to any existing class by implementing a single configure() method.
 </p>
 <p>
-If you need to emphasis the fact that configure() method can be called multiple
-times to change object configuration in runtime, use IReconfigurable interface instead.
+    If you need to emphasis the fact that Configure() method can be called multiple
+    times to change object configuration in runtime, use IReconfigurable interface instead.
 </p>
 
-			<pre>type IConfigurable interface {
+    <pre>type IConfigurable interface {
 
-    <span class="comment">// Configure Parameters: config: ConfigParams configuration parameters to be set.</span>
-    Configure(config *<a href="index.html#ConfigParams">ConfigParams</a>)
+    <span class="comment">// Configure object by passing configuration parameters.</span>
+    <span class="comment">//	Parameters:</span>
+    <span class="comment">//		- ctx context.Context</span>
+    <span class="comment">//		- config: ConfigParams configuration parameters to be set.</span>
+    Configure(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a
+                href="http://localhost:6060/pkg/context/#Context">Context</a>, config *<a
+                href="index.html#ConfigParams">ConfigParams</a>)
 }</pre>
 
 			
@@ -566,37 +570,16 @@ that Configure() method can be called more than once to change object configurat
     <a href="index.html#IConfigurable">IConfigurable</a>
 }</pre>
 
-			
 
-			
-
-			
-			
-			
-
-			
-
-			
-		
-	
-
-	
-
-
-
-
-
-
-
-<div id="footer">
-Build version go1.18.1.<br>
-Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
-the content of this page is licensed under the
-Creative Commons Attribution 3.0 License,
-and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
-<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
-<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
-</div>
+    <div id="footer">
+        Build version go1.18.2.<br>
+        Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+        the content of this page is licensed under the
+        Creative Commons Attribution 3.0 License,
+        and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+        <a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+        <a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+    </div>
 
 </div><!-- .container -->
 </div><!-- #page -->
