@@ -116,7 +116,9 @@
 				<dd><a href="index.html#Command">type Command</a></dd>
 				
 					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewCommand">func NewCommand(name string, schema validate.ISchema, function func(ctx context.Context, correlationId string, args *run.Parameters) (any, error)) *Command</a></dd>
+					<dd>&nbsp; &nbsp; <a href="index.html#NewCommand">func NewCommand(name string, schema
+                        validate.ISchema, action func(ctx context.Context, correlationId string, args *run.Parameters)
+                        (any, error)) *Command</a></dd>
 				
 				
 					
@@ -287,19 +289,12 @@
 		</div><!-- .expanded -->
 		</div><!-- #pkg-index -->
 
-		
 
-		
-		
-		
-		
-			
-			
-			<h2 id="Command">type <a href="http://localhost:6060/src/commands/Command.go?s=904:1064#L17">Command</a>
-				<a class="permalink" href="index.html#Command">&#xb6;</a>
-				
-				
-			</h2>
+    <h2 id="Command">type <a href="http://localhost:6060/src/commands/Command.go?s=904:1058#L17">Command</a>
+        <a class="permalink" href="index.html#Command">&#xb6;</a>
+
+
+    </h2>
 			<p>
 Command Concrete implementation of ICommand interface. Command allows to call a
 method or function using Command pattern.
@@ -325,23 +320,23 @@ method or function using Command pattern.
 }
 </pre>
 
-			
 
-			
+    <h3 id="NewCommand">func <a href="http://localhost:6060/src/commands/Command.go?s=1407:1561#L30">NewCommand</a>
+        <a class="permalink" href="index.html#NewCommand">&#xb6;</a>
 
-			
-			
-			
 
-			
-				
-				<h3 id="NewCommand">func <a href="http://localhost:6060/src/commands/Command.go?s=1413:1569#L30">NewCommand</a>
-					<a class="permalink" href="index.html#NewCommand">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func NewCommand(name <a href="http://localhost:6060/pkg/builtin/#string">string</a>, schema <a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/">validate</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/#ISchema">ISchema</a>,
-    function func(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, args *<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/">run</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/#Parameters">Parameters</a>) (<a href="http://localhost:6060/pkg/builtin/#any">any</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)) *<a href="index.html#Command">Command</a></pre>
+    </h3>
+    <pre>func NewCommand(name <a href="http://localhost:6060/pkg/builtin/#string">string</a>, schema <a
+            href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/">validate</a>.<a
+            href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/#ISchema">ISchema</a>,
+    action func(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a
+                href="http://localhost:6060/pkg/context/#Context">Context</a>, correlationId <a
+                href="http://localhost:6060/pkg/builtin/#string">string</a>, args *<a
+                href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/">run</a>.<a
+                href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/#Parameters">Parameters</a>) (<a
+                href="http://localhost:6060/pkg/builtin/#any">any</a>, <a
+                href="http://localhost:6060/pkg/builtin/#error">error</a>)) *<a
+                href="index.html#Command">Command</a></pre>
 				<p>
 NewCommand creates a new command object and assigns it&#39;s parameters.
 </p>
@@ -353,17 +348,12 @@ NewCommand creates a new command object and assigns it&#39;s parameters.
 Returns: *Command
 </pre>
 
-				
-				
-			
 
-			
-				
-				<h3 id="Command.Execute">func (*Command) <a href="http://localhost:6060/src/commands/Command.go?s=2364:2467#L61">Execute</a>
-					<a class="permalink" href="index.html#Command.Execute">&#xb6;</a>
-					
-					
-				</h3>
+    <h3 id="Command.Execute">func (*Command) <a href="http://localhost:6060/src/commands/Command.go?s=2344:2447#L61">Execute</a>
+        <a class="permalink" href="index.html#Command.Execute">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#Command">Command</a>) Execute(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>, args *<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/">run</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/#Parameters">Parameters</a>) (<a href="http://localhost:6060/pkg/builtin/#any">any</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
 				<p>
 Execute the command. Before execution, it validates args using the defined schema.
@@ -377,31 +367,24 @@ the called function and returns them as an error in callback.
 Returns: (any, error)
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="Command.GetSchema">func (*Command) <a href="http://localhost:6060/src/commands/Command.go?s=3874:3920#L118">GetSchema</a>
-					<a class="permalink" href="index.html#Command.GetSchema">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="Command.GetSchema">func (*Command) <a href="http://localhost:6060/src/commands/Command.go?s=3852:3898#L118">GetSchema</a>
+        <a class="permalink" href="index.html#Command.GetSchema">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#Command">Command</a>) GetSchema() <a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/">validate</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/#ISchema">ISchema</a></pre>
 				<p>
 GetSchema methods return validation schema for this command
 </p>
 
-				
-				
-				
-			
-				
-				<h3 id="Command.Name">func (*Command) <a href="http://localhost:6060/src/commands/Command.go?s=1847:1878#L49">Name</a>
-					<a class="permalink" href="index.html#Command.Name">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="Command.Name">func (*Command) <a
+            href="http://localhost:6060/src/commands/Command.go?s=1827:1858#L49">Name</a>
+        <a class="permalink" href="index.html#Command.Name">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#Command">Command</a>) Name() <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
 				<p>
 Name gets the command name.
@@ -409,16 +392,12 @@ Name gets the command name.
 <pre>Returns: string - the name of this command.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="Command.Validate">func (*Command) <a href="http://localhost:6060/src/commands/Command.go?s=3539:3616#L105">Validate</a>
-					<a class="permalink" href="index.html#Command.Validate">&#xb6;</a>
-					
-					
-				</h3>
+
+    <h3 id="Command.Validate">func (*Command) <a href="http://localhost:6060/src/commands/Command.go?s=3517:3594#L105">Validate</a>
+        <a class="permalink" href="index.html#Command.Validate">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#Command">Command</a>) Validate(args *<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/">run</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/#Parameters">Parameters</a>) []*<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/">validate</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/#ValidationResult">ValidationResult</a></pre>
 				<p>
 Validate the command args before execution using the defined schema.
@@ -1298,11 +1277,15 @@ Name Returns string the name of the command that is being intercepted.
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#InterceptedCommand">InterceptedCommand</a>) Validate(args *<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/">run</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/#Parameters">Parameters</a>) []*<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/">validate</a>.<a href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/#ValidationResult">ValidationResult</a></pre>
-				<p>
-Validate the parameters (arguments) that are to be passed to the command that is next in the execution chain.
-</p>
-<pre>see Parameters
+    <pre>func (c *<a href="index.html#InterceptedCommand">InterceptedCommand</a>) Validate(args *<a
+            href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/">run</a>.<a
+            href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/run/#Parameters">Parameters</a>) []*<a
+            href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/">validate</a>.<a
+            href="http://localhost:6060/pkg/github.com/pip-services3-gox/pip-services3-commons-gox/validate/#ValidationResult">ValidationResult</a></pre>
+    <p>
+        Validate the parameters (arguments) that are to be passed to the command that is next in the execution chain.
+    </p>
+    <pre>see Parameters
 see ValidationResult
 Parameters: args the parameters (arguments) to validate for the next command.
 Returns: []*ValidationResult an array of *ValidationResults.

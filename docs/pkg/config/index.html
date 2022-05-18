@@ -120,18 +120,21 @@
 
                     <dd>&nbsp; &nbsp; <a href="index.html#NewConfigParams">func NewConfigParams(values
                         map[string]string) *ConfigParams</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewConfigParamsFromMaps">func NewConfigParamsFromMaps(maps ...map[string]string) *ConfigParams</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewConfigParamsFromString">func NewConfigParamsFromString(line string) *ConfigParams</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewConfigParamsFromTuples">func NewConfigParamsFromTuples(tuples ...any) *ConfigParams</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewConfigParamsFromTuplesArray">func NewConfigParamsFromTuplesArray(tuples []any) *ConfigParams</a></dd>
+
+
+                    <dd>&nbsp; &nbsp; <a href="index.html#NewConfigParamsFromMaps">func NewConfigParamsFromMaps(maps
+                        ...map[string]string) *ConfigParams</a></dd>
+
+
+                    <dd>&nbsp; &nbsp; <a href="index.html#NewConfigParamsFromString">func NewConfigParamsFromString(line
+                        string) *ConfigParams</a></dd>
+
+
+                    <dd>&nbsp; &nbsp; <a href="index.html#NewConfigParamsFromTuples">func
+                        NewConfigParamsFromTuples(tuples ...any) *ConfigParams</a></dd>
+
+
+                    <dd>&nbsp; &nbsp; <a href="index.html#NewConfigParamsFromTuplesArray">func NewConfigParamsFromTuplesArray(tuples []any) *ConfigParams</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#NewConfigParamsFromValue">func NewConfigParamsFromValue(value any) *ConfigParams</a></dd>
@@ -217,9 +220,9 @@
 	name := NameResolver.Resolve(config); // Result: connector1
 </pre>
 
-				<pre>var <span id="NameResolver">NameResolver</span> = &amp;_TNameResolver{}</pre>
-			
-				<p>
+    <pre>var <span id="NameResolver">NameResolver</span> = &amp;_TNameResolver{}</pre>
+
+    <p>
 OptionsResolver is a helper class to parameters from &#34;options&#34; configuration section.
 </p>
 <pre>Example:
@@ -498,14 +501,15 @@ Returns *ConfigParams a new ConfigParams object.
 				
 				<h3 id="ConfigParams.SetDefaults">func (*ConfigParams) <a href="http://localhost:6060/src/config/ConfigParams.go?s=7462:7534#L201">SetDefaults</a>
 					<a class="permalink" href="index.html#ConfigParams.SetDefaults">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func (c *<a href="index.html#ConfigParams">ConfigParams</a>) SetDefaults(defaults *<a href="index.html#ConfigParams">ConfigParams</a>) *<a href="index.html#ConfigParams">ConfigParams</a></pre>
-				<p>
-SetDefaults set default values from specified ConfigParams and returns a new ConfigParams object.
-</p>
-<pre>see NewConfigParamsFromMaps
+
+
+                </h3>
+    <pre>func (c *<a href="index.html#ConfigParams">ConfigParams</a>) SetDefaults(defaults *<a
+            href="index.html#ConfigParams">ConfigParams</a>) *<a href="index.html#ConfigParams">ConfigParams</a></pre>
+    <p>
+        SetDefaults set default values from specified ConfigParams and returns a new ConfigParams object.
+    </p>
+    <pre>see NewConfigParamsFromMaps
 Parameters: defaultConfigParams: *ConfigParams ConfigMap with default parameter values.
 Returns *ConfigParams a new ConfigParams object.
 </pre>
@@ -517,16 +521,16 @@ Returns *ConfigParams a new ConfigParams object.
 
 
     </h2>
-			<p>
-IConfigurable An interface to set configuration parameters to an object.
-</p>
-<p>
-It can be added to any existing class by implementing a single configure() method.
-</p>
-<p>
-    If you need to emphasis the fact that Configure() method can be called multiple
-    times to change object configuration in runtime, use IReconfigurable interface instead.
-</p>
+    <p>
+        IConfigurable An interface to set configuration parameters to an object.
+    </p>
+    <p>
+        It can be added to any existing class by implementing a single configure() method.
+    </p>
+    <p>
+        If you need to emphasis the fact that Configure() method can be called multiple
+        times to change object configuration in runtime, use IReconfigurable interface instead.
+    </p>
 
     <pre>type IConfigurable interface {
 
@@ -560,13 +564,13 @@ It can be added to any existing class by implementing a single configure() metho
 			</h2>
 			<p>
 IReconfigurable an interface to set configuration parameters to an object.
-</p>
-<p>
-It is similar to IConfigurable interface, but emphasises the fact
-that Configure() method can be called more than once to change object configuration in runtime.
-</p>
+            </p>
+    <p>
+        It is similar to IConfigurable interface, but emphasises the fact
+        that Configure() method can be called more than once to change object configuration in runtime.
+    </p>
 
-			<pre>type IReconfigurable interface {
+    <pre>type IReconfigurable interface {
     <a href="index.html#IConfigurable">IConfigurable</a>
 }</pre>
 

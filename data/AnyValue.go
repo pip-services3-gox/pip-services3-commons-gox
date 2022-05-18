@@ -144,6 +144,50 @@ func (c *AnyValue) GetAsLongWithDefault(defaultValue int64) int64 {
 	return convert.LongConverter.ToLongWithDefault(c._value, defaultValue)
 }
 
+// GetAsNullableUInteger converts object value into an unsigned integer
+// or returns default value if conversion is not possible.
+// 	Parameters: "defaultValue" - the default value
+// 	Returns: integer value or default if conversion is not supported.
+func (c *AnyValue) GetAsNullableUInteger() (uint, bool) {
+	return convert.IntegerConverter.ToNullableUInteger(c._value)
+}
+
+// GetAsUInteger converts object value into an unsigned integer or returns 0 if conversion is not possible.
+//	Returns: unsigned integer value or 0 if conversion is not supported.
+func (c *AnyValue) GetAsUInteger() uint {
+	return c.GetAsUIntegerWithDefault(0)
+}
+
+// GetAsUIntegerWithDefault converts object value into a unsigned integer or returns
+// default value if conversion is not possible.
+//	Parameters: "defaultValue" - the default value
+//	Returns: unsigned integer value or default if conversion is not supported.
+func (c *AnyValue) GetAsUIntegerWithDefault(defaultValue uint) uint {
+	return convert.IntegerConverter.ToUIntegerWithDefault(c._value, defaultValue)
+}
+
+// GetAsNullableULong converts object value into an unsigned long
+// or returns default value if conversion is not possible.
+// 	Parameters: "defaultValue" - the default value
+// 	Returns: long value or default if conversion is not supported.
+func (c *AnyValue) GetAsNullableULong() (uint64, bool) {
+	return convert.LongConverter.ToNullableULong(c._value)
+}
+
+// GetAsULong converts object value into an unsigned long or returns 0 if conversion is not possible.
+//	Returns: unsigned long value or 0 if conversion is not supported.
+func (c *AnyValue) GetAsULong() uint64 {
+	return c.GetAsULongWithDefault(0)
+}
+
+// GetAsULongWithDefault converts object value into a unsiged long or returns default value
+// if conversion is not possible.
+//	Parameters: "defaultValue" - the default value
+//	Returns: unsigned long value or default if conversion is not supported.
+func (c *AnyValue) GetAsULongWithDefault(defaultValue uint64) uint64 {
+	return convert.LongConverter.ToULongWithDefault(c._value, defaultValue)
+}
+
 // GetAsNullableFloat converts object value into a float or returns null if conversion is not possible.
 // 	Returns: float value and true or 0.0 and false if conversion is not supported.
 func (c *AnyValue) GetAsNullableFloat() (float32, bool) {

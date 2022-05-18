@@ -65,7 +65,11 @@ func toNullableString(value any) (string, bool) {
 		r, ok := value.(string)
 		return r, ok
 
-	case byte, uint, uint32, uint64, int, int32, int64:
+	case uint, uint32, uint64:
+		r := strconv.FormatUint(LongConverter.ToULong(value), 10)
+		return r, true
+
+	case byte, int, int32, int64:
 		r := strconv.FormatInt(LongConverter.ToLong(value), 10)
 		return r, true
 

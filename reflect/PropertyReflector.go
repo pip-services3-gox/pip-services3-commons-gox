@@ -48,8 +48,13 @@ func (c *_TPropertyReflector) toPropertyType(obj any) refl.Type {
 func (c *_TPropertyReflector) matchField(field refl.StructField, name string) bool {
 	// Field must be public and match to name as case insensitive
 	r, _ := utf8.DecodeRuneInString(field.Name)
+	tag := (string)(field.Tag)
+	var inTag bool
+	if len(tag) > 0 {
+		inTag = strings.Contains(tag, name)
+	}
 	return unicode.IsUpper(r) &&
-		strings.ToLower(field.Name) == strings.ToLower(name)
+		(strings.EqualFold(field.Name, name) || inTag)
 }
 
 func (c *_TPropertyReflector) matchPropertyGetter(property refl.Method, name string) bool {
@@ -60,7 +65,7 @@ func (c *_TPropertyReflector) matchPropertyGetter(property refl.Method, name str
 	// Method must be public and match to name as case insensitive
 	r, _ := utf8.DecodeRuneInString(property.Name)
 	return unicode.IsUpper(r) &&
-		strings.ToLower(property.Name) == strings.ToLower(name)
+		strings.EqualFold(property.Name, name)
 }
 
 func (c *_TPropertyReflector) matchPropertySetter(property refl.Method, name string) bool {
@@ -72,7 +77,7 @@ func (c *_TPropertyReflector) matchPropertySetter(property refl.Method, name str
 	r, _ := utf8.DecodeRuneInString(property.Name)
 	name = "Set" + name
 	return unicode.IsUpper(r) &&
-		strings.ToLower(property.Name) == strings.ToLower(name)
+		strings.EqualFold(property.Name, name)
 }
 
 // HasProperty checks if object has a property with specified name..

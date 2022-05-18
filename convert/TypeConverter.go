@@ -248,25 +248,35 @@ func toTypeWithDefault(typ TypeCode, value any, defaultValue any) any {
 	// Convert to known types
 	switch typ {
 	case String:
-		return StringConverter.ToStringWithDefault(value, defaultValue.(string))
+		defVal, _ := defaultValue.(string)
+		return StringConverter.ToStringWithDefault(value, defVal)
 	case Boolean:
-		return BooleanConverter.ToBooleanWithDefault(value, defaultValue.(bool))
+		defVal, _ := defaultValue.(bool)
+		return BooleanConverter.ToBooleanWithDefault(value, defVal)
 	case Integer:
-		return IntegerConverter.ToIntegerWithDefault(value, defaultValue.(int))
+		defVal, _ := defaultValue.(int)
+		return IntegerConverter.ToIntegerWithDefault(value, defVal)
 	case Long:
-		return LongConverter.ToLongWithDefault(value, defaultValue.(int64))
+		defVal, _ := defaultValue.(int64)
+		return LongConverter.ToLongWithDefault(value, defVal)
 	case Float:
-		return FloatConverter.ToFloatWithDefault(value, defaultValue.(float32))
+		defVal, _ := defaultValue.(float32)
+		return FloatConverter.ToFloatWithDefault(value, defVal)
 	case Double:
-		return DoubleConverter.ToDoubleWithDefault(value, defaultValue.(float64))
+		defVal, _ := defaultValue.(float64)
+		return DoubleConverter.ToDoubleWithDefault(value, defVal)
 	case DateTime:
-		return DateTimeConverter.ToDateTimeWithDefault(value, defaultValue.(time.Time))
+		defVal, _ := defaultValue.(time.Time)
+		return DateTimeConverter.ToDateTimeWithDefault(value, defVal)
 	case Duration:
-		return DurationConverter.ToDurationWithDefault(value, defaultValue.(time.Duration))
+		defVal, _ := defaultValue.(time.Duration)
+		return DurationConverter.ToDurationWithDefault(value, defVal)
 	case Array:
-		return ArrayConverter.ToArrayWithDefault(value, defaultValue.([]any))
+		defVal, _ := defaultValue.([]any)
+		return ArrayConverter.ToArrayWithDefault(value, defVal)
 	case Map:
-		return MapConverter.ToMapWithDefault(value, defaultValue.(map[string]any))
+		defVal, _ := defaultValue.(map[string]any)
+		return MapConverter.ToMapWithDefault(value, defVal)
 	default:
 		return defaultValue
 	}

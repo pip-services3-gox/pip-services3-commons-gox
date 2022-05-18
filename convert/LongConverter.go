@@ -47,6 +47,29 @@ func (c *_TLongConverter) ToLongWithDefault(value any, defaultValue int64) int64
 	return toLongWithDefault(value, defaultValue)
 }
 
+// ToULongWithDefault converts value into unsigned long or returns default when conversion is not possible.
+//	Parameters:
+//		"value" - the value to convert.
+//		"defaultValue" - the default value..
+//	Returns: long value or default when conversion is not supported.
+func (c *_TLongConverter) ToULongWithDefault(value any, defaultValue uint64) uint64 {
+	return toULongWithDefault(value, defaultValue)
+}
+
+// ToNullableULong converts value into unsigned long or returns null when conversion is not possible.
+//	Parameters: "value" - the value to convert
+//	Returns: long value or null when conversion is not supported.
+func (c *_TLongConverter) ToNullableULong(value any) (uint64, bool) {
+	return toNullableULong(value)
+}
+
+// ToULong converts value into unsigned long or returns 0 when conversion is not possible.
+//	Parameters: "value" - the value to convert
+//	Returns: long value or 0 when conversion is not supported.
+func (c *_TLongConverter) ToULong(value any) uint64 {
+	return toULong(value)
+}
+
 // ToNullableLong converts value into long or returns null when conversion is not possible.
 // Parameters: "value" - the value to convert
 // Returns: long value and true or 0 and false when conversion is not supported.
@@ -141,4 +164,84 @@ func toLongWithDefault(value any, defaultValue int64) int64 {
 		return r
 	}
 	return defaultValue
+}
+
+// toNullableULong converts value into unsigned long or returns null when conversion is not possible.
+//	Parameters: "value" - the value to convert
+//	Returns: long value or null when conversion is not supported.
+func toNullableULong(value any) (uint64, bool) {
+	if value == nil {
+		return 0, false
+	}
+
+	var r uint64 = 0
+
+	switch value.(type) {
+	case int8:
+		r = (uint64)(value.(int8))
+	case uint8:
+		r = (uint64)(value.(uint8))
+	case int:
+		r = (uint64)(value.(int))
+	case int16:
+		r = (uint64)(value.(int16))
+	case uint16:
+		r = (uint64)(value.(uint16))
+	case int32:
+		r = (uint64)(value.(int32))
+	case uint32:
+		r = (uint64)(value.(uint32))
+	case int64:
+		r = (uint64)(value.(int64))
+	case uint64:
+		r = (uint64)(value.(uint64))
+	case float32:
+		r = (uint64)(value.(float32))
+	case float64:
+		r = (uint64)(value.(float64))
+
+	case bool:
+		v := value.(bool)
+		if v == true {
+			r = 1
+		}
+
+	case time.Time:
+		r = (uint64)(value.(time.Time).Unix())
+
+	case time.Duration:
+		r = (uint64)(value.(time.Duration).Nanoseconds() / 1000000)
+
+	case string:
+		v, ok := strconv.ParseUint(value.(string), 10, 0)
+		if ok != nil {
+			return 0, false
+		}
+		r = uint64(v)
+
+	default:
+		return 0, false
+	}
+
+	return r, true
+}
+
+// toULong converts value into unsigned long or returns 0 when conversion is not possible.
+//	Parameters: "value" - the value to convert
+//	Returns: long value or 0 when conversion is not supported.
+func toULong(value any) uint64 {
+	return toULongWithDefault(value, 0)
+}
+
+// toULongWithDefault converts value into unsigned long or returns default when conversion is not possible.
+//	Parameters:
+//		"value" - the value to convert.
+//		"defaultValue" - the default value..
+//	Returns: long value or default when conversion is not supported.
+func toULongWithDefault(value any, defaultValue uint64) uint64 {
+	r, ok := toNullableULong(value)
+	if !ok {
+		return defaultValue
+	}
+	return r
 }

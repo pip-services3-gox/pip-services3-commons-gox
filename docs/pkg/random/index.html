@@ -335,11 +335,15 @@ Returns: time.Time a random Date and Time value.
 					
 					
 				</h3>
-				<pre>func (c *<a href="index.html#TRandomDateTime">TRandomDateTime</a>) UpdateDateTime(value <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a>, interval <a href="http://localhost:6060/pkg/builtin/#int64">int64</a>) <a href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a></pre>
-				<p>
-UpdateDateTime updates (drifts) a Date value within specified range defined
-</p>
-<pre>Parameters:
+    <pre>func (c *<a href="index.html#TRandomDateTime">TRandomDateTime</a>) UpdateDateTime(value <a
+            href="http://localhost:6060/pkg/time/">time</a>.<a href="http://localhost:6060/pkg/time/#Time">Time</a>, interval <a
+            href="http://localhost:6060/pkg/builtin/#int64">int64</a>) <a
+            href="http://localhost:6060/pkg/time/">time</a>.<a
+            href="http://localhost:6060/pkg/time/#Time">Time</a></pre>
+    <p>
+        UpdateDateTime updates (drifts) a Date value within specified range defined
+    </p>
+    <pre>Parameters:
 	- value: time.Time - value to drift.
 	- interval: int64 - a range in milliseconds. Default: 10 days
 Returns: time.Time Date value.

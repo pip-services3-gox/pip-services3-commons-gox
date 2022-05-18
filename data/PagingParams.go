@@ -15,9 +15,9 @@ package data
 //
 //		err, page = myDataClient.getDataByFilter(filter, paging);
 type PagingParams struct {
-	Skip  int64
-	Take  int64
-	Total bool
+	Skip  int64 `json:"skip"`
+	Take  int64 `json:"take"`
+	Total bool  `json:"total"`
 }
 
 const DefaultSkip int64 = 0
