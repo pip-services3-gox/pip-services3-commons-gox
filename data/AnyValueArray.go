@@ -318,6 +318,41 @@ func (c *AnyValueArray) GetAsIntegerWithDefault(index int, defaultValue int) int
 	return defaultValue
 }
 
+// GetAsNullableUInteger converts array element into an unsigned integer or returns nil if conversion is not possible.
+//	see convert.IntegerConverter.ToNullableUInteger
+//	Parameters:
+//		index int an index of element to get.
+//	Returns: unsigned integer value of the element and true or
+//		0 and false if conversion is not supported or index is invalid.
+func (c *AnyValueArray) GetAsNullableUInteger(index int) (uint, bool) {
+	if value, ok := c.Get(index); ok {
+		return convert.IntegerConverter.ToNullableUInteger(value)
+	}
+	return 0, false
+}
+
+// GetAsUInteger converts array element into an unsigned integer or returns 0 if conversion is not possible.
+//	see GetAsIntegerWithDefault
+//	Parameters: index int an index of element to get.
+//	Returns: uint unsigned integer value ot the element or 0 if conversion is not supported.
+func (c *AnyValueArray) GetAsUInteger(index int) uint {
+	return c.GetAsUIntegerWithDefault(index, 0)
+}
+
+// GetAsUIntegerWithDefault converts array element into an integer or
+// returns default value if conversion is not possible.
+// see IntegerConverter.ToIntegerWithDefault
+//	Parameters:
+//		- index int an index of element to get.
+//		- defaultValue uint the default value
+//	Returns: uint unsigned integer value ot the element or default value if conversion is not supported.
+func (c *AnyValueArray) GetAsUIntegerWithDefault(index int, defaultValue uint) uint {
+	if value, ok := c.Get(index); ok {
+		return convert.IntegerConverter.ToUIntegerWithDefault(value, defaultValue)
+	}
+	return defaultValue
+}
+
 // GetAsNullableLong converts array element into a long or returns nil if conversion is not possible.
 //	see convert.LongConverter.ToNullableLong
 //	Parameters:
@@ -347,6 +382,40 @@ func (c *AnyValueArray) GetAsLong(index int) int64 {
 func (c *AnyValueArray) GetAsLongWithDefault(index int, defaultValue int64) int64 {
 	if value, ok := c.Get(index); ok {
 		return convert.LongConverter.ToLongWithDefault(value, defaultValue)
+	}
+	return defaultValue
+}
+
+// GetAsNullableULong converts array element into a unsigned long or returns nil if conversion is not possible.
+//	see convert.LongConverter.ToNullableULong
+//	Parameters:
+//		index int an index of element to get.
+//	Returns: uint64 value of the element and true or 0 and false if conversion is not supported or index is invalid.
+func (c *AnyValueArray) GetAsNullableULong(index int) (uint64, bool) {
+	if value, ok := c.Get(index); ok {
+		return convert.LongConverter.ToNullableULong(value)
+	}
+	return 0, false
+}
+
+// GetAsULong converts array element into a unsigned long or returns 0 if conversion is not possible.
+// see GetAsLongWithDefault
+//	Parameters: index int an index of element to get.
+//	Returns: uint64 value ot the element or 0 if conversion is not supported.
+func (c *AnyValueArray) GetAsULong(index int) uint64 {
+	return c.GetAsULongWithDefault(index, 0)
+}
+
+// GetAsULongWithDefault converts array element into a unsigned long or
+// returns default value if conversion is not possible.
+//	see convert.LongConverter.ToLongWithDefault
+//	Parameters:
+//		- index int an index of element to get.
+//		- defaultValue int64 the default value
+//	Returns: uint64 value ot the element or default value if conversion is not supported.
+func (c *AnyValueArray) GetAsULongWithDefault(index int, defaultValue uint64) uint64 {
+	if value, ok := c.Get(index); ok {
+		return convert.LongConverter.ToULongWithDefault(value, defaultValue)
 	}
 	return defaultValue
 }

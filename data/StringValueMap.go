@@ -370,6 +370,39 @@ func (c *StringValueMap) GetAsIntegerWithDefault(key string, defaultValue int) i
 	return defaultValue
 }
 
+// GetAsNullableUInteger converts map element into an unsigned integer or returns null if conversion is not possible.
+//	see IntegerConverter.ToNullableInteger
+//	Parameters: key string a key of element to get.
+//	Returns: unsigned integer value of the element or o and false if conversion is not supported.
+func (c *StringValueMap) GetAsNullableUInteger(key string) (uint, bool) {
+	if value, ok := c.Get(key); ok {
+		return convert.IntegerConverter.ToNullableUInteger(value)
+	}
+	return 0, false
+}
+
+// GetAsUInteger converts map element into an unsigned integer or returns 0 if conversion is not possible.
+//	see GetAsIntegerWithDefault
+//	Parameters: key string a key of element to get.
+//	Returns uint
+func (c *StringValueMap) GetAsUInteger(key string) uint {
+	return c.GetAsUIntegerWithDefault(key, 0)
+}
+
+// GetAsUIntegerWithDefault converts map element into an unsigned integer or
+// returns default value if conversion is not possible.
+//	see IntegerConverter.ToIntegerWithDefault
+//	Parameters:
+//		- key string a key of element to get.
+//		- defaultValue uint the default value
+//	Returns uint integer value of the element or default value if conversion is not supported.
+func (c *StringValueMap) GetAsUIntegerWithDefault(key string, defaultValue uint) uint {
+	if value, ok := c.Get(key); ok {
+		return convert.IntegerConverter.ToUIntegerWithDefault(value, defaultValue)
+	}
+	return defaultValue
+}
+
 // GetAsNullableLong converts map element into a int64 or returns null if conversion is not possible.
 //	see convert.LongConverter.toNullableLong
 //	Parameters: key string a key of element to get.
@@ -398,6 +431,38 @@ func (c *StringValueMap) GetAsLong(key string) int64 {
 func (c *StringValueMap) GetAsLongWithDefault(key string, defaultValue int64) int64 {
 	if value, ok := c.Get(key); ok {
 		return convert.LongConverter.ToLongWithDefault(value, defaultValue)
+	}
+	return defaultValue
+}
+
+// GetAsNullableULong converts map element into a uint64 or returns null if conversion is not possible.
+// see convert.LongConverter.ToNullableLong
+//	Parameters: key string a key of element to get.
+//	Returns: int64 value of the element or false if conversion is not supported.
+func (c *StringValueMap) GetAsNullableULong(key string) (uint64, bool) {
+	if value, ok := c.Get(key); ok {
+		return convert.LongConverter.ToNullableULong(value)
+	}
+	return 0, false
+}
+
+// GetAsULong converts map element into a uint64 or returns 0 if conversion is not possible.
+//	see GetAsULongWithDefault
+//	Parameters: key string a key of element to get.
+//	Returns: uint64 value of the element or 0 if conversion is not supported.
+func (c *StringValueMap) GetAsULong(key string) uint64 {
+	return c.GetAsULongWithDefault(key, 0)
+}
+
+// GetAsULongWithDefault converts map element into a uint64 or returns default value if conversion is not possible.
+//	see convert.LongConverter.ToULongWithDefault
+//	Parameters:
+//		- key string a key of element to get.
+//		- defaultValue uint64 the default value
+//	Returns: uint64 value of the element or default value if conversion is not supported.
+func (c *StringValueMap) GetAsULongWithDefault(key string, defaultValue uint64) uint64 {
+	if value, ok := c.Get(key); ok {
+		return convert.LongConverter.ToULongWithDefault(value, defaultValue)
 	}
 	return defaultValue
 }

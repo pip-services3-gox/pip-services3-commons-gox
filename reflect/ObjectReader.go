@@ -1,8 +1,8 @@
 package reflect
 
 import (
+	"fmt"
 	refl "reflect"
-	"strconv"
 	"strings"
 
 	"github.com/pip-services3-gox/pip-services3-commons-gox/convert"
@@ -147,8 +147,9 @@ func (c *_TObjectReader) GetPropertyNames(obj any) []string {
 	}
 
 	if val.Kind() == refl.Slice || val.Kind() == refl.Array {
+		strFmt := c.GetStrIndexFormat(val.Len())
 		for index := 0; index < val.Len(); index++ {
-			properties = append(properties, strconv.Itoa(index))
+			properties = append(properties, fmt.Sprintf(strFmt, index))
 		}
 		return properties
 	}
@@ -179,11 +180,22 @@ func (c *_TObjectReader) GetProperties(obj any) map[string]any {
 	}
 
 	if val.Kind() == refl.Slice || val.Kind() == refl.Array {
+		strFmt := c.GetStrIndexFormat(val.Len())
 		for index := 0; index < val.Len(); index++ {
-			values[strconv.Itoa(index)] = val.Index(index).Interface()
+			values[fmt.Sprintf(strFmt, index)] = val.Index(index).Interface()
 		}
 		return values
 	}
 
 	return PropertyReflector.GetProperties(obj)
+}
+
+func (c *_TObjectReader) GetStrIndexFormat(len int) string {
+	count := 0
+	for len > 0 {
+		count++
+		len = len / 10
+	}
+
+	return fmt.Sprintf("%%0%dd", count)
 }

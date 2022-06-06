@@ -42,6 +42,29 @@ func (c *_TIntegerConverter) ToIntegerWithDefault(value any, defaultValue int) i
 	return toIntegerWithDefault(value, defaultValue)
 }
 
+// ToUIntegerWithDefault converts value into unsigned integer or returns default when conversion is not possible.
+//	Parameters:
+//		"value" - the value to convert.
+//		"defaultValue" - the default value.
+//	Returns: integer value or default when conversion is not supported.
+func (c *_TIntegerConverter) ToUIntegerWithDefault(value any, defaultValue uint) uint {
+	return toUIntegerWithDefault(value, defaultValue)
+}
+
+// ToNullableUInteger converts value into unsigned integer or returns null when conversion is not possible.
+//	Parameters: "value" - the value to convert
+//	Returns: integer value or null when conversion is not supported.
+func (c *_TIntegerConverter) ToNullableUInteger(value any) (uint, bool) {
+	return toNullableUInteger(value)
+}
+
+// ToUInteger converts value into unsigned integer or returns 0 when conversion is not possible.
+//	Parameters: "value" - the value to convert
+//	Returns: integer value or 0 when conversion is not supported.
+func (c *_TIntegerConverter) ToUInteger(value any) uint {
+	return toUInteger(value)
+}
+
 // ToNullableInteger converts value into integer or returns null when conversion is not possible.
 // Parameters: "value" - the value to convert
 // Returns: integer value or null when conversion is not supported.
@@ -69,4 +92,34 @@ func toIntegerWithDefault(value any, defaultValue int) int {
 		return r
 	}
 	return defaultValue
+}
+
+// toNullableUInteger converts value into unsigned integer or returns null when conversion is not possible.
+//	Parameters: "value" - the value to convert
+//	Returns: integer value or null when conversion is not supported.
+func toNullableUInteger(value any) (uint, bool) {
+	if v, ok := toNullableULong(value); ok {
+		return uint(v), true
+	}
+	return 0, false
+}
+
+// toUInteger converts value into unsigned integer or returns 0 when conversion is not possible.
+//	Parameters: "value" - the value to convert
+//	Returns: integer value or 0 when conversion is not supported.
+func toUInteger(value any) uint {
+	return toUIntegerWithDefault(value, 0)
+}
+
+// toUIntegerWithDefault converts value into unsigned integer or returns default when conversion is not possible.
+//	Parameters:
+//		"value" - the value to convert.
+//		"defaultValue" - the default value.
+//	Returns: integer value or default when conversion is not supported.
+func toUIntegerWithDefault(value any, defaultValue uint) uint {
+	r, ok := toNullableUInteger(value)
+	if !ok {
+		return defaultValue
+	}
+	return r
 }

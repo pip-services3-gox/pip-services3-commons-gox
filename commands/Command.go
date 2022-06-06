@@ -25,9 +25,9 @@ import (
 //		}
 //		// Console output: 2 + 2 = 4
 type Command struct {
-	schema   validate.ISchema
-	function func(ctx context.Context, correlationId string, args *run.Parameters) (any, error)
-	name     string
+	schema validate.ISchema
+	action func(ctx context.Context, correlationId string, args *run.Parameters) (any, error)
+	name   string
 }
 
 // NewCommand creates a new command object and assigns it's parameters.
@@ -38,19 +38,19 @@ type Command struct {
 //			the function to be executed by this command.
 //	Returns: *Command
 func NewCommand(name string, schema validate.ISchema,
-	function func(ctx context.Context, correlationId string, args *run.Parameters) (any, error)) *Command {
+	action func(ctx context.Context, correlationId string, args *run.Parameters) (any, error)) *Command {
 
 	if name == "" {
 		panic("Name cannot be empty")
 	}
-	if function == nil {
-		panic("Function cannot be nil")
+	if action == nil {
+		panic("Action cannot be nil")
 	}
 
 	return &Command{
-		name:     name,
-		schema:   schema,
-		function: function,
+		name:   name,
+		schema: schema,
+		action: action,
 	}
 }
 
@@ -97,7 +97,7 @@ func (c *Command) Execute(ctx context.Context, correlationId string, args *run.P
 			}
 		}()
 
-		return c.function(ctx, correlationId, args)
+		return c.action(ctx, correlationId, args)
 	}()
 
 	if err2 != nil {

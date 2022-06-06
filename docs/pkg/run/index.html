@@ -108,11 +108,11 @@
 		<!-- Table of contents for API; must be named manual-nav to turn off auto nav. -->
 			<div id="manual-nav">
 			<dl>
-			
-				<dd><a href="index.html#pkg-constants">Constants</a></dd>
-			
-			
-				<dd><a href="index.html#pkg-variables">Variables</a></dd>
+
+                <dd><a href="index.html#pkg-constants">Constants</a></dd>
+
+
+                <dd><a href="index.html#pkg-variables">Variables</a></dd>
 
 
                 <dd><a href="index.html#AddCustomDataChanToContext">func AddCustomDataChanToContext[T any](ctx
@@ -146,16 +146,12 @@
 
 
                 <dd><a href="index.html#ContextShutdownWithErrorChan">type ContextShutdownWithErrorChan</a></dd>
-				
-				
-			
-				
-				<dd><a href="index.html#ContextValueType">type ContextValueType</a></dd>
-				
-				
-			
-				
-				<dd><a href="index.html#FixedRateTimer">type FixedRateTimer</a></dd>
+
+
+                <dd><a href="index.html#ContextValueType">type ContextValueType</a></dd>
+
+
+                <dd><a href="index.html#FixedRateTimer">type FixedRateTimer</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#NewFixedRateTimer">func NewFixedRateTimer() *FixedRateTimer</a></dd>
@@ -257,32 +253,37 @@
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#NewParametersFromTuples">func NewParametersFromTuples(tuples ...any) *Parameters</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewParametersFromTuplesArray">func NewParametersFromTuplesArray(tuples []any) *Parameters</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewParametersFromValue">func NewParametersFromValue(value any) *Parameters</a></dd>
-				
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#Parameters.AssignTo">func (c *Parameters) AssignTo(value any)</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#NewParametersFromTuplesArray">func
+                    NewParametersFromTuplesArray(tuples []any) *Parameters</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#NewParametersFromValue">func NewParametersFromValue(value any)
+                    *Parameters</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#Parameters.AssignTo">func (c *Parameters) AssignTo(value any)</a>
+                </dd>
 
 
                 <dd>&nbsp; &nbsp; <a href="index.html#Parameters.Clone">func (c *Parameters) Clone() *Parameters</a>
                 </dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#Parameters.Contains">func (c *Parameters) Contains(key string) bool</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#Parameters.Get">func (c *Parameters) Get(key string) (any, bool)</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#Parameters.GetAsNullableParameters">func (c *Parameters) GetAsNullableParameters(key string) (*Parameters, bool)</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#Parameters.GetAsParameters">func (c *Parameters) GetAsParameters(key string) *Parameters</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#Parameters.Contains">func (c *Parameters) Contains(key string)
+                    bool</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#Parameters.Get">func (c *Parameters) Get(key string) (any,
+                    bool)</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#Parameters.GetAsNullableParameters">func (c *Parameters)
+                    GetAsNullableParameters(key string) (*Parameters, bool)</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#Parameters.GetAsParameters">func (c *Parameters) GetAsParameters(key string) *Parameters</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#Parameters.GetAsParametersWithDefault">func (c *Parameters) GetAsParametersWithDefault(key string, defaultValue *Parameters) *Parameters</a></dd>
@@ -378,16 +379,16 @@ Closer helper class that closes previously opened components.
 				<pre>var <span id="Closer">Closer</span> = &amp;_TCloser{}</pre>
 			
 				<p>
-Executor Helper class that executes components.
-</p>
+                    Executor Helper class that executes components.
+                </p>
 
-				<pre>var <span id="Executor">Executor</span> = &amp;_TExecutor{}</pre>
-			
-				<p>
-Notifier helper class that notifies components.
-</p>
+    <pre>var <span id="Executor">Executor</span> = &amp;_TExecutor{}</pre>
 
-				<pre>var <span id="Notifier">Notifier</span> = &amp;_TNotifier{}</pre>
+    <p>
+        Notifier helper class that notifies components.
+    </p>
+
+    <pre>var <span id="Notifier">Notifier</span> = &amp;_TNotifier{}</pre>
 
     <p>
         Opener Helper class that opens components.
@@ -559,21 +560,21 @@ Returns: bool true if signal sends successful or false
 
 
     <h2 id="ContextValueType">type <a href="http://localhost:6060/src/run/Context.go?s=622:650#L13">ContextValueType</a>
-				<a class="permalink" href="index.html#ContextValueType">&#xb6;</a>
-				
-				
-			</h2>
-			<p>
-ContextValueType an enum to describe specific
-context feedback channel
-</p>
-<pre>Possible values:
+        <a class="permalink" href="index.html#ContextValueType">&#xb6;</a>
+
+
+    </h2>
+    <p>
+        ContextValueType an enum to describe specific
+        context feedback channel
+    </p>
+    <pre>Possible values:
 	- ContextShutdownChanType
 	- ContextShutdownWithErrorChanType
 	- ContextFeedbackChanWithCustomDataType
 </pre>
 
-			<pre>type ContextValueType <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+    <pre>type ContextValueType <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
 
 
     <pre>const (
@@ -592,12 +593,12 @@ context feedback channel
 
 
     </h2>
-			<p>
-FixedRateTimer timer that is triggered in equal time intervals.
-It has summetric cross-language implementation and is often used by Pip.Services toolkit
-to perform periodic processing and cleanup in microservices.
-</p>
-<pre>see INotifiable
+    <p>
+        FixedRateTimer timer that is triggered in equal time intervals.
+        It has summetric cross-language implementation and is often used by Pip.Services toolkit
+        to perform periodic processing and cleanup in microservices.
+    </p>
+    <pre>see INotifiable
 Example:
 	type MyComponent {
 		timer FixedRateTimer
@@ -616,7 +617,7 @@ Example:
 	}
 </pre>
 
-			<pre>type FixedRateTimer struct {
+    <pre>type FixedRateTimer struct {
     <span class="comment">// contains filtered or unexported fields</span>
 }
 </pre>
@@ -627,11 +628,11 @@ Example:
 
 
     </h3>
-				<pre>func NewFixedRateTimer() *<a href="index.html#FixedRateTimer">FixedRateTimer</a></pre>
-				<p>
-NewFixedRateTimer creates new instance of the timer and sets its values.
-</p>
-<pre>Returns: *FixedRateTimer
+    <pre>func NewFixedRateTimer() *<a href="index.html#FixedRateTimer">FixedRateTimer</a></pre>
+    <p>
+        NewFixedRateTimer creates new instance of the timer and sets its values.
+    </p>
+    <pre>Returns: *FixedRateTimer
 </pre>
 
 
@@ -641,12 +642,15 @@ NewFixedRateTimer creates new instance of the timer and sets its values.
 
 
     </h3>
-				<pre>func NewFixedRateTimerFromCallback(callback func(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>),
-    interval <a href="http://localhost:6060/pkg/builtin/#int">int</a>, delay <a href="http://localhost:6060/pkg/builtin/#int">int</a>, workerCount <a href="http://localhost:6060/pkg/builtin/#int">int</a>) *<a href="index.html#FixedRateTimer">FixedRateTimer</a></pre>
-				<p>
-NewFixedRateTimerFromCallback creates new instance of the timer and sets its values.
-</p>
-<pre>Parameters:
+    <pre>func NewFixedRateTimerFromCallback(callback func(ctx <a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>),
+    interval <a href="http://localhost:6060/pkg/builtin/#int">int</a>, delay <a
+                href="http://localhost:6060/pkg/builtin/#int">int</a>, workerCount <a
+                href="http://localhost:6060/pkg/builtin/#int">int</a>) *<a href="index.html#FixedRateTimer">FixedRateTimer</a></pre>
+    <p>
+        NewFixedRateTimerFromCallback creates new instance of the timer and sets its values.
+    </p>
+    <pre>Parameters:
 	- callback func() callback function to call when timer is triggered.
 	- interval int an interval to trigger timer in milliseconds.
 	- delay int a delay before the first triggering in milliseconds.
@@ -660,12 +664,14 @@ Returns: *FixedRateTimer
 
 
     </h3>
-				<pre>func NewFixedRateTimerFromTask(task <a href="index.html#INotifiable">INotifiable</a>,
-    interval <a href="http://localhost:6060/pkg/builtin/#int">int</a>, delay <a href="http://localhost:6060/pkg/builtin/#int">int</a>, workerCount <a href="http://localhost:6060/pkg/builtin/#int">int</a>) *<a href="index.html#FixedRateTimer">FixedRateTimer</a></pre>
-				<p>
-NewFixedRateTimerFromTask creates new instance of the timer and sets its values.
-</p>
-<pre>Parameters:
+    <pre>func NewFixedRateTimerFromTask(task <a href="index.html#INotifiable">INotifiable</a>,
+    interval <a href="http://localhost:6060/pkg/builtin/#int">int</a>, delay <a
+                href="http://localhost:6060/pkg/builtin/#int">int</a>, workerCount <a
+                href="http://localhost:6060/pkg/builtin/#int">int</a>) *<a href="index.html#FixedRateTimer">FixedRateTimer</a></pre>
+    <p>
+        NewFixedRateTimerFromTask creates new instance of the timer and sets its values.
+    </p>
+    <pre>Parameters:
 	- callback INotifiable Notifiable object to call when timer is triggered.
 	- interval int an interval to trigger timer in milliseconds.
 	- delay int a delay before the first triggering in milliseconds.
@@ -680,11 +686,12 @@ Returns: *FixedRateTimer
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Callback() func(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>)</pre>
-				<p>
-Callback gets the callback function that is called when this timer is triggered.
-</p>
-<pre>Returns: function the callback function or null if it is not set.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Callback() func(ctx <a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>)</pre>
+    <p>
+        Callback gets the callback function that is called when this timer is triggered.
+    </p>
+    <pre>Returns: function the callback function or null if it is not set.
 </pre>
 
 
@@ -694,12 +701,15 @@ Callback gets the callback function that is called when this timer is triggered.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Close(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, correlationId <a href="http://localhost:6060/pkg/builtin/#string">string</a>) <a href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
-				<p>
-Close closes the timer.
-This is required by ICloseable interface, but besides that it is identical to stop().
-</p>
-<pre>Parameters: correlationId: string transaction id to trace execution through call chain.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Close(ctx <a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>, correlationId <a
+            href="http://localhost:6060/pkg/builtin/#string">string</a>) <a
+            href="http://localhost:6060/pkg/builtin/#error">error</a></pre>
+    <p>
+        Close closes the timer.
+        This is required by ICloseable interface, but besides that it is identical to stop().
+    </p>
+    <pre>Parameters: correlationId: string transaction id to trace execution through call chain.
 Returns: error
 </pre>
 
@@ -710,11 +720,12 @@ Returns: error
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Delay() <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
-				<p>
-Delay gets initial delay before the timer is triggered for the first time.
-</p>
-<pre>Returns: number the delay in milliseconds.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Delay() <a
+            href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+    <p>
+        Delay gets initial delay before the timer is triggered for the first time.
+    </p>
+    <pre>Returns: number the delay in milliseconds.
 </pre>
 
 
@@ -724,11 +735,12 @@ Delay gets initial delay before the timer is triggered for the first time.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Interval() <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
-				<p>
-Interval gets periodic timer triggering interval.
-</p>
-<pre>Returns: number the interval in milliseconds
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Interval() <a
+            href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+    <p>
+        Interval gets periodic timer triggering interval.
+    </p>
+    <pre>Returns: number the interval in milliseconds
 </pre>
 
 
@@ -738,11 +750,12 @@ Interval gets periodic timer triggering interval.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) IsStarted() <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
-				<p>
-IsStarted checks if the timer is started.
-</p>
-<pre>Returns: bool true if the timer is started and false if it is stopped.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) IsStarted() <a
+            href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+    <p>
+        IsStarted checks if the timer is started.
+    </p>
+    <pre>Returns: bool true if the timer is started and false if it is stopped.
 </pre>
 
 
@@ -752,11 +765,12 @@ IsStarted checks if the timer is started.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetCallback(value func(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>))</pre>
-				<p>
-SetCallback sets the callback function that is called when this timer is triggered.
-</p>
-<pre>Parameters: value func() the callback function to be called.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetCallback(value func(ctx <a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>))</pre>
+    <p>
+        SetCallback sets the callback function that is called when this timer is triggered.
+    </p>
+    <pre>Parameters: value func() the callback function to be called.
 </pre>
 
 
@@ -766,11 +780,12 @@ SetCallback sets the callback function that is called when this timer is trigger
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetDelay(value <a href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
-				<p>
-SetDelay sets initial delay before the timer is triggered for the first time.
-</p>
-<pre>Parameters: value int a delay in milliseconds.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetDelay(value <a
+            href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
+    <p>
+        SetDelay sets initial delay before the timer is triggered for the first time.
+    </p>
+    <pre>Parameters: value int a delay in milliseconds.
 </pre>
 
 
@@ -780,11 +795,12 @@ SetDelay sets initial delay before the timer is triggered for the first time.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetInterval(value <a href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
-				<p>
-SetInterval sets periodic timer triggering interval.
-</p>
-<pre>Parameters: value int an interval in milliseconds.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetInterval(value <a
+            href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
+    <p>
+        SetInterval sets periodic timer triggering interval.
+    </p>
+    <pre>Parameters: value int an interval in milliseconds.
 </pre>
 
 
@@ -794,11 +810,12 @@ SetInterval sets periodic timer triggering interval.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetTask(value <a href="index.html#INotifiable">INotifiable</a>)</pre>
-				<p>
-SetTask sets a new INotifiable object to receive notifications from this timer.
-</p>
-<pre>Parameters: value INotifiable a INotifiable object to be triggered.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetTask(value <a
+            href="index.html#INotifiable">INotifiable</a>)</pre>
+    <p>
+        SetTask sets a new INotifiable object to receive notifications from this timer.
+    </p>
+    <pre>Parameters: value INotifiable a INotifiable object to be triggered.
 </pre>
 
 
@@ -808,11 +825,12 @@ SetTask sets a new INotifiable object to receive notifications from this timer.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetWorkerCount(workerCount <a href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
-				<p>
-SetWorkerCount sets a new worker count.
-</p>
-<pre>Parameters: workerCount int.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) SetWorkerCount(workerCount <a
+            href="http://localhost:6060/pkg/builtin/#int">int</a>)</pre>
+    <p>
+        SetWorkerCount sets a new worker count.
+    </p>
+    <pre>Parameters: workerCount int.
 </pre>
 
 
@@ -822,11 +840,12 @@ SetWorkerCount sets a new worker count.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Start(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>)</pre>
-				<p>
-Start starts the timer. Initially the timer is triggered after delay.
-After that it is triggered after interval until it is stopped.
-</p>
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Start(ctx <a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>)</pre>
+    <p>
+        Start starts the timer. Initially the timer is triggered after delay.
+        After that it is triggered after interval until it is stopped.
+    </p>
 
 
     <h3 id="FixedRateTimer.Stop">func (*FixedRateTimer) <a
@@ -835,10 +854,11 @@ After that it is triggered after interval until it is stopped.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Stop(ctx <a href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>)</pre>
-				<p>
-Stop the timer.
-</p>
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Stop(ctx <a
+            href="http://localhost:6060/pkg/context/">context</a>.<a href="http://localhost:6060/pkg/context/#Context">Context</a>)</pre>
+    <p>
+        Stop the timer.
+    </p>
 
 
     <h3 id="FixedRateTimer.Task">func (*FixedRateTimer) <a
@@ -847,11 +867,11 @@ Stop the timer.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Task() <a href="index.html#INotifiable">INotifiable</a></pre>
-				<p>
-Task gets the INotifiable object that receives notifications from this timer.
-</p>
-<pre>Returns: INotifiable the INotifiable object or null if it is not set.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) Task() <a href="index.html#INotifiable">INotifiable</a></pre>
+    <p>
+        Task gets the INotifiable object that receives notifications from this timer.
+    </p>
+    <pre>Returns: INotifiable the INotifiable object or null if it is not set.
 </pre>
 
 
@@ -861,21 +881,16 @@ Task gets the INotifiable object that receives notifications from this timer.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) WorkerCount() <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
-				<p>
-WorkerCount gets the worker count.
-</p>
-<pre>Returns: int worker count.
+    <pre>func (c *<a href="index.html#FixedRateTimer">FixedRateTimer</a>) WorkerCount() <a
+            href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+    <p>
+        WorkerCount gets the worker count.
+    </p>
+    <pre>Returns: int worker count.
 </pre>
 
-				
-				
-				
-			
-		
-			
-			
-			<h2 id="ICleanable">type <a href="http://localhost:6060/src/run/ICleanable.go?s=417:666#L7">ICleanable</a>
+
+    <h2 id="ICleanable">type <a href="http://localhost:6060/src/run/ICleanable.go?s=417:666#L7">ICleanable</a>
 				<a class="permalink" href="index.html#ICleanable">&#xb6;</a>
 				
 				
@@ -1278,14 +1293,15 @@ Returns: *Parameters a newly created Parameters.
 				
 				<h3 id="NewParametersFromValue">func <a href="http://localhost:6060/src/run/Parameters.go?s=1478:1528#L33">NewParametersFromValue</a>
 					<a class="permalink" href="index.html#NewParametersFromValue">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func NewParametersFromValue(value <a href="http://localhost:6060/pkg/builtin/#any">any</a>) *<a href="index.html#Parameters">Parameters</a></pre>
-				<p>
-NewParametersFromValue creates a new Parameters object filled with key-value pairs from specified object.
-</p>
-<pre>Parameters: value any an object with key-value pairs used to initialize a new Parameters.
+
+
+                </h3>
+    <pre>func NewParametersFromValue(value <a href="http://localhost:6060/pkg/builtin/#any">any</a>) *<a
+            href="index.html#Parameters">Parameters</a></pre>
+    <p>
+        NewParametersFromValue creates a new Parameters object filled with key-value pairs from specified object.
+    </p>
+    <pre>Parameters: value any an object with key-value pairs used to initialize a new Parameters.
 Returns: *Parameters a new Parameters object.
 </pre>
 
@@ -1296,11 +1312,12 @@ Returns: *Parameters a new Parameters object.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) AssignTo(value <a href="http://localhost:6060/pkg/builtin/#any">any</a>)</pre>
-				<p>
-AssignTo assigns (copies over) properties from the specified value to this map.
-</p>
-<pre>Parameters: value any value whose properties shall be copied over.
+    <pre>func (c *<a href="index.html#Parameters">Parameters</a>) AssignTo(value <a
+            href="http://localhost:6060/pkg/builtin/#any">any</a>)</pre>
+    <p>
+        AssignTo assigns (copies over) properties from the specified value to this map.
+    </p>
+    <pre>Parameters: value any value whose properties shall be copied over.
 </pre>
 
 
@@ -1311,18 +1328,14 @@ AssignTo assigns (copies over) properties from the specified value to this map.
     </h3>
     <pre>func (c *<a href="index.html#Parameters">Parameters</a>) Clone() *<a
             href="index.html#Parameters">Parameters</a></pre>
-				<p>
-Clone creates a binary clone of this object.
-</p>
-<pre>Returns: any a clone of this object.
+    <p>
+        Clone creates a binary clone of this object.
+    </p>
+    <pre>Returns: any a clone of this object.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="Parameters.Contains">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=5289:5335#L142">Contains</a>
+
+    <h3 id="Parameters.Contains">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=5289:5335#L142">Contains</a>
 					<a class="permalink" href="index.html#Parameters.Contains">&#xb6;</a>
 					
 					
@@ -1402,11 +1415,11 @@ Returns: *Parameters value of the element or empty Parameters if conversion is n
 					
 				</h3>
 				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) GetAsParametersWithDefault(key <a href="http://localhost:6060/pkg/builtin/#string">string</a>, defaultValue *<a href="index.html#Parameters">Parameters</a>) *<a href="index.html#Parameters">Parameters</a></pre>
-				<p>
-GetAsParametersWithDefault converts map element into a Parameters or returns
-default value if conversion is not possible.
-</p>
-<pre>Parameters:
+    <p>
+        GetAsParametersWithDefault converts map element into a Parameters or returns
+        default value if conversion is not possible.
+    </p>
+    <pre>Parameters:
 	- key string a key of element to get.
 	- defaultValue *Parameters the default value
 Returns: *Parameters value of the element or default value if conversion is not supported.
@@ -1418,11 +1431,12 @@ Returns: *Parameters value of the element or default value if conversion is not 
 
 
     </h3>
-				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) Omit(paths ...<a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#Parameters">Parameters</a></pre>
-				<p>
-Omit selected parameters from this Parameters and returns the rest as a new Parameters object.
-</p>
-<pre>Parameters: paths ...string keys to be omitted from copying over to new Parameters.
+    <pre>func (c *<a href="index.html#Parameters">Parameters</a>) Omit(paths ...<a
+            href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#Parameters">Parameters</a></pre>
+    <p>
+        Omit selected parameters from this Parameters and returns the rest as a new Parameters object.
+    </p>
+    <pre>Parameters: paths ...string keys to be omitted from copying over to new Parameters.
 Returns: *Parameters a new Parameters object.
 </pre>
 
@@ -1433,11 +1447,13 @@ Returns: *Parameters a new Parameters object.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) Override(parameters *<a href="index.html#Parameters">Parameters</a>, recursive <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>) *<a href="index.html#Parameters">Parameters</a></pre>
-				<p>
-Override overrides parameters with new values from specified Parameters and returns a new Parameters object.
-</p>
-<pre>see SetDefaults
+    <pre>func (c *<a href="index.html#Parameters">Parameters</a>) Override(parameters *<a href="index.html#Parameters">Parameters</a>, recursive <a
+            href="http://localhost:6060/pkg/builtin/#bool">bool</a>) *<a
+            href="index.html#Parameters">Parameters</a></pre>
+    <p>
+        Override overrides parameters with new values from specified Parameters and returns a new Parameters object.
+    </p>
+    <pre>see SetDefaults
 Parameters:
 	- parameters: Parameters with parameters to override the current values.
 	- recursive bool true to perform deep copy, and false for shallow copy. Default: false
@@ -1450,20 +1466,17 @@ Returns: *Parameters a new Parameters object.
 
 
     </h3>
-				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) Pick(paths ...<a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#Parameters">Parameters</a></pre>
-				<p>
-Pick picks select parameters from this Parameters and returns them as a new Parameters object.
-</p>
-<pre>Parameters: paths ...string keys to be picked and copied over to new Parameters.
+    <pre>func (c *<a href="index.html#Parameters">Parameters</a>) Pick(paths ...<a
+            href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#Parameters">Parameters</a></pre>
+    <p>
+        Pick picks select parameters from this Parameters and returns them as a new Parameters object.
+    </p>
+    <pre>Parameters: paths ...string keys to be picked and copied over to new Parameters.
 Returns: *Parameters a new Parameters object.
 </pre>
 
-				
-				
-				
-			
-				
-				<h3 id="Parameters.Put">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=4531:4578#L120">Put</a>
+
+    <h3 id="Parameters.Put">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=4531:4578#L120">Put</a>
 					<a class="permalink" href="index.html#Parameters.Put">&#xb6;</a>
 					
 					
@@ -1485,14 +1498,15 @@ The key can be defined using dot notation and allows to recursively access eleme
 				
 				<h3 id="Parameters.Remove">func (*Parameters) <a href="http://localhost:6060/src/run/Parameters.go?s=4892:4931#L133">Remove</a>
 					<a class="permalink" href="index.html#Parameters.Remove">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) Remove(key <a href="http://localhost:6060/pkg/builtin/#string">string</a>)</pre>
-				<p>
-Remove removes a map element specified by its key
-</p>
-<pre>Parameters: key string a key of the element to remove.
+
+
+                </h3>
+    <pre>func (c *<a href="index.html#Parameters">Parameters</a>) Remove(key <a
+            href="http://localhost:6060/pkg/builtin/#string">string</a>)</pre>
+    <p>
+        Remove removes a map element specified by its key
+    </p>
+    <pre>Parameters: key string a key of the element to remove.
 </pre>
 
 
@@ -1502,11 +1516,13 @@ Remove removes a map element specified by its key
 
 
     </h3>
-				<pre>func (c *<a href="index.html#Parameters">Parameters</a>) SetDefaults(defaultParameters *<a href="index.html#Parameters">Parameters</a>, recursive <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>) *<a href="index.html#Parameters">Parameters</a></pre>
-				<p>
-SetDefaults set default values from specified Parameters and returns a new Parameters object.
-</p>
-<pre>see Override
+    <pre>func (c *<a href="index.html#Parameters">Parameters</a>) SetDefaults(defaultParameters *<a
+            href="index.html#Parameters">Parameters</a>, recursive <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>) *<a
+            href="index.html#Parameters">Parameters</a></pre>
+    <p>
+        SetDefaults set default values from specified Parameters and returns a new Parameters object.
+    </p>
+    <pre>see Override
 Parameters:
 	- defaultParameters *Parameters Parameters with default parameter values.
 	- recursive bool true to perform deep copy, and false for shallow copy. Default: false

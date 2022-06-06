@@ -124,7 +124,7 @@
 
 
                 </dl>
-			</div><!-- #manual-nav -->
+            </div><!-- #manual-nav -->
 
 		
 
@@ -339,8 +339,8 @@ fmt.Println(value3) // {&#34;key&#34;:123}
     </p>
     <p>
         Example:
-</p>
-<pre>value1, ok1 := convert.LongConverter.ToNullableLong(&#34;ABC&#34;)
+    </p>
+    <pre>value1, ok1 := convert.LongConverter.ToNullableLong(&#34;ABC&#34;)
 value2, ok2 := convert.LongConverter.ToNullableLong(&#34;123.456&#34;)
 value3, ok3 := convert.LongConverter.ToNullableLong(true)
 value4, ok4 := convert.LongConverter.ToNullableLong(time.Now())
@@ -401,7 +401,7 @@ which applies extended conversion rules to convert the values.
 <p>
 Example:
 </p>
-<pre>value1 := convert.TypeConverter.ToType(convert.Integer, &#34;123.456&#34;)
+    <pre>value1 := convert.TypeConverter.ToType(convert.Integer, &#34;123.456&#34;)
 value2 := convert.TypeConverter.ToType(convert.DateTime, 123)
 value3 := convert.TypeConverter.ToType(convert.Boolean, &#34;F&#34;)
 fmt.Println(value1) // 123
@@ -409,7 +409,7 @@ fmt.Println(value2) // 1970-01-01 02:02:03 +0200 EET
 fmt.Println(value3) // false
 </pre>
 
-				<pre>var <span id="TypeConverter">TypeConverter</span> = &amp;_TTypeConverter{}</pre>
+    <pre>var <span id="TypeConverter">TypeConverter</span> = &amp;_TTypeConverter{}</pre>
 
 
     <h2 id="IJSONEngine">type <a href="http://localhost:6060/src/convert/JsonConverter.go?s=673:778#L16">IJSONEngine</a>
@@ -444,28 +444,35 @@ fmt.Println(value3) // false
 
 
     </h2>
-			<p>
-TypeCode codes for the data types that can be converted using TypeConverter.
-</p>
+    <p>
+        TypeCode codes for the data types that can be converted using TypeConverter.
+    </p>
 
-			<pre>type TypeCode <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
+    <pre>type TypeCode <a href="http://localhost:6060/pkg/builtin/#int">int</a></pre>
 
-			
-				
-				<pre>const (
-    <span id="Unknown">Unknown</span>  <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
+
+    <pre>const (
+    <span id="Unknown">Unknown</span>  <a href="index.html#TypeCode">TypeCode</a> = <a
+                href="http://localhost:6060/pkg/builtin/#iota">iota</a>
     <span id="String">String</span>   <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
     <span id="Boolean">Boolean</span>  <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
     <span id="Integer">Integer</span>  <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
     <span id="Long">Long</span>     <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
     <span id="Float">Float</span>    <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
-    <span id="Double">Double</span>   <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
-    <span id="DateTime">DateTime</span> <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
-    <span id="Duration">Duration</span> <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
-    <span id="Object">Object</span>   <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
-    <span id="Enum">Enum</span>     <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
-    <span id="Array">Array</span>    <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
-    <span id="Map">Map</span>      <a href="index.html#TypeCode">TypeCode</a> = <a href="http://localhost:6060/pkg/builtin/#iota">iota</a>
+    <span id="Double">Double</span>   <a href="index.html#TypeCode">TypeCode</a> = <a
+                href="http://localhost:6060/pkg/builtin/#iota">iota</a>
+    <span id="DateTime">DateTime</span> <a href="index.html#TypeCode">TypeCode</a> = <a
+                href="http://localhost:6060/pkg/builtin/#iota">iota</a>
+    <span id="Duration">Duration</span> <a href="index.html#TypeCode">TypeCode</a> = <a
+                href="http://localhost:6060/pkg/builtin/#iota">iota</a>
+    <span id="Object">Object</span>   <a href="index.html#TypeCode">TypeCode</a> = <a
+                href="http://localhost:6060/pkg/builtin/#iota">iota</a>
+    <span id="Enum">Enum</span>     <a href="index.html#TypeCode">TypeCode</a> = <a
+                href="http://localhost:6060/pkg/builtin/#iota">iota</a>
+    <span id="Array">Array</span>    <a href="index.html#TypeCode">TypeCode</a> = <a
+                href="http://localhost:6060/pkg/builtin/#iota">iota</a>
+    <span id="Map">Map</span>      <a href="index.html#TypeCode">TypeCode</a> = <a
+                href="http://localhost:6060/pkg/builtin/#iota">iota</a>
 )</pre>
 
 

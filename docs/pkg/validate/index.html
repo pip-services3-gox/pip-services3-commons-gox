@@ -244,28 +244,37 @@
 			
 				
 				<dd><a href="index.html#ObjectSchema">type ObjectSchema</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewObjectSchema">func NewObjectSchema() *ObjectSchema</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewObjectSchemaWithRules">func NewObjectSchemaWithRules(allowUndefined bool, required bool, rules []IValidationRule) *ObjectSchema</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#NewPagingParamsSchema">func NewPagingParamsSchema() *ObjectSchema</a></dd>
-				
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#ObjectSchema.AllowUndefined">func (c *ObjectSchema) AllowUndefined(value bool) *ObjectSchema</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#ObjectSchema.PerformValidation">func (c *ObjectSchema) PerformValidation(path string, value any) []*ValidationResult</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#ObjectSchema.Properties">func (c *ObjectSchema) Properties() []*PropertySchema</a></dd>
-				
-					
-					<dd>&nbsp; &nbsp; <a href="index.html#ObjectSchema.SetProperties">func (c *ObjectSchema) SetProperties(value []*PropertySchema)</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#NewObjectSchema">func NewObjectSchema() *ObjectSchema</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#NewObjectSchemaWithRules">func
+                    NewObjectSchemaWithRules(allowUndefined bool, required bool, rules []IValidationRule)
+                    *ObjectSchema</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#NewPagingParamsSchema">func NewPagingParamsSchema()
+                    *ObjectSchema</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#NewTokenizedPagingParamsSchema">func
+                    NewTokenizedPagingParamsSchema() *ObjectSchema</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#ObjectSchema.AllowUndefined">func (c *ObjectSchema)
+                    AllowUndefined(value bool) *ObjectSchema</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#ObjectSchema.PerformValidation">func (c *ObjectSchema)
+                    PerformValidation(path string, value any) []*ValidationResult</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#ObjectSchema.Properties">func (c *ObjectSchema) Properties()
+                    []*PropertySchema</a></dd>
+
+
+                <dd>&nbsp; &nbsp; <a href="index.html#ObjectSchema.SetProperties">func (c *ObjectSchema) SetProperties(value []*PropertySchema)</a></dd>
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#ObjectSchema.SetUndefinedAllowed">func (c *ObjectSchema) SetUndefinedAllowed(value bool)</a></dd>
@@ -487,6 +496,8 @@
 				<a href="http://localhost:6060/src/validate/PropertySchema.go">PropertySchema.go</a>
 			
 				<a href="http://localhost:6060/src/validate/Schema.go">Schema.go</a>
+			
+				<a href="http://localhost:6060/src/validate/TokenizedPagingParamsSchema.go">TokenizedPagingParamsSchema.go</a>
 			
 				<a href="http://localhost:6060/src/validate/ValidationException.go">ValidationException.go</a>
 			
@@ -1443,28 +1454,38 @@ Returns: *ObjectSchema
 			
 				
 				<h3 id="NewPagingParamsSchema">func <a href="http://localhost:6060/src/validate/PagingParamsSchema.go?s=230:272#L1">NewPagingParamsSchema</a>
-					<a class="permalink" href="index.html#NewPagingParamsSchema">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func NewPagingParamsSchema() *<a href="index.html#ObjectSchema">ObjectSchema</a></pre>
-				<p>
-NewPagingParamsSchema creates a new instance of validation schema.
-</p>
-<pre>Returns: *PagingParamsSchema
+                    <a class="permalink" href="index.html#NewPagingParamsSchema">&#xb6;</a>
+
+
+                </h3>
+    <pre>func NewPagingParamsSchema() *<a href="index.html#ObjectSchema">ObjectSchema</a></pre>
+    <p>
+        NewPagingParamsSchema creates a new instance of validation schema.
+    </p>
+    <pre>Returns: *PagingParamsSchema
 </pre>
 
-				
-				
-			
 
-			
-				
-				<h3 id="ObjectSchema.AllowUndefined">func (*ObjectSchema) <a href="http://localhost:6060/src/validate/ObjectSchema.go?s=2845:2908#L70">AllowUndefined</a>
-					<a class="permalink" href="index.html#ObjectSchema.AllowUndefined">&#xb6;</a>
-					
-					
-				</h3>
+    <h3 id="NewTokenizedPagingParamsSchema">func <a
+            href="http://localhost:6060/src/validate/TokenizedPagingParamsSchema.go?s=256:307#L1">NewTokenizedPagingParamsSchema</a>
+        <a class="permalink" href="index.html#NewTokenizedPagingParamsSchema">&#xb6;</a>
+
+
+    </h3>
+    <pre>func NewTokenizedPagingParamsSchema() *<a href="index.html#ObjectSchema">ObjectSchema</a></pre>
+    <p>
+        NewTokenizedPagingParamsSchema creates a new instance of validation schema.
+    </p>
+    <pre>Returns: *TokenizedPagingParamsSchema
+</pre>
+
+
+    <h3 id="ObjectSchema.AllowUndefined">func (*ObjectSchema) <a
+            href="http://localhost:6060/src/validate/ObjectSchema.go?s=2845:2908#L70">AllowUndefined</a>
+        <a class="permalink" href="index.html#ObjectSchema.AllowUndefined">&#xb6;</a>
+
+
+    </h3>
 				<pre>func (c *<a href="index.html#ObjectSchema">ObjectSchema</a>) AllowUndefined(value <a href="http://localhost:6060/pkg/builtin/#bool">bool</a>) *<a href="index.html#ObjectSchema">ObjectSchema</a></pre>
 				<p>
 AllowUndefined sets flag to allow undefined properties
@@ -2605,18 +2626,16 @@ NewValueComparisonRule creates a new validation rule and sets its values.
 Returns: *ValueComparisonRule
 </pre>
 
-				
-				
-			
 
-			
-				
-				<h3 id="ValueComparisonRule.Validate">func (*ValueComparisonRule) <a href="http://localhost:6060/src/validate/ValueComparisonRule.go?s=940:1038#L20">Validate</a>
-					<a class="permalink" href="index.html#ValueComparisonRule.Validate">&#xb6;</a>
-					
-					
-				</h3>
-				<pre>func (c *<a href="index.html#ValueComparisonRule">ValueComparisonRule</a>) Validate(path <a href="http://localhost:6060/pkg/builtin/#string">string</a>, schema <a href="index.html#ISchema">ISchema</a>, value <a href="http://localhost:6060/pkg/builtin/#any">any</a>) []*<a href="index.html#ValidationResult">ValidationResult</a></pre>
+    <h3 id="ValueComparisonRule.Validate">func (*ValueComparisonRule) <a
+            href="http://localhost:6060/src/validate/ValueComparisonRule.go?s=940:1038#L20">Validate</a>
+        <a class="permalink" href="index.html#ValueComparisonRule.Validate">&#xb6;</a>
+
+
+    </h3>
+    <pre>func (c *<a href="index.html#ValueComparisonRule">ValueComparisonRule</a>) Validate(path <a
+            href="http://localhost:6060/pkg/builtin/#string">string</a>, schema <a href="index.html#ISchema">ISchema</a>, value <a
+            href="http://localhost:6060/pkg/builtin/#any">any</a>) []*<a href="index.html#ValidationResult">ValidationResult</a></pre>
 
 
     <div id="footer">

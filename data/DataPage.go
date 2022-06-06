@@ -54,7 +54,7 @@ func NewEmptyDataPage[T any]() *DataPage[T] {
 //	Returns: *DataPage
 func NewDataPage[T any](data []T, total int) *DataPage[T] {
 	dataPage := DataPage[T]{data: data}
-	if total == EmptyTotalValue || total < int(len(data)) {
+	if total == EmptyTotalValue || total < len(data) {
 		dataPage.hasTotal = false
 		dataPage.total = EmptyTotalValue
 	} else {
