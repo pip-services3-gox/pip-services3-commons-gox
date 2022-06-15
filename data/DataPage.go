@@ -1,7 +1,7 @@
 package data
 
 import (
-	"errors"
+	//"errors"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/convert"
 )
 
@@ -16,23 +16,23 @@ import (
 //	see PagingParams
 //
 //	Example:
-//  err, page = myDataClient.getDataByFilter(
-//      "123",
-//      FilterParams.fromTuples("completed": true),
-//      NewPagingParams(0, 100, true)
-//  	};
+//		page, err := myDataClient.GetDataByFilter(
+//			context.Background(),
+//      	"123",
+//      	FilterParams.fromTuples("completed": true),
+//      	NewPagingParams(0, 100, true),
+//  	);
 //
 //  	if err != nil {
-//  		panic()
+//  		panic(err)
 //  	}
 //  	for item range page.Data {
 //          fmt.Println(item);
 //      }
 //  );
 type DataPage[T any] struct {
-	total    int
-	data     []T
-	hasTotal bool
+	Total int
+	Data  []T
 }
 
 const EmptyTotalValue int = -1
@@ -41,9 +41,8 @@ const EmptyTotalValue int = -1
 //	Returns: *DataPage
 func NewEmptyDataPage[T any]() *DataPage[T] {
 	return &DataPage[T]{
-		total:    EmptyTotalValue,
-		hasTotal: false,
-		data:     nil,
+		Total: EmptyTotalValue,
+		Data:  nil,
 	}
 }
 
@@ -53,92 +52,31 @@ func NewEmptyDataPage[T any]() *DataPage[T] {
 //		- total int
 //	Returns: *DataPage
 func NewDataPage[T any](data []T, total int) *DataPage[T] {
-	dataPage := DataPage[T]{data: data}
-	if total == EmptyTotalValue || total < len(data) {
-		dataPage.hasTotal = false
-		dataPage.total = EmptyTotalValue
-	} else {
-		dataPage.hasTotal = true
-		dataPage.total = total
+	dataPage := DataPage[T]{
+		Data:  data,
+		Total: total,
 	}
 
 	return &dataPage
 }
 
-func (d *DataPage[T]) Data() ([]T, bool) {
-	if len(d.data) > 0 {
-		return d.data, true
-	}
-	return nil, false
-}
-
-func (d *DataPage[T]) SetData(data []T) bool {
-	if len(data) > 0 {
-		d.data = data
-		return true
-	}
-	return false
-}
-
+// HasData method check if data exists
 func (d *DataPage[T]) HasData() bool {
-	return len(d.data) > 0
+	return len(d.Data) > 0
 }
 
-func (d *DataPage[T]) Total() (int, bool) {
-	return d.total, d.hasTotal
-}
-
-func (d *DataPage[T]) SetTotal(total int) bool {
-	if total > 0 {
-		d.hasTotal = true
-		d.total = total
-		return true
-	}
-	d.hasTotal = false
-	d.total = EmptyTotalValue
-	return false
-}
-
+// HasTotal method check if total exists and valid
 func (d *DataPage[T]) HasTotal() bool {
-	return d.hasTotal
+	return d.Total >= len(d.Data)
 }
 
 func (d *DataPage[T]) MarshalJSON() ([]byte, error) {
 	result := map[string]any{
-		"data": d.data,
+		"data": d.Data,
 	}
 	if d.HasTotal() {
-		result["total"] = d.total
+		result["total"] = d.Total
 	}
 	buf, err := convert.JsonConverter.ToJson(result)
 	return []byte(buf), err
-}
-
-func (d *DataPage[T]) UnmarshalJSON(data []byte) error {
-	buf, err := convert.JsonConverter.FromJson(string(data))
-	if err != nil {
-		return err
-	}
-	bufMap, ok := buf.(map[string]any)
-	if !ok {
-		return errors.New("invalid type conversion")
-	}
-	if _data, ok := bufMap["data"]; ok {
-		if val, ok := _data.([]T); ok {
-			d.data = val
-		}
-	}
-
-	if _total, ok := bufMap["total"]; ok {
-		if val, ok := convert.LongConverter.ToNullableLong(_total); ok {
-			if int(val) == EmptyTotalValue || int(val) < len(d.data) || val == 0 {
-				d.hasTotal = false
-				d.total = EmptyTotalValue
-			} else {
-				d.hasTotal = true
-				d.total = int(val)
-			}
-		}
-	}
-	return nil
 }
