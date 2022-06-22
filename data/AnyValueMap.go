@@ -236,7 +236,7 @@ func (c *AnyValueMap) SetAsObject(key string, value any) {
 //	Parameters: key string a key of element to get.
 //	Returns: string value of the element or null if conversion is not supported.
 func (c *AnyValueMap) GetAsNullableString(key string) (string, bool) {
-	if value, ok := c._base.Get(key); ok {
+	if value, ok := c._base.Get(key); ok && value != "" {
 		return convert.StringConverter.ToNullableString(value)
 	}
 	return "", false
@@ -257,7 +257,7 @@ func (c *AnyValueMap) GetAsString(key string) string {
 //		- defaultValue string the default value
 //	Returns: string value of the element or default value if conversion is not supported.
 func (c *AnyValueMap) GetAsStringWithDefault(key string, defaultValue string) string {
-	if value, ok := c._base.Get(key); ok {
+	if value, ok := c._base.Get(key); ok && value != "" {
 		return convert.StringConverter.ToStringWithDefault(value, defaultValue)
 	}
 	return defaultValue

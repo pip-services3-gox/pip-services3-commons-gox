@@ -275,7 +275,7 @@ func (c *StringValueMap) SetAsObject(key string, value any) {
 //	Parameters: key string a key of element to get.
 //	Returns: string value of the element or null if conversion is not supported.
 func (c *StringValueMap) GetAsNullableString(key string) (string, bool) {
-	if value, ok := c.Get(key); ok {
+	if value, ok := c.Get(key); ok && value != "" {
 		return convert.StringConverter.ToNullableString(value)
 	}
 	return "", false
@@ -296,7 +296,7 @@ func (c *StringValueMap) GetAsString(key string) string {
 //		- defaultValue string the default value
 //	Returns: string value of the element or default value if conversion is not supported.
 func (c *StringValueMap) GetAsStringWithDefault(key string, defaultValue string) string {
-	if value, ok := c.Get(key); ok {
+	if value, ok := c.Get(key); ok && value != "" {
 		return convert.StringConverter.ToStringWithDefault(value, defaultValue)
 	}
 	return defaultValue
@@ -335,7 +335,7 @@ func (c *StringValueMap) GetAsBooleanWithDefault(key string, defaultValue bool) 
 	if value, ok := c.Get(key); ok {
 		return convert.BooleanConverter.ToBooleanWithDefault(value, defaultValue)
 	}
-	return false
+	return defaultValue
 }
 
 // GetAsNullableInteger converts map element into an integer or returns null if conversion is not possible.
