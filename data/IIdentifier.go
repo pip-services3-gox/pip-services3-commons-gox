@@ -1,6 +1,6 @@
 package data
 
-type IIdentifier[T any] interface {
+type IIdentifier[K any] interface {
 	Empty() bool
-	Equals(T) bool
+	Equals(K) bool
 }

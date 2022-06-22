@@ -13,7 +13,6 @@ package data
 //		func (c *MyStruct) SetId(id string) {
 //			c.id = id
 //		}
-type IIdentifiable[T any] interface {
-	GetId() T
-	SetId(T)
+type IIdentifiable[K any] interface {
+	GetId() K
 }
