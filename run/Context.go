@@ -1,6 +1,10 @@
 package run
 
-import "context"
+import (
+	"context"
+	"errors"
+	"github.com/pip-services3-gox/pip-services3-commons-gox/convert"
+)
 
 // ContextShutdownChan a channel to send
 // default context feedback
@@ -129,4 +133,27 @@ func SendSignalWithCustomData[T any](ctx context.Context, data T) bool {
 		}
 	}
 	return false
+}
+
+// DefaultErrorHandlerWithShutdown is a default error handler method which catch panic,
+// parse error and send shutdown signal to main container.
+// Gracefully shutdown all containers. Using only with defer operator!
+//	see SendShutdownSignalWithErr
+//	Examples:
+//		func MyFunc(ctx context.Context) {
+//			defer DefaultErrorHandlerWithShutdown(ctx)
+//			...
+//			panic("some error")
+//		}
+//	Parameters:
+//		- ctx context.Context
+func DefaultErrorHandlerWithShutdown(ctx context.Context) {
+	if r := recover(); r != nil {
+		err, ok := r.(error)
+		if !ok {
+			msg := convert.StringConverter.ToString(r)
+			err = errors.New(msg)
+		}
+		SendShutdownSignalWithErr(ctx, err)
+	}
 }
