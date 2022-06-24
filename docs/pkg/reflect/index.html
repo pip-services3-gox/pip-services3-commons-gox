@@ -14,7 +14,7 @@
 
 
 
-<script>var goVersion = "go1.18.2";</script>
+<script>var goVersion = "go1.18.3";</script>
 <script src="../../lib/godoc/godocs.js" defer></script>
 </head>
 <body>
@@ -154,36 +154,33 @@
 				
 					
 					<dd>&nbsp; &nbsp; <a href="index.html#TTypeReflector.GetTypeByDescriptor">func (c *TTypeReflector) GetTypeByDescriptor(typ *TypeDescriptor) refl.Type</a></dd>
-
-
-                <dd><a href="index.html#TypeDescriptor">type TypeDescriptor</a></dd>
-
-
-                <dd>&nbsp; &nbsp; <a href="index.html#NewTypeDescriptor">func NewTypeDescriptor(name string, pkg string)
-                    *TypeDescriptor</a></dd>
-
-
-                <dd>&nbsp; &nbsp; <a href="index.html#ParseTypeDescriptorFromString">func
-                    ParseTypeDescriptorFromString(value string) (*TypeDescriptor, error)</a></dd>
-
-
-                <dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.Equals">func (c *TypeDescriptor) Equals(descriptor
-                    *TypeDescriptor) bool</a></dd>
-
-
-                <dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.Name">func (c *TypeDescriptor) Name() string</a>
-                </dd>
-
-
-                <dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.Package">func (c *TypeDescriptor) Package()
-                    string</a></dd>
-
-
-                <dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.String">func (c *TypeDescriptor) String()
-                    string</a></dd>
-
-
-            </dl>
+				
+			
+				
+				<dd><a href="index.html#TypeDescriptor">type TypeDescriptor</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#NewTypeDescriptor">func NewTypeDescriptor(name string, pkg string) *TypeDescriptor</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#ParseTypeDescriptorFromString">func ParseTypeDescriptorFromString(value string) (*TypeDescriptor, error)</a></dd>
+				
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.Equals">func (c *TypeDescriptor) Equals(descriptor *TypeDescriptor) bool</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.Name">func (c *TypeDescriptor) Name() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.Package">func (c *TypeDescriptor) Package() string</a></dd>
+				
+					
+					<dd>&nbsp; &nbsp; <a href="index.html#TypeDescriptor.String">func (c *TypeDescriptor) String() string</a></dd>
+				
+			
+			
+			</dl>
 			</div><!-- #manual-nav -->
 
 		
@@ -682,58 +679,64 @@ languages supported by Pip.Services toolkit and used to support dynamic data pro
 					
 					
 				</h3>
-    <pre>func NewTypeDescriptor(name <a href="http://localhost:6060/pkg/builtin/#string">string</a>, pkg <a
-            href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#TypeDescriptor">TypeDescriptor</a></pre>
-    <p>
-        NewTypeDescriptor creates a new instance of the type descriptor and sets its values.
-        Parameters:
-    </p>
-    <pre>	- name string a name of the object type.
+				<pre>func NewTypeDescriptor(name <a href="http://localhost:6060/pkg/builtin/#string">string</a>, pkg <a href="http://localhost:6060/pkg/builtin/#string">string</a>) *<a href="index.html#TypeDescriptor">TypeDescriptor</a></pre>
+				<p>
+NewTypeDescriptor creates a new instance of the type descriptor and sets its values.
+Parameters:
+</p>
+<pre>	- name string a name of the object type.
 	- library string a library or module where this object type is implemented.
 Returns: *TypeDescriptor
 </pre>
 
-
-    <h3 id="ParseTypeDescriptorFromString">func <a
-            href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=2442:2515#L73">ParseTypeDescriptorFromString</a>
-        <a class="permalink" href="index.html#ParseTypeDescriptorFromString">&#xb6;</a>
-
-
-    </h3>
-    <pre>func ParseTypeDescriptorFromString(value <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (*<a
-            href="index.html#TypeDescriptor">TypeDescriptor</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
-    <p>
-        ParseTypeDescriptorFromString parses a string to get descriptor fields and returns them as a Descriptor.
-        The string must have format name[,package]
-        throws a ConfigError if the descriptor string is of a wrong format.
-    </p>
-    <pre>Parameters:
+				
+				
+			
+				
+				<h3 id="ParseTypeDescriptorFromString">func <a href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=2442:2515#L73">ParseTypeDescriptorFromString</a>
+					<a class="permalink" href="index.html#ParseTypeDescriptorFromString">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func ParseTypeDescriptorFromString(value <a href="http://localhost:6060/pkg/builtin/#string">string</a>) (*<a href="index.html#TypeDescriptor">TypeDescriptor</a>, <a href="http://localhost:6060/pkg/builtin/#error">error</a>)</pre>
+				<p>
+ParseTypeDescriptorFromString parses a string to get descriptor fields and returns them as a Descriptor.
+The string must have format name[,package]
+throws a ConfigError if the descriptor string is of a wrong format.
+</p>
+<pre>Parameters:
 	- value string a string to parse.
 Returns: *TypeDescriptor a newly created Descriptor.
 </pre>
 
+				
+				
+			
 
-    <h3 id="TypeDescriptor.Equals">func (*TypeDescriptor) <a
-            href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=1485:1549#L38">Equals</a>
-        <a class="permalink" href="index.html#TypeDescriptor.Equals">&#xb6;</a>
-
-
-    </h3>
-    <pre>func (c *<a href="index.html#TypeDescriptor">TypeDescriptor</a>) Equals(descriptor *<a
-            href="index.html#TypeDescriptor">TypeDescriptor</a>) <a
-            href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
-    <p>
-        Equals compares this descriptor to a value. If the value is also a
-        TypeDescriptor it compares their name and library fields.
-        Otherwise, this method returns false.
-    </p>
-    <pre>Parameters:
+			
+				
+				<h3 id="TypeDescriptor.Equals">func (*TypeDescriptor) <a href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=1485:1549#L38">Equals</a>
+					<a class="permalink" href="index.html#TypeDescriptor.Equals">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#TypeDescriptor">TypeDescriptor</a>) Equals(descriptor *<a href="index.html#TypeDescriptor">TypeDescriptor</a>) <a href="http://localhost:6060/pkg/builtin/#bool">bool</a></pre>
+				<p>
+Equals compares this descriptor to a value. If the value is also a
+TypeDescriptor it compares their name and library fields.
+Otherwise, this method returns false.
+</p>
+<pre>Parameters:
 	- obj any a value to compare.
 Returns: bool true if value is identical TypeDescriptor and false otherwise.
 </pre>
 
-
-    <h3 id="TypeDescriptor.Name">func (*TypeDescriptor) <a href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=926:964#L22">Name</a>
+				
+				
+				
+			
+				
+				<h3 id="TypeDescriptor.Name">func (*TypeDescriptor) <a href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=926:964#L22">Name</a>
 					<a class="permalink" href="index.html#TypeDescriptor.Name">&#xb6;</a>
 					
 					
@@ -751,42 +754,57 @@ Name get the name of the object type.
 			
 				
 				<h3 id="TypeDescriptor.Package">func (*TypeDescriptor) <a href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=1123:1164#L28">Package</a>
-                    <a class="permalink" href="index.html#TypeDescriptor.Package">&#xb6;</a>
+					<a class="permalink" href="index.html#TypeDescriptor.Package">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#TypeDescriptor">TypeDescriptor</a>) Package() <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+				<p>
+Package gets the name of the package or module where the object type is defined.
+Returns: string the name of the package or module.
+</p>
 
-
-                </h3>
-    <pre>func (c *<a href="index.html#TypeDescriptor">TypeDescriptor</a>) Package() <a
-            href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
-    <p>
-        Package gets the name of the package or module where the object type is defined.
-        Returns: string the name of the package or module.
-    </p>
-
-
-    <h3 id="TypeDescriptor.String">func (*TypeDescriptor) <a
-            href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=1898:1938#L54">String</a>
-        <a class="permalink" href="index.html#TypeDescriptor.String">&#xb6;</a>
-
-
-    </h3>
-    <pre>func (c *<a href="index.html#TypeDescriptor">TypeDescriptor</a>) String() <a
-            href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
-    <p>
-        String gets a string representation of the object. The result has format name[,package]
-    </p>
-    <pre>Returns: string a string representation of the object.
+				
+				
+				
+			
+				
+				<h3 id="TypeDescriptor.String">func (*TypeDescriptor) <a href="http://localhost:6060/src/reflect/TypeDescriptor.go?s=1898:1938#L54">String</a>
+					<a class="permalink" href="index.html#TypeDescriptor.String">&#xb6;</a>
+					
+					
+				</h3>
+				<pre>func (c *<a href="index.html#TypeDescriptor">TypeDescriptor</a>) String() <a href="http://localhost:6060/pkg/builtin/#string">string</a></pre>
+				<p>
+String gets a string representation of the object. The result has format name[,package]
+</p>
+<pre>Returns: string a string representation of the object.
 </pre>
 
+				
+				
+				
+			
+		
+	
 
-    <div id="footer">
-        Build version go1.18.2.<br>
-        Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
-        the content of this page is licensed under the
-        Creative Commons Attribution 3.0 License,
-        and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
-        <a href="https://golang.org/doc/tos.html">Terms of Service</a> |
-        <a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
-    </div>
+	
+
+
+
+
+
+
+
+<div id="footer">
+Build version go1.18.3.<br>
+Except as <a href="https://developers.google.com/site-policies#restrictions">noted</a>,
+the content of this page is licensed under the
+Creative Commons Attribution 3.0 License,
+and code is licensed under a <a href="http://localhost:6060/LICENSE">BSD license</a>.<br>
+<a href="https://golang.org/doc/tos.html">Terms of Service</a> |
+<a href="https://www.google.com/intl/en/policies/privacy/">Privacy Policy</a>
+</div>
 
 </div><!-- .container -->
 </div><!-- #page -->
