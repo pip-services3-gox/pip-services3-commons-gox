@@ -31,8 +31,8 @@ import (
 //      }
 //  );
 type DataPage[T any] struct {
-	Total int
-	Data  []T
+	Total int `json:"total"`
+	Data  []T `json:"data"`
 }
 
 const EmptyTotalValue int = -1
@@ -70,7 +70,7 @@ func (d *DataPage[T]) HasTotal() bool {
 	return d.Total >= len(d.Data)
 }
 
-func (d *DataPage[T]) MarshalJSON() ([]byte, error) {
+func (d DataPage[T]) MarshalJSON() ([]byte, error) {
 	result := map[string]any{
 		"data": d.Data,
 	}
