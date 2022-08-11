@@ -1,6 +1,6 @@
 package data
 
-// IIdentifiable interface for data objects to operate with ids.
+// IStringIdentifiable interface for data objects to operate with ids.
 //	Example
 //		type MyStruct struct {
 //			...
@@ -13,6 +13,7 @@ package data
 //		func (c *MyStruct) SetId(id string) {
 //			c.id = id
 //		}
-type IIdentifiable[K any] interface {
-	GetId() K
+type IStringIdentifiable interface {
+	GetId() string
+	SetId(string)
 }

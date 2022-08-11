@@ -15,17 +15,11 @@ type user struct {
 func TestNewEmptyDataPage(t *testing.T) {
 	dataPage := data.NewEmptyDataPage[user]()
 
-	ok := dataPage.HasData()
-	assert.False(t, ok)
-	dt, ok := dataPage.Data()
-	assert.False(t, ok)
-	assert.Nil(t, dt)
+	assert.False(t, dataPage.HasData())
+	assert.Nil(t, dataPage.Data)
 
-	ok = dataPage.HasTotal()
-	assert.False(t, ok)
-	total, ok := dataPage.Total()
-	assert.False(t, ok)
-	assert.Equal(t, data.EmptyTotalValue, total)
+	assert.False(t, dataPage.HasTotal())
+	assert.Equal(t, data.EmptyTotalValue, dataPage.Total)
 }
 
 func TestNewDataPage(t *testing.T) {
@@ -38,28 +32,39 @@ func TestNewDataPage(t *testing.T) {
 	}}
 	dataPage := data.NewDataPage[user](arr, data.EmptyTotalValue)
 
-	ok := dataPage.HasData()
-	assert.True(t, ok)
-	dt, ok := dataPage.Data()
-	assert.True(t, ok)
-	assert.Equal(t, 2, len(dt))
+	assert.True(t, dataPage.HasData())
+	assert.Equal(t, 2, len(dataPage.Data))
 
-	ok = dataPage.HasTotal()
-	assert.False(t, ok)
-	total, ok := dataPage.Total()
-	assert.False(t, ok)
-	assert.Equal(t, data.EmptyTotalValue, total)
+	assert.False(t, dataPage.HasTotal())
+	assert.Equal(t, data.EmptyTotalValue, dataPage.Total)
 
+	// Test with total marshaling
+	dataPage.Total = 2
 	buf, err := json.Marshal(dataPage)
 	assert.Nil(t, err)
 	assert.True(t, len(buf) > 0)
 
-	err = json.Unmarshal(buf, &dataPage)
+	var resultedDataPage data.DataPage[user]
+	err = json.Unmarshal(buf, &resultedDataPage)
 	assert.Nil(t, err)
 
-	ok = dataPage.HasData()
-	assert.True(t, ok)
-	dt, ok = dataPage.Data()
-	assert.True(t, ok)
-	assert.Equal(t, 2, len(dt))
+	assert.True(t, resultedDataPage.HasData())
+	assert.True(t, resultedDataPage.HasTotal())
+	assert.Equal(t, 2, len(resultedDataPage.Data))
+	assert.Equal(t, 2, resultedDataPage.Total)
+
+	// Test with total marshaling
+	dataPage.Total = data.EmptyTotalValue
+	buf, err = json.Marshal(dataPage)
+	assert.Nil(t, err)
+	assert.True(t, len(buf) > 0)
+
+	var resultedDataPageWithoutTotal data.DataPage[user]
+	err = json.Unmarshal(buf, &resultedDataPageWithoutTotal)
+	assert.Nil(t, err)
+
+	assert.True(t, resultedDataPageWithoutTotal.HasData())
+	assert.False(t, resultedDataPageWithoutTotal.HasTotal())
+	assert.Equal(t, 2, len(resultedDataPageWithoutTotal.Data))
+	assert.True(t, resultedDataPageWithoutTotal.Total >= 0)
 }

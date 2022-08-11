@@ -2,8 +2,6 @@ package run
 
 import (
 	"context"
-	"errors"
-	"github.com/pip-services3-gox/pip-services3-commons-gox/convert"
 	"sync"
 	"time"
 )
@@ -200,16 +198,8 @@ func (c *FixedRateTimer) Start(ctx context.Context) {
 
 	for i := 0; i < c.workerCount; i++ {
 		go func() {
-			defer func() {
-				if r := recover(); r != nil {
-					err, ok := r.(error)
-					if !ok {
-						msg := convert.StringConverter.ToString(r)
-						err = errors.New(msg)
-					}
-					SendShutdownSignalWithErr(ctx, err)
-				}
-			}()
+			defer DefaultErrorHandlerWithShutdown(ctx)
+
 			for {
 				select {
 				case <-ticker.C:

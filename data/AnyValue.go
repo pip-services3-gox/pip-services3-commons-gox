@@ -16,7 +16,6 @@ import (
 // 		value.GetAsString()  // Result: "123.456"
 // 		value.GetAsFloat()   // Result: 123.456
 type AnyValue struct {
-	ICloneable[*AnyValue]
 	_value any
 }
 

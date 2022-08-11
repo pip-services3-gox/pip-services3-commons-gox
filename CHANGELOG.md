@@ -1,22 +1,17 @@
 # <img src="https://uploads-ssl.webflow.com/5ea5d3315186cf5ec60c3ee4/5edf1c94ce4c859f2b188094_logo.svg" alt="Pip.Services Logo" width="200"> <br/> Portable Abstractions and Patterns for Golang Changelog
 
-## <a name="1.0.4"></a> 1.0.4 (2022-05-18)
+## <a name="1.0.6"></a> 1.0.6 (2022-08-05)
 
-Add additional logic
+Fix DataPage type marshaler
 
-## <a name="1.0.3"></a> 1.0.3 (2022-05-16)
-
-Fix interfaces generics
-Add IIdentifiable interface
-
-## <a name="1.0.2"></a> 1.0.2 (2022-05-04)
-
-Implement graceful shutdown for FixedRateTimer
-Implement context.Context to use References and Configure
-
-## <a name="1.0.1"></a> 1.0.1 (2022-04-30)
+## <a name="1.0.5"></a> 1.0.5 (2022-06-24)
 
 Fix JsonConvertor, adds typed JsonConvertor
+Implement graceful shutdown for FixedRateTimer
+Implement context.Context to use References and Configure
+Fix interfaces generics
+Fix IIdentifiable interface
+Fix DataPage
 
 ## <a name="1.0.0"></a> 1.0.0 (2022-04-25)
 

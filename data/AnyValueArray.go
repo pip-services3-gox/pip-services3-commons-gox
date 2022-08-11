@@ -222,7 +222,7 @@ func (c *AnyValueArray) SetAsObject(index int, value any) bool {
 //		index int an index of element to get.
 //	Returns: string value of the element and true or "" and false if conversion is not supported or index is invalid.
 func (c *AnyValueArray) GetAsNullableString(index int) (string, bool) {
-	if value, ok := c.Get(index); ok {
+	if value, ok := c.Get(index); ok && value != "" {
 		return convert.StringConverter.ToNullableString(value)
 	}
 	return "", false
@@ -244,7 +244,7 @@ func (c *AnyValueArray) GetAsString(index int) string {
 //		defaultValue: string the default value
 //	Returns: string value ot the element or default value if conversion is not supported.
 func (c *AnyValueArray) GetAsStringWithDefault(index int, defaultValue string) string {
-	if value, ok := c.Get(index); ok {
+	if value, ok := c.Get(index); ok && value != "" {
 		return convert.StringConverter.ToStringWithDefault(value, defaultValue)
 	}
 	return defaultValue

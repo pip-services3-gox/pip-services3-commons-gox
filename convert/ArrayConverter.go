@@ -7,14 +7,13 @@ import (
 
 // ArrayConverter converts arbitrary values into array objects.
 //
-// Example:
-//
-//  value1, ok1 := convert.ArrayConverter.ToArray([...]int{1, 2})
-//  value2, ok2 := convert.ArrayConverter.ToArray(1)
-//  value3, ok3 := convert.ArrayConverter.ListToArray("1,2,3")
-//  fmt.Println(value1, ok1) // [1 2], true
-//  fmt.Println(value2, ok2) // [1], true
-//  fmt.Println(value3, ok3) // [1 2 3], true
+//	Example:
+//		value1, ok1 := convert.ArrayConverter.ToArray([...]int{1, 2})
+//		value2, ok2 := convert.ArrayConverter.ToArray(1)
+//		value3, ok3 := convert.ArrayConverter.ListToArray("1,2,3")
+//		fmt.Println(value1, ok1) // [1 2], true
+//		fmt.Println(value2, ok2) // [1], true
+//		fmt.Println(value3, ok3) // [1 2 3], true
 var ArrayConverter = &_TArrayConverter{}
 
 type _TArrayConverter struct{}
