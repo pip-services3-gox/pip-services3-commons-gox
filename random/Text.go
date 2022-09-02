@@ -6,8 +6,9 @@ import (
 )
 
 // Text random generator for various text values like names, addresses or phone numbers.
+//
 //	Example:
-//		value1 := RandomText.FullName();    // Possible result: "Segio"
+//		value1 := RandomText.FullName();    // Possible result: "Sergio"
 //		value2 := RandomText.Verb();      	// Possible result: "Run"
 //		value3 := RandomText.Text(50);    	// Possible result: "Run jorge. Red high scream?"
 var Text = &_TRandomText{}
