@@ -5,7 +5,7 @@ import (
 	"math/rand"
 	"strconv"
 
-	uuid "github.com/satori/go.uuid"
+	"github.com/google/uuid"
 )
 
 // IdGenerator Helper class to generate unique object IDs. It supports two types of IDs: long and short.
@@ -29,6 +29,6 @@ func (c *_TIdGenerator) NextShort() string {
 // NextLong generates a globally unique 32-digit object ID. The value is a string representation of a GUID value.
 //	Returns: string a generated 32-digit object ID
 func (c *_TIdGenerator) NextLong() string {
-	value := uuid.NewV4()
+	value := uuid.New()
 	return hex.EncodeToString(value[:])
 }
