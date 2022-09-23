@@ -2,17 +2,17 @@
 
 ## <a name="1.0.6"></a> 1.0.6 (2022-09-23)
 
-Fix DataPage type marshaler
-Update dependency for uid
+- Fix DataPage type marshaler
+- Update dependency for uid
 
 ## <a name="1.0.5"></a> 1.0.5 (2022-06-24)
 
-Fix JsonConvertor, adds typed JsonConvertor
-Implement graceful shutdown for FixedRateTimer
-Implement context.Context to use References and Configure
-Fix interfaces generics
-Fix IIdentifiable interface
-Fix DataPage
+- Fix JsonConvertor, adds typed JsonConvertor
+- Implement graceful shutdown for FixedRateTimer
+- Implement context.Context to use References and Configure
+- Fix interfaces generics
+- Fix IIdentifiable interface
+- Fix DataPage
 
 ## <a name="1.0.0"></a> 1.0.0 (2022-04-25)
 
