@@ -57,7 +57,7 @@ func (c *_TRandomInteger) Sequence(min int, max int) []int {
 
 	count := c.Next(min, max)
 
-	result := make([]int, count, count)
+	result := make([]int, count)
 	for i := range result {
 		result[i] = i
 	}

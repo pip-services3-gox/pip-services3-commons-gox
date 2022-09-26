@@ -6,8 +6,8 @@ import (
 
 // Boolean Random generator for boolean values.
 //	Example:
-//		value1 := RandomBoolean.Next();      // Possible result: true
-//		value2 := RandomBoolean.Chance(1,3); // Possible result: false
+//		value1 := random.Boolean.Next();      // Possible result: true
+//		value2 := random.Boolean.Chance(1,3); // Possible result: false
 var Boolean = &_TRandomBoolean{}
 
 type _TRandomBoolean struct{}

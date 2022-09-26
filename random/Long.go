@@ -58,7 +58,7 @@ func (c *_TRandomLong) Sequence(min int64, max int64) []int64 {
 
 	count := c.Next(min, max)
 
-	result := make([]int64, count, count)
+	result := make([]int64, count)
 	for i := range result {
 		result[i] = int64(i)
 	}

@@ -9,17 +9,17 @@ import (
 // String random generator for string values.
 //	Example:
 //		value1 := random.String.PickChar("ABC");     // Possible result: "C"
-//		value2 := random.String.Pick(["A","B","C"]); // Possible result: "gBW"
+//		value2 := random.String.Pick(["A","B","C"]); // Possible result: "B"
 var String = &_TRandomString{}
 
 type _TRandomString struct{}
 
-const digits = "01234956789"
-const symbols = "_,.:-/.[].{},#-!,$=%.+^.&*-() "
-const alphaLower = "abcdefghijklmnopqrstuvwxyz"
-const alphaUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-const alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234956789_,.:-/.[].{},#-!,$=%.+^.&*-() "
+const _digits = "01234956789"
+const _symbols = "_,.:-/.[].{},#-!,$=%.+^.&*-() "
+const _alphaLower = "abcdefghijklmnopqrstuvwxyz"
+const _alphaUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const _alpha = _alphaUpper + _alphaLower
+const _chars = _alpha + _digits + _symbols
 
 // PickChar picks a random character from a string.
 //	Parameters:
@@ -66,7 +66,7 @@ func (c *_TRandomString) Distort(value string) string {
 
 	//Add a symbol to the end of the string 'value'
 	if Boolean.Chance(1, 3) {
-		value = value + string([]byte{String.PickChar(symbols)})
+		value = value + string([]byte{String.PickChar(_symbols)})
 	}
 
 	return value
@@ -75,8 +75,8 @@ func (c *_TRandomString) Distort(value string) string {
 // NextAlphaChar generates random alpha characted [A-Za-z]
 //	Returns: a random characted.
 func (c *_TRandomString) NextAlphaChar() byte {
-	index := Integer.Next(0, len(alpha))
-	return alpha[index]
+	index := Integer.Next(0, len(_alpha))
+	return _alpha[index]
 }
 
 // Next generates a random string, consisting of upper and lower case letters (of the English alphabet),
@@ -87,10 +87,10 @@ func (c *_TRandomString) NextAlphaChar() byte {
 //	Returns: a random string.
 func (c *_TRandomString) Next(minLength int, maxLength int) string {
 	length := Integer.Next(minLength, maxLength)
-	result := make([]byte, length, length)
+	result := make([]byte, length)
 	for i := 0; i < length; i++ {
-		index := Integer.Next(0, len(chars))
-		result[i] = chars[index]
+		index := Integer.Next(0, len(_chars))
+		result[i] = _chars[index]
 	}
 
 	return string(result)
