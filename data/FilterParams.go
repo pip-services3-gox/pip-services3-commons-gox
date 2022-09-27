@@ -14,14 +14,14 @@ package data
 //
 //		err, page = myDataClient.getDataByFilter(filter, paging);
 type FilterParams struct {
-	StringValueMap
+	*StringValueMap
 }
 
 // NewEmptyFilterParams сreates a new instance.
 //	Returns: *FilterParams
 func NewEmptyFilterParams() *FilterParams {
 	return &FilterParams{
-		StringValueMap: *NewEmptyStringValueMap(),
+		StringValueMap: NewEmptyStringValueMap(),
 	}
 }
 
@@ -31,7 +31,7 @@ func NewEmptyFilterParams() *FilterParams {
 //	Returns: *FilterParams
 func NewFilterParams(values map[string]string) *FilterParams {
 	return &FilterParams{
-		StringValueMap: *NewStringValueMapFromMaps(values),
+		StringValueMap: NewStringValueMapFromMaps(values),
 	}
 }
 
@@ -41,7 +41,7 @@ func NewFilterParams(values map[string]string) *FilterParams {
 //	Returns: a newly created FilterParams.
 func NewFilterParamsFromValue(value any) *FilterParams {
 	return &FilterParams{
-		StringValueMap: *NewStringValueMapFromValue(value),
+		StringValueMap: NewStringValueMapFromValue(value),
 	}
 }
 
@@ -52,7 +52,7 @@ func NewFilterParamsFromValue(value any) *FilterParams {
 //	Returns: *FilterParams a newly created FilterParams.
 func NewFilterParamsFromTuples(tuples ...any) *FilterParams {
 	return &FilterParams{
-		StringValueMap: *NewStringValueMapFromTuplesArray(tuples),
+		StringValueMap: NewStringValueMapFromTuplesArray(tuples),
 	}
 }
 
@@ -63,6 +63,6 @@ func NewFilterParamsFromTuples(tuples ...any) *FilterParams {
 //	Returns: *FilterParams
 func NewFilterParamsFromString(line string) *FilterParams {
 	return &FilterParams{
-		StringValueMap: *NewStringValueMapFromString(line),
+		StringValueMap: NewStringValueMapFromString(line),
 	}
 }

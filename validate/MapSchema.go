@@ -14,7 +14,7 @@ import (
 //		schema.Validate({ "key1": 1, "key2": 2 });           // Result: element type mismatch
 //		schema.Validate([ 1, 2, 3 ]);                        // Result: type mismatch
 type MapSchema struct {
-	Schema
+	*Schema
 	keyType   any
 	valueType any
 }
@@ -31,7 +31,7 @@ func NewMapSchema(keyType any, valueType any) *MapSchema {
 		keyType:   keyType,
 		valueType: valueType,
 	}
-	c.Schema = *InheritSchema(c)
+	c.Schema = InheritSchema(c)
 	return c
 }
 
@@ -49,7 +49,7 @@ func NewMapSchemaWithRules(keyType any, valueType any, required bool, rules []IV
 		keyType:   keyType,
 		valueType: valueType,
 	}
-	c.Schema = *InheritSchemaWithRules(c, required, rules)
+	c.Schema = InheritSchemaWithRules(c, required, rules)
 	return c
 }
 

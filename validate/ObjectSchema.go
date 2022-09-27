@@ -17,7 +17,7 @@ import (
 //		schema.Validate({ id: 1, _name: "ABC" });        // Result: name is missing, unexpected _name
 //		schema.Validate("ABC");                          // Result: type mismatch
 type ObjectSchema struct {
-	Schema
+	*Schema
 	properties     []*PropertySchema
 	allowUndefined bool
 }
@@ -28,7 +28,7 @@ func NewObjectSchema() *ObjectSchema {
 	c := &ObjectSchema{
 		allowUndefined: false,
 	}
-	c.Schema = *InheritSchema(c)
+	c.Schema = InheritSchema(c)
 	return c
 }
 
@@ -43,7 +43,7 @@ func NewObjectSchemaWithRules(allowUndefined bool, required bool, rules []IValid
 	c := &ObjectSchema{
 		allowUndefined: allowUndefined,
 	}
-	c.Schema = *InheritSchemaWithRules(c, required, rules)
+	c.Schema = InheritSchemaWithRules(c, required, rules)
 	return c
 }
 

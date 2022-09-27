@@ -39,14 +39,14 @@ import (
 //		section1 = config.GetSection("section2");
 //		section1.GetAsString("key1"); // Result: true
 type ConfigParams struct {
-	data.StringValueMap
+	*data.StringValueMap
 }
 
 // NewEmptyConfigParams creates a new empty ConfigParams object.
 // Returns: *ConfigParams a new empty ConfigParams object.
 func NewEmptyConfigParams() *ConfigParams {
 	return &ConfigParams{
-		StringValueMap: *data.NewEmptyStringValueMap(),
+		StringValueMap: data.NewEmptyStringValueMap(),
 	}
 }
 
@@ -55,7 +55,7 @@ func NewEmptyConfigParams() *ConfigParams {
 //	Returns: *ConfigParams a newly created ConfigParams.
 func NewConfigParams(values map[string]string) *ConfigParams {
 	return &ConfigParams{
-		StringValueMap: *data.NewStringValueMap(values),
+		StringValueMap: data.NewStringValueMap(values),
 	}
 }
 
@@ -65,7 +65,7 @@ func NewConfigParams(values map[string]string) *ConfigParams {
 func NewConfigParamsFromValue(value any) *ConfigParams {
 	values := reflect.RecursiveObjectReader.GetProperties(value)
 	return &ConfigParams{
-		StringValueMap: *data.NewStringValueMapFromValue(values),
+		StringValueMap: data.NewStringValueMapFromValue(values),
 	}
 }
 
@@ -76,7 +76,7 @@ func NewConfigParamsFromValue(value any) *ConfigParams {
 //	Returns ConfigParams a new ConfigParams object.
 func NewConfigParamsFromTuples(tuples ...any) *ConfigParams {
 	return &ConfigParams{
-		StringValueMap: *data.NewStringValueMapFromTuplesArray(tuples),
+		StringValueMap: data.NewStringValueMapFromTuplesArray(tuples),
 	}
 }
 
@@ -87,7 +87,7 @@ func NewConfigParamsFromTuples(tuples ...any) *ConfigParams {
 //	Returns *ConfigParams a newly created ConfigParams.
 func NewConfigParamsFromTuplesArray(tuples []any) *ConfigParams {
 	return &ConfigParams{
-		StringValueMap: *data.NewStringValueMapFromTuplesArray(tuples),
+		StringValueMap: data.NewStringValueMapFromTuplesArray(tuples),
 	}
 }
 
@@ -98,7 +98,7 @@ func NewConfigParamsFromTuplesArray(tuples []any) *ConfigParams {
 //	Returns: *ConfigParams a new ConfigParams object.
 func NewConfigParamsFromString(line string) *ConfigParams {
 	return &ConfigParams{
-		StringValueMap: *data.NewStringValueMapFromString(line),
+		StringValueMap: data.NewStringValueMapFromString(line),
 	}
 }
 
@@ -108,7 +108,7 @@ func NewConfigParamsFromString(line string) *ConfigParams {
 //	Returns: *ConfigParams a newly created ConfigParams.
 func NewConfigParamsFromMaps(maps ...map[string]string) *ConfigParams {
 	return &ConfigParams{
-		StringValueMap: *data.NewStringValueMapFromMaps(maps...),
+		StringValueMap: data.NewStringValueMapFromMaps(maps...),
 	}
 }
 

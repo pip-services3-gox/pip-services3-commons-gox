@@ -16,14 +16,14 @@ import (
 // This class is often use to pass execution and notification arguments,
 // and parameterize classes before execution.
 type Parameters struct {
-	data.AnyValueMap
+	*data.AnyValueMap
 }
 
 // NewEmptyParameters creates a new instance of the map and assigns its value.
 // Returns: *Parameters
 func NewEmptyParameters() *Parameters {
 	c := &Parameters{}
-	c.AnyValueMap = *data.InheritAnyValueMap(c)
+	c.AnyValueMap = data.InheritAnyValueMap(c)
 	return c
 }
 
@@ -32,7 +32,7 @@ func NewEmptyParameters() *Parameters {
 //	Returns: *Parameters
 func NewParameters(values map[string]any) *Parameters {
 	c := &Parameters{}
-	c.AnyValueMap = *data.InheritAnyValueMap(c)
+	c.AnyValueMap = data.InheritAnyValueMap(c)
 	c.Append(values)
 	return c
 }

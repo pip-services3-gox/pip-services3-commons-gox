@@ -15,7 +15,7 @@ import (
 //		schema.Validate([1, 2, 3]);          // Result: element type mismatch
 //		schema.Validate("A");                // Result: type mismatch
 type ArraySchema struct {
-	Schema
+	*Schema
 	valueType any
 }
 
@@ -28,7 +28,7 @@ func NewArraySchema(valueType any) *ArraySchema {
 	c := &ArraySchema{
 		valueType: valueType,
 	}
-	c.Schema = *InheritSchema(c)
+	c.Schema = InheritSchema(c)
 	return c
 }
 

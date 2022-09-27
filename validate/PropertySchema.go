@@ -9,7 +9,7 @@ package validate
 //		schema.Validate({ name: "ABC" });                // Result: no errors
 //		schema.Validate({ id: 1, name: "ABC" });         // Result: id type mismatch
 type PropertySchema struct {
-	Schema
+	*Schema
 	name string
 	typ  any
 }
@@ -18,7 +18,7 @@ type PropertySchema struct {
 // Returns *PropertySchema
 func NewPropertySchema() *PropertySchema {
 	c := &PropertySchema{}
-	c.Schema = *InheritSchema(c)
+	c.Schema = InheritSchema(c)
 	return c
 }
 
@@ -36,7 +36,7 @@ func NewPropertySchemaWithRules(name string, typ any, required bool, rules []IVa
 		name: name,
 		typ:  typ,
 	}
-	c.Schema = *InheritSchemaWithRules(c, required, rules)
+	c.Schema = InheritSchemaWithRules(c, required, rules)
 	return c
 }
 
