@@ -6,13 +6,13 @@ package data
 //	Example:
 //		filter := NewFilterParamsFromTuples(
 //			"type", "Type1",
-//			"from_create_time", new Date(2000, 0, 1),
-//			"to_create_time", new Date(),
-//			"completed", true
-//		);
-//		paging = NewPagingParams(0, 100);
+//			"from_create_time", time.Now(),
+//			"to_create_time", time.Now().Add(10*time.Hour),
+//			"completed", true,
+//		)
+//		paging = NewPagingParams(0, 100)
 //
-//		err, page = myDataClient.getDataByFilter(filter, paging);
+//		err, page = myDataClient.getDataByFilter(filter, paging)
 type FilterParams struct {
 	*StringValueMap
 }

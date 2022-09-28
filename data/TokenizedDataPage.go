@@ -15,7 +15,7 @@ package data
 //		page, err := myDataClient.GetDataByFilter(
 //			context.Background(),
 //			"123",
-//			FilterParams.fromTuples("completed": true),
+//			NewFilterParamsFromTuples("completed": true),
 //			NewTokenizedPagingParams("", 100, true),
 //		);
 //

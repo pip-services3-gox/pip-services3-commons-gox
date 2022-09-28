@@ -12,7 +12,7 @@ package data
 //		filter := NewFilterParamsFromTuples("type", "Type1");
 //		paging := NewTokenizedPagingParams("", 100);
 //
-//		err, page = myDataClient.getDataByFilter(filter, paging);
+//		err, page = myDataClient.GetDataByFilter(context.Background(), filter, paging);
 type TokenizedPagingParams struct {
 	Token string `json:"token"`
 	Take  int64  `json:"take"`

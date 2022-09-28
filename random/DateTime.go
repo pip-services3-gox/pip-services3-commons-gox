@@ -6,9 +6,9 @@ import (
 
 // DateTime random generator for Date time values.
 //	Example:
-//		value1 := random.DateTime.nextDate(time.Parse(shortForm, "2007-Jan-01"), time.Parse(shortForm, "2010-Jan-01"));    // Possible result: 2008-01-03
-//		value2 := random.DateTime.nextDateTime(time.Parse(shortForm, "2006-Jan-01"), time.Parse(shortForm, "2017-Jan-01"));// Possible result: 2007-03-11 11:20:32
-//		value3 := random.DateTime.updateDateTime(time.Parse(shortForm, "2010-Jan-01"), );// Possible result: 2010-02-05 11:33:23
+//		value1 := random.DateTime.NextDate(time.Parse(shortForm, "2007-Jan-01"), time.Parse(shortForm, "2010-Jan-01"));    // Possible result: 2008-01-03
+//		value2 := random.DateTime.NextDateTime(time.Parse(shortForm, "2006-Jan-01"), time.Parse(shortForm, "2017-Jan-01"));// Possible result: 2007-03-11 11:20:32
+//		value3 := random.DateTime.UpdateDateTime(time.Parse(shortForm, "2010-Jan-01"), );// Possible result: 2010-02-05 11:33:23
 var DateTime = &TRandomDateTime{}
 
 type TRandomDateTime struct{}

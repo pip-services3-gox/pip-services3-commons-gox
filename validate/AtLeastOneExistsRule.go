@@ -10,10 +10,17 @@ import (
 //	see IValidationRule
 //	Example:
 //		schema := NewSchema()
-//			.WithRule(NewAtLeastOneExistsRule("field1", "field2"));
-//		schema.Validate({ field1: 1, field2: "A" });     // Result: no errors
-//		schema.Validate({ field1: 1 });                  // Result: no errors
-//		schema.Validate({ });                            // Result: at least one of properties field1, field2 must exist
+//			.WithRule(NewAtLeastOneExistsRule("field1", "field2"))
+//
+//		schema.Validate(struct {
+//				field1 int
+//				field2 string
+//			}{field1: 1, field2: "A"})     // Result: no errors
+//		schema.Validate(struct {
+//				field1 int
+//				field2 string
+//			}{field1: 1})                  // Result: no errors
+//		schema.Validate(struct {}{})       // Result: at least one of properties field1, field2 must exist
 type AtLeastOneExistsRule struct {
 	properties []string
 }
@@ -34,6 +41,10 @@ func NewAtLeastOneExistsRule(properties ...string) *AtLeastOneExistsRule {
 //		- value any a value to be validated.
 //	Returns: []*ValidationResult a list with validation results to add new results.
 func (c *AtLeastOneExistsRule) Validate(path string, schema ISchema, value any) []*ValidationResult {
+	schema.Validate(struct {
+		field1 int
+		field2 string
+	}{field1: 1, field2: "A"})
 	name := path
 	if name == "" {
 		name = "value"

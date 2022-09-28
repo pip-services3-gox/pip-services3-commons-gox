@@ -8,6 +8,23 @@ import "context"
 //
 // If you need to emphasis the fact that Configure() method can be called multiple
 // times to change object configuration in runtime, use IReconfigurable interface instead.
+//
+// Example:
+//		type MyStruct struct  {
+//		     myParam string
+//		}
+//
+//		func NewMyStruct() *MyStruct {
+//		    return &MyStruct{
+//		        myParam: "default value",
+//		    },
+//		}
+//
+//		// Implement configure
+//		func (c* MyStruct) Configure(ctx context.Context, config *cconf.ConfigParams)  {
+//		    c.myParam = config.GetAsStringWithDefault("options.param", myParam);
+//		    ...
+//		}
 type IConfigurable interface {
 
 	// Configure object by passing configuration parameters.

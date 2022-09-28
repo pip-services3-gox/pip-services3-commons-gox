@@ -4,11 +4,11 @@ package data
 //	see SortParams
 //
 //	Example:
-//		filter := NewFilterParamsFromTuples("type", "Type1");
-//		paging := NewPagingParams(0, 100);
-//		sorting := NewSortingParams(NewSortField("create_time", true));
+//		filter := NewFilterParamsFromTuples("type", "Type1")
+//		paging := NewPagingParams(0, 100)
+//		sorting := NewSortingParams(NewSortField("create_time", true))
 //
-//		err, page = myDataClient.getDataByFilter(filter, paging, sorting);
+//		err, page = myDataClient.GetDataByFilter(context.Background(), filter, paging, sorting)
 type SortField struct {
 	Name      string `json:"name"`
 	Ascending bool   `json:"ascending"`

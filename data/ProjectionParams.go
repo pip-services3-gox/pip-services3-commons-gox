@@ -15,7 +15,7 @@ import (
 //		paging := NewPagingParams(0, 100);
 //		projection = NewProjectionParamsFromString("field1,field2(field21,field22)")
 //
-//		err, page := myDataClient.getDataByFilter(filter, paging, projection);
+//		err, page := myDataClient.GetDataByFilter(context.Background(), filter, paging, projection);
 type ProjectionParams struct {
 	_values []string
 }

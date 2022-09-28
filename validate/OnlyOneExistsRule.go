@@ -9,10 +9,14 @@ import (
 // OnlyOneExistsRule validation rule that check that at exactly one of the object properties is not null.
 //	see IValidationRule
 //	Example
-//		var schema = NewSchema().WithRule(NewOnlyOneExistsRule("field1", "field2"));
-//		schema.Validate({ field1: 1, field2: "A" }); // Result: only one of properties field1, field2 must exist
-//		schema.Validate({ field1: 1 });              // Result: no errors
-//		schema.Validate({ });                        // Result: only one of properties field1, field2 must exist
+//	var schema = NewSchema().WithRule(NewOnlyOneExistsRule("field1", "field2"))
+//
+//	schema.Validate(struct {
+//		field1 int
+//		field2 string
+//	}{field1: 1, field2: "A"}) // Result: only one of properties field1, field2 must exist
+//	schema.Validate(struct{ field1 int }{field1: 1}) // Result: no errors
+//	schema.Validate(struct{}{})
 type OnlyOneExistsRule struct {
 	properties []string
 }

@@ -8,14 +8,27 @@ import (
 
 // ObjectSchema to validate user defined objects.
 //	Example:
-//		var schema = NewObjectSchema(false)
-//			.WithOptionalProperty("id", TypeCode.String)
-//			.WithRequiredProperty("name", TypeCode.String);
-//		schema.Validate({ id: "1", name: "ABC" });       // Result: no errors
-//		schema.Validate({ name: "ABC" });                // Result: no errors
-//		schema.Validate({ id: 1, name: "ABC" });         // Result: id type mismatch
-//		schema.Validate({ id: 1, _name: "ABC" });        // Result: name is missing, unexpected _name
-//		schema.Validate("ABC");                          // Result: type mismatch
+//		schema.Validate(struct {
+//			id   string
+//			name string
+//		}{id: "1", name: "ABC"}) // Result: no errors
+//
+//		schema.Validate(struct {
+//			id   string
+//			name string
+//		}{name: "ABC"}) // Result: no errors
+//
+//		schema.Validate(struct {
+//			id   int
+//			name string
+//		}{id: 1, name: "ABC"}) // Result: id type mismatch
+//
+//		schema.Validate(struct {
+//			id    int
+//			_name string
+//		}{id: 1, _name: "ABC"}) // Result: name is missing, unexpected_name
+//
+//		schema.Validate("ABC")
 type ObjectSchema struct {
 	*Schema
 	properties     []*PropertySchema

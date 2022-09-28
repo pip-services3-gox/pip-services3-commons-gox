@@ -10,15 +10,18 @@ import "context"
 //		type MyPersistence {
 //			_client any
 //		}
+//
 //		func (mp* MyPersistence)IsOpen() bool {
 //			return mp._client != nil;
 //		}
-//		func (mp* MyPersistence) Open(correlationId: string) error {
+//
+//		func (mp* MyPersistence) Open(ctx context.Context, correlationId string) error {
 //			if (mp.isOpen()) {
 //				return nil;
 //			}
 //		}
-//		func (mp* MyPersistence) Close(correlationId: string) {
+//
+//		func (mp* MyPersistence) Close(ctx context.Context,  correlationId string) {
 //			if (mp._client != nil) {
 //				mp._client.close();
 //				mp._client = nil;

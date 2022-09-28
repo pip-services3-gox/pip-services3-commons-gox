@@ -2,6 +2,7 @@ package commands
 
 import (
 	"context"
+
 	"github.com/pip-services3-gox/pip-services3-commons-gox/data"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/errors"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/run"
@@ -16,26 +17,25 @@ import (
 //	see Event
 //	see ICommandable
 //	Example:
-//		type MyDataCommandSet {
-//			CommandSet
+//		type MyDataCommandSet struct {
+//			*CommandSet
 //			_controller IMyDataController
 //		}
-//		// Any data controller interface
-//		func (dcs * MyDataCommandSet) CreateMyDataCommandSet(controller IMyDataController) {
-//			dcs._controller = controller
-//			dcs.addCommand(dcs.makeGetMyDataCommand())
-//		}
-//		func (dcs * MyDataCommandSet) makeGetMyDataCommand() ICommand {
-//			return NewCommand(
-//				'get_mydata',
-//				null,
-//				(correlationId: string, args: Parameters, func (correlationId string,
-//					args *run.Parameters)(any, err) {
 //
-//					var param = args.GetAsString('param');
-//					return dcs._controller.GetMyData(correlationId, param,);
-//				}
-//			);
+//		// Any data controller interface
+//		func (dcs *MyDataCommandSet) CreateMyDataCommandSet(controller IMyDataController) {
+//			dcs._controller = controller
+//			dcs.AddCommand(dcs.makeGetMyDataCommand())
+//		}
+//		func (dcs *MyDataCommandSet) makeGetMyDataCommand() ICommand {
+//			return NewCommand(
+//				"get_mydata",
+//				nil,
+//				func(ctx context.Context, correlationId string, args *run.Parameters) (any, err) {
+//					var param = args.GetAsString("param")
+//					return dcs._controller.GetMyData(correlationId, param)
+//				},
+//			)
 //		}
 type CommandSet struct {
 	commands       []ICommand

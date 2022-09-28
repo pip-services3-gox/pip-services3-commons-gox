@@ -5,14 +5,21 @@ package validate
 // When all rules return errors, then the rule returns all errors.
 //	see IValidationRule
 //	Example:
-//		var schema = NewSchema()
-//			.WithRule(NewOrRule(
-//				NewValueComparisonRule("LT", 1),
-//				NewValueComparisonRule("GT", 10),
-//			));
-//		schema.Validate();          // Result: no error
-//		schema.Validate5);          // Result: 5 must be less than 1 or 5 must be more than 10
-//		schema.Validate(20);        // Result: no error
+//		var schema = NewObjectSchema().WithProperty(NewPropertySchema("id", TypeCode.String))
+//		schema.Validate(struct {
+//			id   string
+//			name string
+//		}{id: "1", name: "ABC"}) // Result: no errors
+//
+//		schema.Validate(struct {
+//			id   string
+//			name string
+//		}{name: "ABC"}) // Result: no errors
+//
+//		schema.Validate(struct {
+//			id   int
+//			name string
+//		}{id: 1, name: "ABC"}) // Result: id type mismatch
 type OrRule struct {
 	rules []IValidationRule
 }

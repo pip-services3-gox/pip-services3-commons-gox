@@ -10,7 +10,8 @@ import (
 //	Example:
 //		event: = NewEvent("my_event");
 //		event.AddListener(myListener);
-//		event.Notify("123", Parameters.fromTuples(
+//		event.Notify(cpntext.Backgroudn(), 
+//			"123", Parameters.fromTuples(
 //			"param1", "ABC",
 //			"param2", 123,
 //		));

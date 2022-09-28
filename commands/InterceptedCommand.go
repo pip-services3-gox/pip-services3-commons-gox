@@ -2,6 +2,7 @@ package commands
 
 import (
 	"context"
+
 	"github.com/pip-services3-gox/pip-services3-commons-gox/run"
 	"github.com/pip-services3-gox/pip-services3-commons-gox/validate"
 )
@@ -13,19 +14,20 @@ import (
 //	see ICommand
 //	see ICommandInterceptor
 //	Example:
-//		type CommandLogger {
+//		type CommandLogger struct {
 //			msg string
 //		}
+//
 //		func (cl * CommandLogger) Name(command ICommand) string {
 //			return command.Name();
 //		}
 //
-//		func (cl * CommandLogger) Execute(correlationId string, command ICommand, args Parameters) (res any, err error){
+//		func (cl * CommandLogger) Execute(ctx context.Context, correlationId string, command ICommand, args Parameters) (res any, err error){
 //			fmt.Println("Executed command " + command.Name());
 //			return command.Execute(correlationId, args);
 //		}
 //
-//		func (cl * CommandLogger) Validate(command: ICommand, args: Parameters): ValidationResult[] {
+//		func (cl * CommandLogger) Validate(command ICommand, args Parameters) []*ValidationResult {
 //			return command.Validate(args);
 //		}
 //
@@ -57,8 +59,9 @@ func (c *InterceptedCommand) Name() string {
 }
 
 // Execute the next command in the execution chain using the given parameters (arguments).
-//	see Parameters
+// see Parameters
 //	Parameters:
+//		- ctx context.Context - operation context
 //		- correlationId: string unique transaction id to trace calls across components.
 //		- args: Parameters the parameters (arguments) to pass to the command for execution.
 //	Returns:

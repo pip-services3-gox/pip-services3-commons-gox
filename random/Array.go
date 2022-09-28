@@ -6,7 +6,7 @@ import (
 
 // Array random generator for array objects.
 //	Examples:
-//		value1 := random.Array.Pick([1, 2, 3, 4]); // Possible result: 3
+//		value1 := random.Array.Pick([]int{1, 2, 3, 4}) // Possible result: 3
 var Array = &_TRandomArray{}
 
 type _TRandomArray struct{}
