@@ -22,7 +22,7 @@ type Schema struct {
 func NewSchema() *Schema {
 	c := &Schema{
 		required: false,
-		rules:    []IValidationRule{},
+		rules:    make([]IValidationRule, 0),
 	}
 	c.base = c
 	return c
