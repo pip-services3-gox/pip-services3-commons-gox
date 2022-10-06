@@ -7,16 +7,16 @@ all languages supported by the toolkit to facilitate symmetric implementation.
 
 The module contains the following packages:
 
-- [**Commands**](https://godoc.org/github.com/pip-services3-gox/pip-services3-commons-gox/commands) - commanding and eventing patterns
-- [**Config**](https://godoc.org/github.com/pip-services3-gox/pip-services3-commons-gox/config) - configuration framework
-- [**Convert**](https://godoc.org/github.com/pip-services3-gox/pip-services3-commons-gox/convert) - soft value converters
-- [**Data**](https://godoc.org/github.com/pip-services3-gox/pip-services3-commons-gox/data) - data patterns
-- [**Errors**](https://godoc.org/github.com/pip-services3-gox/pip-services3-commons-gox/errors) - application errors
-- [**Random**](https://godoc.org/github.com/pip-services3-gox/pip-services3-commons-gox/random) - random data generators
-- [**Refer**](https://godoc.org/github.com/pip-services3-gox/pip-services3-commons-gox/refer) - locator (IoC) pattern
-- [**Reflect**](https://godoc.org/github.com/pip-services3-gox/pip-services3-commons-gox/reflect) - reflection framework
-- [**Run**](https://godoc.org/github.com/pip-services3-gox/pip-services3-commons-gox/run) - execution framework
-- [**Validate**](https://godoc.org/github.com/pip-services3-gox/pip-services3-commons-gox/validate) - validation framework
+- **Commands** - commanding and eventing patterns
+- **Config** - configuration framework
+- **Convert** - soft value converters
+- **Data** - data patterns
+- **Errors** - application errors
+- **Random** - random data generators
+- **Refer** - locator (IoC) pattern
+- **Reflect** - reflection framework
+- **Run** - execution framework
+- **Validate** - validation framework
 
 <a name="links"></a> Quick links:
 
