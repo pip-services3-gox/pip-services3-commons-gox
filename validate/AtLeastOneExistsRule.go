@@ -41,10 +41,6 @@ func NewAtLeastOneExistsRule(properties ...string) *AtLeastOneExistsRule {
 //		- value any a value to be validated.
 //	Returns: []*ValidationResult a list with validation results to add new results.
 func (c *AtLeastOneExistsRule) Validate(path string, schema ISchema, value any) []*ValidationResult {
-	schema.Validate(struct {
-		field1 int
-		field2 string
-	}{field1: 1, field2: "A"})
 	name := path
 	if name == "" {
 		name = "value"
