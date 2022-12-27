@@ -6,5 +6,4 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.test
-    image: ${IMAGE:-pip/test}
-    command: ${TEST_CMD:-go test ./test/...}
+    image: ${IMAGE:-pipservices/test}
